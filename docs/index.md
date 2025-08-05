@@ -42,6 +42,7 @@ postList: none
   width: 48px;
   height: 48px;
   margin-bottom: 0.8rem;
+  pointer-events: none;
 }
 </style>
 
