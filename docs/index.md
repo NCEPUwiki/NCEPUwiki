@@ -28,7 +28,7 @@ NCEPUwiki是由华北电力大学同学共同维护的校园知识库，旨在�
 
 你可以从以下板块开始探索：
 
-- [新生入学](/pages/new-student-guide/)
+- [新生入学](/categories/?category=%E6%96%B0%E7%94%9F)
 - [保研](/pages/postgraduate-path/)
 - [学习资料](/pages/learning-resources/)
 
