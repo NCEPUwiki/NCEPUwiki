@@ -14,8 +14,7 @@ module.exports = {
     ['link', { rel: 'icon', href: '/img/favicon.ico' }], //favicons，资源放在public文件夹
     ['meta', { name: 'keywords', content: 'vuepress,theme,blog,vdoing' }],
     ['meta', { name: 'theme-color', content: '#11a8cd' }], // 移动浏览器主题颜色
-    ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css' }],
-    ['link', { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css" }]
+    ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css' }],
   ],
 
   // 主题配置
@@ -186,9 +185,7 @@ module.exports = {
       }
     ],
 
-    ["katex"],
-    head,
-    bundlerConfig,
+    'vuepress-plugin-katex', // 数学公式支持
 
   ],
 
@@ -196,7 +193,6 @@ module.exports = {
     // lineNumbers: true,
     extractHeaders: ['h2', 'h3', 'h4', 'h5', 'h6'], // 提取标题到侧边栏的级别，默认['h2', 'h3']
     extendMarkdown: md => {
-      md.set({ breaks: true })
       md.use(require('markdown-it-katex'))
     }
   },
