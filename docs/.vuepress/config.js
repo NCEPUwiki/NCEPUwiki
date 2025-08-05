@@ -1,7 +1,7 @@
 const baiduCode = require('./config/baiduCode.js'); // 百度统计hm码
 const htmlModules = require('./config/htmlModules.js');
 
-
+import { bundlerConfig, head } from "vuepress-plugin-katex";
 module.exports = {
 
   theme: 'vdoing', // 使用依赖包主题
@@ -186,7 +186,9 @@ module.exports = {
       }
     ],
 
-    ['vuepress-plugin-katex']
+    ["katex"],
+    head,
+    bundlerConfig,
 
   ],
 
