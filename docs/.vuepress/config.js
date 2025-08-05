@@ -15,9 +15,6 @@ module.exports = {
     ['meta', { name: 'theme-color', content: '#11a8cd' }], // 移动浏览器主题颜色
     ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css' }],
     ['link', { rel: 'stylesheet', href: 'https://gitcdn.xyz/cdn/goessner/markdown-it-texmath/master/texmath.css' }],
-    ['script', { src: 'https://github.com/markdown-it/markdown-it/blob/master/bin/markdown-it.js' }],
-    ['script', { src: 'https://gitcdn.xyz/cdn/goessner/markdown-it-texmath/master/texmath.js' }],
-    ['script', { src: 'https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js' }],
 
   ],
 
@@ -189,7 +186,7 @@ module.exports = {
       }
     ],
 
-    'vuepress-plugin-mathjax',
+    //'vuepress-plugin-mathjax',
   ],
 
   markdown: {
