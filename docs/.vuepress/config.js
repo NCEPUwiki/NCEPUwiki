@@ -1,5 +1,5 @@
 const baiduCode = require('./config/baiduCode.js'); // 百度统计hm码
-const htmlModules = require('./config/htmlModules.js');
+
 
 module.exports = {
 
@@ -81,7 +81,6 @@ module.exports = {
       createYear: 2025, // 博客创建年份
       copyrightInfo: 'NCEPUwiki-Group | MIT License', // 博客版权信息，支持a标签
     },
-    htmlModules,
   },
 
   // 插件
@@ -171,6 +170,5 @@ module.exports = {
   // 监听文件变化并重新构建
   extraWatchFiles: [
     '.vuepress/config.js',
-    '.vuepress/config/htmlModules.js',
   ],
 }
