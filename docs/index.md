@@ -7,15 +7,15 @@ bannerBg: none # auto => 网格纹背景(有bodyBgImg时无背景)，默认 | no
 features:
   - title: 入学指南
     link: /categories/?category=%E6%96%B0%E7%94%9F
-    icon: https://api.iconify.design/material-symbols:school-outline-rounded.svg
+    icon: /img/school.svg
 
   - title: 保研/升学信息
     link: /pages/postgraduate-path/
-    icon: https://api.iconify.design/material-symbols:school-rounded.svg
+    icon: /img/gate.png
 
   - title: 学习资料共享
     link: /pages/learning-resources/
-    icon: https://api.iconify.design/material-symbols:menu-book-outline-rounded.svg
+    icon: /img/book
 
 # 文章列表显示方式: detailed 默认，显示详细版文章列表（包括作者、分类、标签、摘要、分页等）| simple => 显示简约版文章列表（仅标题和日期）| none 不显示文章列表
 postList: none
