@@ -189,7 +189,7 @@ module.exports = {
       }
     ],
 
-
+    'vuepress-plugin-mathjax',
   ],
 
   markdown: {
