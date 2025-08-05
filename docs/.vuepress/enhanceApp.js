@@ -57,3 +57,4 @@ function docReady(t) {
     ? setTimeout(t, 1)
     : document.addEventListener("DOMContentLoaded", t);
 }
+import "katex/dist/katex.min.css"; // 加载 KaTeX 样式
