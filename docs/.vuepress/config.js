@@ -183,7 +183,15 @@ module.exports = {
       }
     ],
 
-    ['vuepress-plugin-mathjax'], // 数学公式支持
+    [
+      'vuepress-plugin-mathjax', // markdown数学公式
+      {
+        target: 'svg',
+        macros: {
+          '*': '\\times',
+        },
+      },
+    ],
 
   ],
 
