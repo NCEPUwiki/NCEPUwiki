@@ -7,15 +7,15 @@ bannerBg: none # auto => 网格纹背景(有bodyBgImg时无背景)，默认 | no
 features:
   - title: 入学指南
     link: /categories/?category=%E6%96%B0%E7%94%9F
-    icon: https://cdn.jsdelivr.net/gh/tabler/tabler-icons/icons/school.svg
+    icon: https://raw.githubusercontent.com/tabler/tabler-icons/v3.34.0/icons/school.svg
 
   - title: 保研/升学信息
     link: /pages/postgraduate-path/
-    icon: https://cdn.jsdelivr.net/gh/tabler/tabler-icons/icons/mortarboard.svg
+    icon: https://raw.githubusercontent.com/tabler/tabler-icons/v3.34.0/icons/mortarboard.svg
 
   - title: 学习资料共享
     link: /pages/learning-resources/
-    icon: https://cdn.jsdelivr.net/gh/tabler/tabler-icons/icons/book.svg
+    icon: https://raw.githubusercontent.com/tabler/tabler-icons/v3.34.0/icons/book.svg
 
 # 文章列表显示方式: detailed 默认，显示详细版文章列表（包括作者、分类、标签、摘要、分页等）| simple => 显示简约版文章列表（仅标题和日期）| none 不显示文章列表
 postList: none
