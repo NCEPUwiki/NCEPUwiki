@@ -31,6 +31,7 @@
     "yamljs": "^0.3.0"
   },
   "dependencies": {
-    "@renovamen/vuepress-plugin-katex": "^0.2.0"
+    "@renovamen/vuepress-plugin-katex": "^0.2.0",
+    "markdown-it-texmath": "^1.0.0"
   }
 }
