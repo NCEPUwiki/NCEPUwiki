@@ -13,7 +13,6 @@ module.exports = {
     ['link', { rel: 'icon', href: '/img/favicon.ico' }], //favicons，资源放在public文件夹
     ['meta', { name: 'keywords', content: 'vuepress,theme,blog,vdoing' }],
     ['meta', { name: 'theme-color', content: '#11a8cd' }], // 移动浏览器主题颜色
-    ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css' }],
   ],
 
   // 主题配置
@@ -184,16 +183,13 @@ module.exports = {
       }
     ],
 
-    'vuepress-plugin-katex', // 数学公式支持
+    'vuepress-plugin-mathjax', // 数学公式支持
 
   ],
 
   markdown: {
     // lineNumbers: true,
     extractHeaders: ['h2', 'h3', 'h4', 'h5', 'h6'], // 提取标题到侧边栏的级别，默认['h2', 'h3']
-    extendMarkdown: md => {
-      md.use(require('markdown-it-katex'))
-    }
   },
 
   // 监听文件变化并重新构建
