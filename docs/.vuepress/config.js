@@ -14,6 +14,8 @@ module.exports = {
     ['link', { rel: 'icon', href: '/img/favicon.ico' }], //favicons，资源放在public文件夹
     ['meta', { name: 'keywords', content: 'vuepress,theme,blog,vdoing' }],
     ['meta', { name: 'theme-color', content: '#11a8cd' }], // 移动浏览器主题颜色
+    ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css' }],
+    ['link', { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css" }]
   ],
 
   // 主题配置
@@ -194,5 +196,10 @@ module.exports = {
   extraWatchFiles: [
     '.vuepress/config.js',
     '.vuepress/config/htmlModules.js',
-  ]
+  ],
+
+  extendMarkdown(md) {
+    md.set({ html: true });
+    md.use(require("markdown-it-katex"));
+  },
 }

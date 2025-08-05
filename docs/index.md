@@ -8,7 +8,7 @@ bannerBg: none # auto => 网格纹背景(有bodyBgImg时无背景)，默认 | no
 
 features:
   - title: 新生入学指南
-    link: /pages/new-student-guide/
+    link: /NCEPUwiki/categories/?category=%E6%96%B0%E7%94%9F
   - title: 保研/升学信息
     link: /pages/postgraduate-path/
   - title: 学习资料共享
@@ -28,7 +28,7 @@ NCEPUwiki是由华北电力大学同学共同维护的校园知识库，旨在�
 
 你可以从以下板块开始探索：
 
-- [新生入学](/categories/?category=%E6%96%B0%E7%94%9F)
+- [新生入学](/NCEPUwiki/categories/?category=%E6%96%B0%E7%94%9F)
 - [保研](/pages/postgraduate-path/)
 - [学习资料](/pages/learning-resources/)
 

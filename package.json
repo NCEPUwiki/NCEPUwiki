@@ -26,5 +26,8 @@
     "vuepress-plugin-zooming": "^1.1.7",
     "vuepress-theme-vdoing": "^1.12.9",
     "yamljs": "^0.3.0"
+  },
+  "dependencies": {
+    "markdown-it-katex": "^2.0.3"
   }
 }
