@@ -17,7 +17,9 @@
     "dayjs": "^1.9.7",
     "inquirer": "^7.1.0",
     "json2yaml": "^1.1.0",
+    "katex": "^0.16.22",
     "markdown-it-katex": "^2.0.3",
+    "markdown-it-texmath": "^1.0.0",
     "vuepress": "1.9.9",
     "vuepress-plugin-baidu-tongji": "^1.0.1",
     "vuepress-plugin-demo-block": "^0.7.2",
@@ -31,7 +33,6 @@
     "yamljs": "^0.3.0"
   },
   "dependencies": {
-    "@renovamen/vuepress-plugin-katex": "^0.2.0",
-    "markdown-it-texmath": "^1.0.0"
+    "@renovamen/vuepress-plugin-katex": "^0.2.0"
   }
 }

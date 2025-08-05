@@ -199,7 +199,7 @@ module.exports = {
     anchor: { permalink: false },
     toc: { includeLevel: [1, 2] },
     extendMarkdown: md => {
-      md.use(require('markdown-it-texmath'))
+      md.use(require('markdown-it-texmath'), { engine: require('katex'), delimiters: 'dollars' })
     }
   },
 
