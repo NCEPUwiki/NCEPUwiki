@@ -184,7 +184,10 @@ module.exports = {
           return dayjs(timestamp).format('YYYY/MM/DD, HH:mm:ss')
         },
       }
-    ]
+    ],
+
+    ['vuepress-plugin-katex']
+
   ],
 
   markdown: {
@@ -197,9 +200,4 @@ module.exports = {
     '.vuepress/config.js',
     '.vuepress/config/htmlModules.js',
   ],
-
-  extendMarkdown(md) {
-    md.set({ html: true });
-    md.use(require("markdown-it-katex"));
-  },
 }
