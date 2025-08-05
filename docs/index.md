@@ -51,11 +51,11 @@ postList: none
     <img src="/img/school.svg" alt="入学指南">
     <div>入学指南</div>
   </a>
-  <a class="feature-item" href="/pages/postgraduate-path/">
+  <a class="feature-item" href="/categories/?category=学习专题">
     <img src="/img/gate.png" alt="学习专题">
     <div>学习专题</div>
   </a>
-  <a class="feature-item" href="/pages/learning-resources/">
+  <a class="feature-item" href="/categories/?category=资料">
     <img src="/img/book.png" alt="资料">
     <div>资料</div>
   </a>
