@@ -183,7 +183,7 @@ module.exports = {
       }
     ],
 
-    'vuepress-plugin-mathjax', // 数学公式支持
+    ['vuepress-plugin-mathjax'], // 数学公式支持
 
   ],
 
