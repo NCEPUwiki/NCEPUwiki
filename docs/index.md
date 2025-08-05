@@ -7,15 +7,15 @@ bannerBg: none # auto => 网格纹背景(有bodyBgImg时无背景)，默认 | no
 features:
   - title: 入学指南
     link: /categories/?category=%E6%96%B0%E7%94%9F
-    icon: https://raw.githubusercontent.com/tabler/tabler-icons/v3.34.0/icons/school.svg
+    icon: https://api.iconify.design/material-symbols:school-outline-rounded.svg
 
   - title: 保研/升学信息
     link: /pages/postgraduate-path/
-    icon: https://raw.githubusercontent.com/tabler/tabler-icons/v3.34.0/icons/mortarboard.svg
+    icon: https://api.iconify.design/material-symbols:school-rounded.svg
 
   - title: 学习资料共享
     link: /pages/learning-resources/
-    icon: https://raw.githubusercontent.com/tabler/tabler-icons/v3.34.0/icons/book.svg
+    icon: https://api.iconify.design/material-symbols:menu-book-outline-rounded.svg
 
 # 文章列表显示方式: detailed 默认，显示详细版文章列表（包括作者、分类、标签、摘要、分页等）| simple => 显示简约版文章列表（仅标题和日期）| none 不显示文章列表
 postList: none
@@ -26,16 +26,18 @@ postList: none
 NCEPUwiki是由华北电力大学同学共同维护的校园知识库，旨在为在校生提供：
 
 - 高质量、结构化的信息资源  
-- 实用的升学/就业经验分享  
-- 持续更新的学习资料与课程资源
+- 实用的升学/学习经验分享  
+- 持续更新的学习资料
 
 你可以从以下板块开始探索：
 
-- [新生入学](/NCEPUwiki/categories/?category=%E6%96%B0%E7%94%9F)
-- [保研](/pages/postgraduate-path/)
-- [学习资料](/pages/learning-resources/)
+- [新生入学](/categories/?category=%E6%96%B0%E7%94%9F)
+- [学习](/pages/postgraduate-path/)
+- [资料](/pages/learning-resources/)
 
 ## 反馈与共建
+
+现在是网站建立初期，因此急需完善内容，尤其是[老乡群](/pages/fellowvillagers)、[新生入学](/pages/enterschool)，有意者可以进群联系@鹰仓茉子或者直接提交pull request
 
 如果你发现内容需要补充、修正，欢迎通过以下方式参与共建：
 
