@@ -36,7 +36,9 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs/.vuepress/dist
-
+          
+      - name: Add CNAME file
+        run: echo "wiki.ncepuinfo.cc" > docs/.vuepress/dist/CNAME
   deploy:
     needs: build
     runs-on: ubuntu-latest
