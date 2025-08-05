@@ -4,22 +4,63 @@ home: true
 heroText: NCEPUwiki
 bannerBg: none # auto => 网格纹背景(有bodyBgImg时无背景)，默认 | none => 无 | '大图地址' | background: 自定义背景样式       提示：如发现文本颜色不适应你的背景时可以到palette.styl修改$bannerTextColor变量
 
-features:
-  - title: 入学指南
-    link: /categories/?category=%E6%96%B0%E7%94%9F
-    icon: /img/school.svg
-
-  - title: 保研/升学信息
-    link: /pages/postgraduate-path/
-    icon: /img/gate.png
-
-  - title: 学习资料共享
-    link: /pages/learning-resources/
-    icon: /img/web.png
-
 # 文章列表显示方式: detailed 默认，显示详细版文章列表（包括作者、分类、标签、摘要、分页等）| simple => 显示简约版文章列表（仅标题和日期）| none 不显示文章列表
 postList: none
 ---
+
+<style>
+.feature-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 160px;
+  text-align: center;
+  padding: 1.2rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  text-decoration: none;
+  color: inherit;
+}
+
+.feature-item:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+}
+
+.feature-item img {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0.8rem;
+}
+</style>
+
+<div class="feature-grid">
+  <a class="feature-item" href="/categories/?category=%E6%96%B0%E7%94%9F">
+    <img src="/img/school.svg" alt="入学指南">
+    <div>入学指南</div>
+  </a>
+  <a class="feature-item" href="/pages/postgraduate-path/">
+    <img src="/img/gate.png" alt="学习专题">
+    <div>学习专题</div>
+  </a>
+  <a class="feature-item" href="/pages/learning-resources/">
+    <img src="/img/book.png" alt="资料">
+    <div>资料</div>
+  </a>
+</div>
+
+
 
 ## 欢迎访问 NCEPUwiki
 
