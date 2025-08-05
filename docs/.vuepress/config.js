@@ -194,8 +194,8 @@ module.exports = {
     extendMarkdown: md => {
       md.use(require('markdown-it-texmath'), {
         engine: require('katex'),
-        delimiters: 'dollars', // 支持 $...$ 和 $$...$$
-      })
+        delimiters: 'dollars'
+      });
     }
   },
 
