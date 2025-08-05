@@ -184,20 +184,21 @@ module.exports = {
         },
       }
     ],
-
-    //'vuepress-plugin-mathjax',
   ],
 
   markdown: {
-    extractHeaders: ['h2', 'h3', 'h4', 'h5', 'h6'], // 提取标题到侧边栏的级别，默认['h2', 'h3']
     lineNumbers: true,
+    extractHeaders: ['h2', 'h3', 'h4', 'h5', 'h6'],
+    anchor: { permalink: false },
+    toc: { includeLevel: [1, 2] },
     extendMarkdown: md => {
       md.use(require('markdown-it-texmath'), {
         engine: require('katex'),
-        delimiters: 'dollars', // 允许 $...$ 与 $$...$$ 语法
-      });
+        delimiters: 'dollars', // 支持 $...$ 和 $$...$$
+      })
     }
   },
+
 
   // 监听文件变化并重新构建
   extraWatchFiles: [
