@@ -8,7 +8,7 @@ bannerBg: none # auto => 网格纹背景(有bodyBgImg时无背景)，默认 | no
 
 features:
   - title: 新生入学指南
-    link: /NCEPUwiki/categories/?category=%E6%96%B0%E7%94%9F
+    link: /categories/?category=%E6%96%B0%E7%94%9F
   - title: 保研/升学信息
     link: /pages/postgraduate-path/
   - title: 学习资料共享
