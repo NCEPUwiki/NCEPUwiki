@@ -22,9 +22,9 @@ module.exports = {
     nav: [
       { text: '首页', link: '/' },
       { text: '分类', link: '/categories/' },
-      { text: '玩乐', link: '/pages/a20ce8/' },
-      { text: '资源', link: '/pages/db78e2/' },
-      { text: '问答', link: '/pages/9cc27d/' },
+      { text: '校园生活', link: '/categories/?category=校园生活' },
+      { text: '资源', link: '/categories/?category=资料' },
+      { text: '学习', link: '/categories/?category=学习专题' },
     ],
     sidebarDepth: 2, // 侧边栏显示深度，默认1，最大2（显示到h3标题）
     logo: '/img/logo.png', // 导航栏logo
