@@ -55,9 +55,9 @@ postList: none
     <img src="/img/gate.png" alt="学习专题">
     <div>学习专题</div>
   </a>
-  <a class="feature-item" href="/categories/?category=资料">
-    <img src="/img/book.png" alt="资料">
-    <div>资料</div>
+  <a class="feature-item" href="/categories/?category=教材">
+    <img src="/img/book.png" alt="教材">
+    <div>教材</div>
   </a>
 </div>
 
