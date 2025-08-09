@@ -51,8 +51,8 @@ postList: none
     <img src="/img/school.svg" alt="入学指南">
     <div>入学指南</div>
   </a>
-  <a class="feature-item" href="/categories/?category=学习专题">
-    <img src="/img/gate.png" alt="学习专题">
+  <a class="feature-item" href="/categories/?category=群汇总">
+    <img src="/img/group.svg" alt="群汇总">
     <div>学习专题</div>
   </a>
   <a class="feature-item" href="/categories/?category=教材">
