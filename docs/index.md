@@ -55,9 +55,9 @@ postList: none
     <img src="/img/group.svg" alt="群汇总">
     <div>群汇总</div>
   </a>
-  <a class="feature-item" href="/categories/?category=教材">
-    <img src="/img/book.png" alt="教材">
-    <div>教材</div>
+  <a class="feature-item" href="/categories/?category=课程教材与资料">
+    <img src="/img/book.png" alt="课程教材与资料">
+    <div>教材资料</div>
   </a>
 </div>
 
@@ -70,12 +70,6 @@ NCEPUwiki是由华北电力大学同学共同维护的校园知识库，旨在�
 - 高质量、结构化的信息资源  
 - 实用的升学/学习经验分享  
 - 持续更新的学习资料
-
-你可以从以下板块开始探索：
-
-- [新生入学](/categories/?category=%E6%96%B0%E7%94%9F)
-- [学习](/pages/postgraduate-path/)
-- [资料](/pages/learning-resources/)
 
 ## 反馈与共建
 
