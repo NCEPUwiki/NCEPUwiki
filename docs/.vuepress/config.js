@@ -23,7 +23,7 @@ module.exports = {
       { text: '首页', link: '/' },
       { text: '分类', link: '/categories/' },
       { text: '校园生活', link: '/categories/?category=校园生活' },
-      { text: '教材', link: '/categories/?category=教材' },
+      { text: '教材资料', link: '/categories/?category=课程教材与资料' },
     ],
     sidebarDepth: 2, // 侧边栏显示深度，默认1，最大2（显示到h3标题）
     logo: '/img/logo.png', // 导航栏logo
