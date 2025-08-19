@@ -22,8 +22,8 @@ module.exports = {
     nav: [
       { text: '首页', link: '/' },
       { text: '分类', link: '/categories/' },
-      { text: '校园生活', link: '/categories/?category=校园生活' },
-      { text: '教材资料', link: '/categories/?category=课程教材与资料' },
+      { text: '校园生活', link: '/categories/?category=%E6%A0%A1%E5%9B%AD%E7%94%9F%E6%B4%BB' },
+      { text: '教材资料', link: '/categories/?category=%E8%AF%BE%E7%A8%8B%E6%95%99%E6%9D%90%E4%B8%8E%E8%B5%84%E6%96%99' },
     ],
     sidebarDepth: 2, // 侧边栏显示深度，默认1，最大2（显示到h3标题）
     logo: '/img/logo.svg', // 导航栏logo
