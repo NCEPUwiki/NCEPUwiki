@@ -153,6 +153,7 @@ module.exports = {
   ],
 
   markdown: {
+    markmap: true,
     lineNumbers: true,
     extractHeaders: ['h2', 'h3', 'h4', 'h5', 'h6'],
     anchor: { permalink: false },
