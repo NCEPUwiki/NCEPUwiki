@@ -14,6 +14,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@zenghp2015/vuepress-plugin-baidu-tongji": "^1.0.3",
     "dayjs": "^1.9.7",
     "inquirer": "^7.1.0",
     "json2yaml": "^1.1.0",
