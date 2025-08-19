@@ -79,6 +79,6 @@ NCEPUwiki是由华北电力大学同学共同维护的校园知识库，旨在�
 
 如果你发现内容需要补充、修正，欢迎通过以下方式参与共建：
 
-- 提交 [Issue](https://github.com/NCEPUwiki/NCEPUwiki/issues)
+- 提交 [Issue](https://github.com/NCEPUwiki/NCEPUwiki/issues) 或者 [pull request](https://github.com/NCEPUwiki/NCEPUwiki/pulls)
 - 加入交流QQ群 417695180
 - 或发邮件至 `1361942776@qq.com`
