@@ -44,6 +44,77 @@ postList: none
   margin-bottom: 0.8rem;
   pointer-events: none;
 }
+
+/* === 感谢贡献者横幅 === */
+.thanks-banner {
+  margin: 3rem auto 0;
+  max-width: 980px;
+  padding: 2rem 1.5rem;
+  border-radius: 16px;
+  text-align: center;
+  background: linear-gradient(135deg, #fff7e6 0%, #fff0f6 50%, #e6f7ff 100%);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.thanks-banner h2 {
+  font-size: 1.8rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.thanks-banner p {
+  margin: 0.25rem 0 1rem 0;
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.thanks-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.thanks-actions a {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid rgba(0,0,0,0.1);
+  transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+.thanks-actions a.primary {
+  background: #111827;
+  color: #fff;
+  border-color: #111827;
+}
+
+.thanks-actions a.secondary {
+  background: #ffffff;
+  color: #111827;
+}
+
+.thanks-actions a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+}
+
+.thanks-banner::after {
+  content: "⭐";
+  position: absolute;
+  right: -12px;
+  top: -12px;
+  font-size: 64px;
+  opacity: 0.10;
+  transform: rotate(15deg);
+}
 </style>
 
 <div class="feature-grid">
