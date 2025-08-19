@@ -1,6 +1,6 @@
 ---
 home: true
-# heroImage: /img/logo.png
+# heroImage: /img/logo.svg
 heroText: NCEPUwiki
 bannerBg: none # auto => 网格纹背景(有bodyBgImg时无背景)，默认 | none => 无 | '大图地址' | background: 自定义背景样式       提示：如发现文本颜色不适应你的背景时可以到palette.styl修改$bannerTextColor变量
 
@@ -82,3 +82,13 @@ NCEPUwiki是由华北电力大学同学共同维护的校园知识库，旨在�
 - 提交 [Issue](https://github.com/NCEPUwiki/NCEPUwiki/issues) 或者 [pull request](https://github.com/NCEPUwiki/NCEPUwiki/pulls)
 - 加入交流QQ群 417695180
 - 或发邮件至 `1361942776@qq.com`
+
+<div class="thanks-banner">
+  <h2>🎉 感谢所有贡献者的无私贡献！</h2>
+  <p>每一行文字、每一次修订、每一个 PR / Issue，都是 NCEPUwiki 成长的力量。<br/>因为你们，这里才更完整、更可靠、更温暖。</p>
+  <div class="thanks-actions">
+    <a class="primary" href="https://github.com/NCEPUwiki/NCEPUwiki/graphs/contributors" target="_blank" rel="noopener">查看贡献者</a>
+    <a class="secondary" href="https://github.com/NCEPUwiki/NCEPUwiki/pulls" target="_blank" rel="noopener">参与贡献</a>
+    <a class="secondary" href="https://github.com/NCEPUwiki/NCEPUwiki/stargazers" target="_blank" rel="noopener">为项目加星</a>
+  </div>
+</div>
