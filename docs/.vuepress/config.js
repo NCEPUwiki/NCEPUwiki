@@ -13,8 +13,8 @@ module.exports = {
     ['link', { rel: 'icon', href: '/img/favicon.ico' }], //favicons，资源放在public文件夹
     ['meta', { name: 'keywords', content: 'vuepress,theme,blog,vdoing' }],
     ['meta', { name: 'theme-color', content: '#11a8cd' }], // 移动浏览器主题颜色
-    ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css' }],
-    ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/markdown-it-texmath@0.8.0/css/texmath.css' }],
+    // ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css' }],
+    // ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/markdown-it-texmath@0.8.0/css/texmath.css' }],
     ['meta', { name: 'baidu-site-verification', content: 'codeva-OLOYnzsQjW' }],
     ['meta', { name: 'msvalidate.01', content: '0D95252B3D48510049083243CB8379A8' }],
   ],
