@@ -1,0 +1,81 @@
+body {
+    font-family: "Helvetica Neue", sans-serif;
+    background-color: #f9f9fb;
+    color: #333;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+h1 {
+    color: #0052d9;
+    text-align: center;
+}
+
+.highlight {
+    color: red;
+    font-weight: bold;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0052d9;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-top: 20px;
+}
+
+.button:hover {
+    background-color: #003eaa;
+}
+
+.update {
+    background-color: #eef3ff;
+    padding: 10px;
+    border-left: 4px solid #0052d9;
+    margin-top: 20px;
+}
+
+.section {
+    margin-top: 20px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+/* 表格样式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+thead {
+    background-color: #0052d9;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    table {
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 6px;
+    }
+}
