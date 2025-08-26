@@ -162,6 +162,15 @@ module.exports = {
         },
       }
     ],
+
+    [
+      'sitemap', {
+        hostname: 'https://wiki.ncepuinfo.cc',
+        // 可选：排除
+        // exclude: ['/404.html'],
+        changefreq: 'always',   // 建议搜索引擎抓取频率
+        outFile: 'sitemap.xml',// 生成的文件名，默认 sitemap.xml
+    }],
   ],
 
   markdown: {
