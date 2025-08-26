@@ -15,6 +15,7 @@ module.exports = {
     ['meta', { name: 'theme-color', content: '#11a8cd' }], // 移动浏览器主题颜色
     ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css' }],
     ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/markdown-it-texmath@0.8.0/css/texmath.css' }],
+    ['meta', { name: 'baidu-site-verification', content: 'codeva-OLOYnzsQjW' }]
   ],
   permalinkPattern: '/pages/:slug/',
   // 主题配置
