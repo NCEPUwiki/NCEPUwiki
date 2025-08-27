@@ -53,7 +53,7 @@ module.exports = {
     // sidebarOpen: false, // 初始状态是否打开侧边栏，默认true
     updateBar: { // 最近更新栏
       showToArticle: true, // 显示到文章页底部，默认tre
-      moreArticle: '/archives' // “更多文章”跳转的页面，默认'/archives'
+      moreArticle: '/archives/' // “更多文章”跳转的页面，默认'/archives'
     },
     // titleBadge: false, // 文章标题前的图标是否显示，默认true
     // titleBadgeIcons: [ // 文章标题前图标的地址，默认主题内置图标
