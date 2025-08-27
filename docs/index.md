@@ -120,15 +120,15 @@ simplePostListLength: 5
 </style>
 
 <div class="feature-grid">
-  <a class="feature-item" href="/categories/?category=%E6%96%B0%E7%94%9F">
+  <a class="feature-item" href="https://wiki.ncepuinfo.cc/categories/?category=%E6%96%B0%E7%94%9F">
     <img src="/img/school.svg" alt="入学指南">
     <div>入学指南</div>
   </a>
-  <a class="feature-item" href="/categories/?category=群汇总">
+  <a class="feature-item" href="https://wiki.ncepuinfo.cc/categories/?category=%E7%BE%A4%E6%B1%87%E6%80%BB">
     <img src="/img/group.svg" alt="群汇总">
     <div>群汇总</div>
   </a>
-  <a class="feature-item" href="/categories/?category=课程教材与资料">
+  <a class="feature-item" href="https://wiki.ncepuinfo.cc/categories/?category=%E8%AF%BE%E7%A8%8B%E6%95%99%E6%9D%90%E4%B8%8E%E8%B5%84%E6%96%99">
     <img src="/img/book.png" alt="课程教材与资料">
     <div>教材资料</div>
   </a>
