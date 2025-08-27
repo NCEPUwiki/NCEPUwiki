@@ -1,6 +1,6 @@
 const baiduCode = require('./config/baiduCode.js'); // 百度统计hm码
 
-
+const isProd = process.env.NODE_ENV === 'production' // 是否是生产环境
 module.exports = {
 
   theme: 'vdoing', // 使用依赖包主题
@@ -171,6 +171,7 @@ module.exports = {
         changefreq: 'always',   // 建议搜索引擎抓取频率
         outFile: 'sitemap.xml',// 生成的文件名，默认 sitemap.xml
     }],
+    
   ],
 
   markdown: {
