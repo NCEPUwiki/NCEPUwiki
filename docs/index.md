@@ -163,3 +163,14 @@ NCEPUwiki是由华北电力大学同学共同维护的**非官方**校园知识�
     <a class="secondary" href="https://github.com/NCEPUwiki/NCEPUwiki/stargazers" target="_blank" rel="noopener">为项目加星</a>
   </div>
 </div>
+
+::: cardList 1
+```yaml
+- name: 落点华电有趣青年
+  avatar: /img/落点华电.jpg # 可选
+  link: /img/落点华电.jpg # 可选
+  bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
+  textColor: '#6854A1' # 可选，默认var(--textColor)
+
+```
+:::
