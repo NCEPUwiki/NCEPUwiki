@@ -167,7 +167,7 @@ NCEPUwiki是由华北电力大学同学共同维护的**非官方**校园知识�
 ::: cardList 1
 ```yaml
 - name: 落点华电有趣青年
-  desc: 非官方公众号
+  desc: 华电最全 生活指南 | 资讯吐槽 | 校园故事 非官方自媒体
   avatar: /img/落点华电.jpg # 可选
   link: /img/落点二维码.jpg # 可选
   bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
