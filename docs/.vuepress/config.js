@@ -11,8 +11,8 @@ module.exports = {
   base: '/', // 默认'/'。如果你想将你的网站部署到如 https://foo.github.io/bar/，那么 base 应该被设置成 "/bar/",（否则页面将失去样式等文件）
   head: [ // 注入到页面<head> 中的标签，格式[tagName, { attrName: attrValue }, innerHTML?]
     ['link', { rel: 'icon', href: '/img/favicon.ico' }], //favicons，资源放在public文件夹
-    ['meta', { name: 'description', content: 'NCEPUwiki(华北电力大学wiki)是华北电力大学校园知识库' }],
-    ['meta', { name: 'keywords', content: 'ncepu,wiki,华北电力大学' }],
+    ['meta', { name: 'description', content: 'NCEPUwiki(华北电力大学wiki/华电wiki)是华北电力大学校园知识库' }],
+    ['meta', { name: 'keywords', content: 'ncepu,wiki,华北电力大学,华电' }],
     ['meta', { name: 'theme-color', content: '#11a8cd' }], // 移动浏览器主题颜色
     ['link', { rel: 'stylesheet', href: '/css/katex.min.css' }],
     ['link', { rel: 'stylesheet', href: '/css/texmath.css' }],
