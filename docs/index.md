@@ -138,11 +138,15 @@ simplePostListLength: 5
 
 ## 欢迎访问 NCEPUwiki
 
-NCEPUwiki是由华北电力大学同学共同维护的**非官方**校园知识库，旨在为在校生提供：
+NCEPUwiki是由华北电力大学学生共同维护的**非官方**校园知识库，旨在提供：
 
 - 高质量、结构化的信息资源  
 - 实用的升学/学习经验分享
 - 持续更新的学习资料
+
+## 活动
+
+华电三角洲全面战场校队招募中！欢迎各位新同学加入！报名表[https://docs.qq.com/form/page/DQUpjTHdjcVpjYkdE](https://docs.qq.com/form/page/DQUpjTHdjcVpjYkdE)
 
 ## 反馈与共建
 
