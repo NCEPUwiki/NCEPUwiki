@@ -35,6 +35,7 @@ module.exports = {
           { text: '教室借用', link: '/pages/classroom/' },
           { text: '常用公众号', link: '/pages/WeChatPublicAccount/' },
           { text: '学生组织与社团名单', link: '/pages/association/' },
+          { text: '电动自行车管理', link: '/pages/ApplicatBicycleLicense/' },
         ],
        },
       { text: '教材资料', link: 'https://wiki.ncepuinfo.cc/categories/?category=%E8%AF%BE%E7%A8%8B%E6%95%99%E6%9D%90%E4%B8%8E%E8%B5%84%E6%96%99', },
