@@ -11,41 +11,7 @@ simplePostListLength: 5
 ---
 
 <style>
-.feature-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: center;
-  padding: 1rem 0;
-}
 
-.feature-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 160px;
-  text-align: center;
-  padding: 1.2rem;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  text-decoration: none;
-  color: inherit;
-}
-
-.feature-item:hover {
-  transform: translateY(-5px) scale(1.03);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  background-color: #ffffff;
-}
-
-.feature-item img {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 0.8rem;
-  pointer-events: none;
-}
 
 /* === 感谢贡献者横幅 === */
 .thanks-banner {
@@ -119,20 +85,58 @@ simplePostListLength: 5
 }
 </style>
 
-<div class="feature-grid">
-  <a class="feature-item" href="https://wiki.ncepuinfo.cc/categories/?category=%E6%96%B0%E7%94%9F">
-    <img src="/img/school.svg" alt="入学指南">
-    <div>入学指南</div>
-  </a>
-  <a class="feature-item" href="https://wiki.ncepuinfo.cc/categories/?category=%E7%BE%A4%E6%B1%87%E6%80%BB">
-    <img src="/img/group.svg" alt="群汇总">
-    <div>群汇总</div>
-  </a>
-  <a class="feature-item" href="https://wiki.ncepuinfo.cc/categories/?category=%E8%AF%BE%E7%A8%8B%E6%95%99%E6%9D%90%E4%B8%8E%E8%B5%84%E6%96%99">
-    <img src="/img/book.png" alt="课程教材与资料">
-    <div>教材资料</div>
-  </a>
-</div>
+::: cardList 3
+```yaml
+config:
+    target: _self
+    imgHeight: auto
+    objectFit: cover
+    lineClamp: 1
+data:
+    - name: 新生入学
+      desc: 入学指南
+      link: /categories/?category=新生 # 可选
+      bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
+      textColor: '#6854A1' # 可选，默认var(--textColor)
+
+    - name: 学习专题
+      desc: 学分、选课、转专业、专业评价
+      link: /categories/?category=学习专题 # 可选
+      bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
+      textColor: '#6854A1' # 可选，默认var(--textColor)
+
+    - name: 课程教材与资料
+      desc: 电子版教材与复习资料
+      link: /categories/?category=课程教材与资料 # 可选
+      bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
+      textColor: '#6854A1' # 可选，默认var(--textColor)
+
+    - name: 群汇总
+      desc: 老乡群与同好群
+      link: /categories/?category=群汇总 # 可选
+      bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
+      textColor: '#6854A1' # 可选，默认var(--textColor)
+
+    - name: 校园生活
+      desc: 常用信息、社团、电动车上牌
+      link: /categories/?category=校园生活 # 可选
+      bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
+      textColor: '#6854A1' # 可选，默认var(--textColor)
+
+    - name: 就业
+      desc: 求职知识、内推码
+      link: /categories/?category=就业 # 可选
+      bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
+      textColor: '#6854A1' # 可选，默认var(--textColor)
+
+    - name: 贡献
+      desc: 和我们一起建设Wiki
+      link: /categories/?category=贡献 # 可选
+      bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
+      textColor: '#6854A1' # 可选，默认var(--textColor)
+
+```
+:::
 
 ## 欢迎访问 NCEPUwiki
 
