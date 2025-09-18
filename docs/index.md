@@ -148,7 +148,7 @@ NCEPUwiki是由华北电力大学学生共同维护的**非官方**校园知识�
 
 ## 活动
 
-华电三角洲全面战场校队招募中！欢迎各位新同学加入！报名表[https://docs.qq.com/form/page/DQUpjTHdjcVpjYkdE](https://docs.qq.com/form/page/DQUpjTHdjcVpjYkdE)
+有活动可以在**反馈与共建**中联系我们
 
 ## 反馈与共建
 
