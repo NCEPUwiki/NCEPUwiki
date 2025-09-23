@@ -105,9 +105,9 @@ data:
       bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
       textColor: '#6854A1' # 可选，默认var(--textColor)
 
-    - name: 课程教材与资料
+    - name: 教材与资料
       desc: 电子版教材与复习资料
-      link: /categories/?category=课程教材与资料 # 可选
+      link: /categories/?category=教材与资料 # 可选
       bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
       textColor: '#6854A1' # 可选，默认var(--textColor)
 
@@ -158,7 +158,7 @@ NCEPUwiki是由华北电力大学学生共同维护的**非官方**校园知识�
 
 现在我们急需以下内容：
 
-- 各专业[教材电子版及其学习资料](/categories/?category=课程教材与资料)，请注明校区、院系、专业、课程名、教材名、教材版本和出版社
+- 各专业[教材电子版及其学习资料](/categories/?category=教材与资料)，请注明校区、院系、专业、课程名、教材名、教材版本和出版社
 - 各个课程的[评价](/pages/CourseEvaluation)，请填写问卷<https://www.wjx.cn/vm/myKSytv.aspx#>
 - [内推码](/pages/EmployeeRefer/)
 
