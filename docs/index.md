@@ -106,7 +106,7 @@ data:
       textColor: '#6854A1' # 可选，默认var(--textColor)
 
     - name: 教材与资料
-      desc: 电子版教材与复习资料
+      desc: 电子版教材与资料
       link: /categories/?category=教材与资料 # 可选
       bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
       textColor: '#6854A1' # 可选，默认var(--textColor)
