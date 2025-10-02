@@ -178,12 +178,26 @@ NCEPUwiki是由华北电力大学学生共同维护的**非官方**校园知识�
   </div>
 </div>
 
-::: cardList 1
+::: cardList 3
 ```yaml
 - name: 落点华电有趣青年
   desc: 华电最全 生活指南 | 资讯吐槽 | 校园故事 非官方自媒体
   avatar: /img/落点华电.jpg # 可选
   link: /img/落点二维码.jpg # 可选
+  bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
+  textColor: '#6854A1' # 可选，默认var(--textColor)
+
+- name: 保定表白墙微信
+  desc: 非官方的华电校园自媒体平台，为华电学子服务
+  avatar: /img/保定表白墙微信头像.jpg # 可选
+  link: /img/保定表白墙微信.jpg # 可选
+  bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
+  textColor: '#6854A1' # 可选，默认var(--textColor)
+
+- name: 保定表白墙QQ
+  desc: 非官方的华电校园自媒体平台，为华电学子服务
+  avatar: /img/保定表白墙QQ头像.jpg # 可选
+  link: /img/保定表白墙QQ.jpg # 可选
   bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
   textColor: '#6854A1' # 可选，默认var(--textColor)
 
