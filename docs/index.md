@@ -195,7 +195,7 @@ NCEPUwiki是由华北电力大学学生共同维护的**非官方**校园知识�
   textColor: '#6854A1' # 可选，默认var(--textColor)
 
 - name: 保定表白墙QQ
-  desc: 非官方的华电校园自媒体平台，为华电学子服务
+  desc: 学长学姐2018创立至今，二手/树洞/拼车/答疑，为爱情服务
   avatar: /img/保定表白墙QQ头像.jpg # 可选
   link: /img/保定表白墙QQ.jpg # 可选
   bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
