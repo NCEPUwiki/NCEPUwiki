@@ -138,6 +138,17 @@ data:
 ```
 :::
 
+::: cardList 1
+```yaml
+- name: 华电笔墨居
+  desc: 668960976；华电钢笔、彩墨交流群
+  avatar: /img/华电笔墨居.jpg # 可选
+  bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
+  textColor: '#6854A1' # 可选，默认var(--textColor)
+
+```
+:::
+
 ## 欢迎访问 NCEPUwiki
 
 NCEPUwiki是由华北电力大学学生共同维护的**非官方**校园知识库，旨在提供：
