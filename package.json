@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@renovamen/vuepress-plugin-katex": "^0.2.0",
-    "@vssue/api-github-v3": "^1.4.7"
+    "@vssue/api-github-v3": "^1.4.7",
+    "html2canvas": "^1.4.1"
   }
 }
