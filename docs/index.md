@@ -140,10 +140,10 @@ data:
 
 ::: cardList 1
 ```yaml
-- name: 华电笔墨居
-  desc: 668960976；华电钢笔、彩墨交流群
-  avatar: /img/华电笔墨居头像.jpg # 可选
-  link: /img/华电笔墨居二维码.jpg # 可选
+- name: 华电hifi群
+  desc: 792173396；我们是喜欢HIFI设备的发烧友，一起探索声音的无限可能
+  avatar: /img/HIFI群头像.jpg # 可选
+  link: /img/HIFI群二维码.jpg # 可选
   bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
   textColor: '#6854A1' # 可选，默认var(--textColor)
 
@@ -165,6 +165,7 @@ NCEPUwiki是由华北电力大学学生共同维护的**非官方**校园知识�
 ## 活动
 
 有活动可以在**反馈与共建**中联系我们
+
 ![英雄联盟](/img/英雄联盟活动.jpg)
 
 ![怪物猎人](/img/怪物猎人.jpg)
