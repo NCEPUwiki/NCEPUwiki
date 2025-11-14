@@ -142,8 +142,8 @@ data:
 ```yaml
 - name: 华电hifi群
   desc: 792173396；我们是喜欢HIFI设备的发烧友，一起探索声音的无限可能
-  avatar: /img/HIFI群头像.jpg # 可选
-  link: /img/HIFI群二维码.jpg # 可选
+  avatar: /img/华电HIFI群头像.jpg # 可选
+  link: /img/华电HIFI群二维码.jpg # 可选
   bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
   textColor: '#6854A1' # 可选，默认var(--textColor)
 
