@@ -141,7 +141,7 @@ data:
 ::: cardList 1
 ```yaml
 - name: 华电崩坏三群
-  desc: 620179667；你们崩坏3玩家是不是什么都凹
+  desc: 620179667；为守护世界上所有的美好而战
   avatar: /img/华电崩坏三群头像.png # 可选
   link: /img/华电崩坏三群二维码.jpg # 可选
   bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
