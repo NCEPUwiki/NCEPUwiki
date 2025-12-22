@@ -140,10 +140,10 @@ data:
 
 ::: cardList 1
 ```yaml
-- name: 华电崩坏三群
-  desc: 620179667；为守护世界上所有的美好而战
-  avatar: /img/华电崩坏三群头像.png # 可选
-  link: /img/华电崩坏三群二维码.jpg # 可选
+- name: 华电火影群
+  desc: 772191962
+  avatar: /img/华电火影群头像.png # 可选
+  link: /img/华电火影群二维码.jpg # 可选
   bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
   textColor: '#6854A1' # 可选，默认var(--textColor)
 
@@ -170,11 +170,18 @@ NCEPUwiki是由华北电力大学学生共同维护的**非官方**校园知识�
 
 ## 反馈与共建
 
-现在我们急需以下内容：
+长期更新计划：
 
-- 各专业[教材电子版及其学习资料](/categories/?category=教材与资料)，请注明校区、院系、专业、课程名、教材名、教材版本和出版社
-- 各个课程的[评价](/pages/CourseEvaluation)，请填写问卷<https://www.wjx.cn/vm/myKSytv.aspx#>
+- 各专业[教材电子版及其学习资料](/categories/?category=教材与资料)，提供请注明校区、院系、专业、课程名、教材名、教材版本和出版社。
+- 各个课程的[评价](/pages/CourseEvaluation)，问卷<https://www.wjx.cn/vm/myKSytv.aspx#>
 - [内推码](/pages/EmployeeRefer/)
+
+更新计划：
+
+- 医保说明与教程
+- 计算机知识包括python，vs2010卸载
+- 保研
+- 竞赛
 
 如果你发现内容需要补充、修正，欢迎通过以下方式参与共建：
 
