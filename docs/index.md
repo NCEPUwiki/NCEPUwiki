@@ -138,7 +138,7 @@ data:
 ```
 :::
 
-::: cardList 1
+<!-- ::: cardList 1
 ```yaml
 - name: 华电火影群
   desc: 772191962
@@ -148,7 +148,7 @@ data:
   textColor: '#6854A1' # 可选，默认var(--textColor)
 
 ```
-:::
+::: -->
 
 ## 欢迎访问 NCEPUwiki
 
