@@ -168,13 +168,11 @@ NCEPUwiki是由华北电力大学学生共同维护的**非官方**校园知识�
 
 ![怪物猎人](/img/怪物猎人.jpg)
 
-![星际争霸](/img/星际争霸.jpg)
-
 ## 反馈与共建
 
 长期更新计划：
 
-- 各专业[教材电子版及其学习资料](/categories/?category=学习资料)，提供请注明校区、院系、专业、课程名、教材名、教材版本和出版社。
+- 各专业[学习资料](/categories/?category=学习资料)，提供请注明校区、院系、专业、课程名。
 - 各个课程的[评价](/pages/CourseEvaluation)，问卷<https://www.wjx.cn/vm/myKSytv.aspx#>
 - [内推码](/pages/EmployeeRefer/)
 
