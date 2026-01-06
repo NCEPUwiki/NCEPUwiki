@@ -21,7 +21,7 @@ module.exports = {
       gtag('config', 'G-CGE22RGMPJ');
     `],
     ['link', { rel: 'icon', href: '/img/favicon.ico' }], //favicons，资源放在public文件夹
-    ['meta', { name: 'keywords', content: 'ncepu,wiki,华北电力大学,华电' }],
+    ['meta', { name: 'keywords', content: 'ncepu,wiki,华北电力大学,华电,百科' }],
     ['meta', { name: 'theme-color', content: '#11a8cd' }], // 移动浏览器主题颜色
     ['link', { rel: 'stylesheet', href: '/css/katex.min.css' }],
     ['link', { rel: 'stylesheet', href: '/css/texmath.css' }],
@@ -64,7 +64,7 @@ module.exports = {
 
     // sidebarOpen: false, // 初始状态是否打开侧边栏，默认true
     updateBar: { // 最近更新栏
-      showToArticle: true, // 显示到文章页底部，默认tre
+      showToArticle: true, // 显示到文章页底部，默认true
       moreArticle: '/archives/' // “更多文章”跳转的页面，默认'/archives'
     },
     // titleBadge: false, // 文章标题前的图标是否显示，默认true
