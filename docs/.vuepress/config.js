@@ -47,7 +47,7 @@ module.exports = {
           { text: '电动自行车管理', link: '/pages/ApplicatBicycleLicense/' },
         ],
        },
-      { text: '教材资料', link: 'https://wiki.ncepuinfo.cc/categories/?category=%E6%95%99%E6%9D%90%E4%B8%8E%E8%B5%84%E6%96%99', },
+      { text: '学习资料', link: 'https://wiki.ncepuinfo.cc/categories/?category=学习资料', },
     ],
     sidebarDepth: 2, // 侧边栏显示深度，默认1，最大2（显示到h3标题）
     logo: '/img/logo.svg', // 导航栏logo
