@@ -129,6 +129,12 @@ data:
       bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
       textColor: '#6854A1' # 可选，默认var(--textColor)
 
+    - name: 计算机知识专题
+      desc: 包含基础到进阶的计算机知识
+      link: /categories/?category=计算机知识专题 # 可选
+      bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
+      textColor: '#6854A1' # 可选，默认var(--textColor)
+
     - name: 贡献
       desc: 和我们一起建设Wiki
       link: /categories/?category=贡献 # 可选
