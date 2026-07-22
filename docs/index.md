@@ -105,9 +105,9 @@ data:
       bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
       textColor: '#6854A1' # 可选，默认var(--textColor)
 
-    - name: 学习资料
-      desc: 学习资料
-      link: /categories/?category=学习资料 # 可选
+    - name: 教材与资料
+      desc: 教材与资料
+      link: /categories/?category=教材与资料 # 可选
       bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
       textColor: '#6854A1' # 可选，默认var(--textColor)
 
@@ -126,6 +126,12 @@ data:
     - name: 就业
       desc: 求职知识、内推码
       link: /categories/?category=就业 # 可选
+      bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
+      textColor: '#6854A1' # 可选，默认var(--textColor)
+
+    - name: 计算机知识专题
+      desc: 包含基础到进阶的计算机知识
+      link: /categories/?category=计算机知识专题 # 可选
       bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
       textColor: '#6854A1' # 可选，默认var(--textColor)
 
