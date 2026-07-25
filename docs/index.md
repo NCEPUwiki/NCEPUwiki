@@ -189,10 +189,10 @@ NCEPUwiki是由华北电力大学学生共同维护的**非官方**校园知识�
 
 更新计划：
 
-- 计算机知识包括python，vs2010卸载
+- 计算机知识包括python，vs2010卸载等
 - 保研
-- 竞赛
-- 留学
+- 竞赛、证书
+- 专业指南
 
 如果你发现内容需要补充、修正，欢迎通过以下方式参与共建：
 
@@ -232,13 +232,5 @@ NCEPUwiki是由华北电力大学学生共同维护的**非官方**校园知识�
   link: /img/保定表白墙QQ.jpg # 可选
   bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
   textColor: '#6854A1' # 可选，默认var(--textColor)
-
-- name: 华电Date交友网站
-  desc: Date遇见美好，Wiki珍藏华电
-  avatar: /img/华电Date.jpg  # 可选
-  link: https://duoia.top/ # 可选
-  bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
-  textColor: '#6854A1' # 可选，默认var(--textColor)
-
 ```
 :::
