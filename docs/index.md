@@ -112,7 +112,7 @@ data:
       textColor: '#6854A1' # 可选，默认var(--textColor)
 
     - name: 群汇总
-      desc: 老乡群与同好群
+      desc: 老乡群、同好群与学生组织
       link: /categories/?category=群汇总 # 可选
       bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
       textColor: '#6854A1' # 可选，默认var(--textColor)
