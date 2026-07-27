@@ -100,7 +100,7 @@ data:
       textColor: '#6854A1' # 可选，默认var(--textColor)
 
     - name: 学习专题
-      desc: 学分、选课、转专业、专业评价
+      desc: 学分选课、竞赛、课程评价、考证
       link: /categories/?category=学习专题 # 可选
       bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
       textColor: '#6854A1' # 可选，默认var(--textColor)
@@ -135,9 +135,9 @@ data:
       bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
       textColor: '#6854A1' # 可选，默认var(--textColor)
 
-    - name: 贡献
+    - name: 贡献和其他
       desc: 和我们一起建设Wiki
-      link: /categories/?category=贡献 # 可选
+      link: /categories/?category=贡献和其他 # 可选
       bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
       textColor: '#6854A1' # 可选，默认var(--textColor)
 
