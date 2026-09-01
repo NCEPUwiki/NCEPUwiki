@@ -6,7 +6,7 @@ categories:
 tags:
   - 学习笔记
 date: 2026-09-01
-permalink: /pages/notes_9_1/
+permalink: /pages/notes/
 ---
 # 题目1-10学习笔记
 
