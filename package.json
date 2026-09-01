@@ -10,7 +10,9 @@
     "prebuild": "node utils/check.js build && vdoing",
     "updateTheme": "yarn remove vuepress-theme-vdoing && rm -rf node_modules && yarn && yarn add vuepress-theme-vdoing -D",
     "editFm": "node utils/editFrontmatter.js",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "serve": "serve -L",
+    "build:serve": "vuepress build docs && serve -L"
   },
   "license": "MIT",
   "devDependencies": {
@@ -40,6 +42,7 @@
   "dependencies": {
     "@renovamen/vuepress-plugin-katex": "^0.2.0",
     "@vssue/api-github-v3": "^1.4.7",
+    "serve": "^14.2.4",
     "html2canvas": "^1.4.1"
   },
   "overrides": {
