@@ -3,6 +3,7 @@ title: MindSpore 第1章学习笔记：MindSpore 初探
 categories:
   - 教材与资料
    - 学习笔记
+    - MindSpore学习笔记
 tags:
   - MindSpore
 date: 2026-09-01
