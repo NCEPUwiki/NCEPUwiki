@@ -1,8 +1,8 @@
 ## 欢迎访问 NCEPUwiki
 
-NCEPUwiki是由华北电力大学学生共同维护的**非官方**校园知识库，旨在提供：
+NCEPUwiki 是由华北电力大学学生共同维护的**非官方**校园知识库，旨在提供：
 
-- 高质量、结构化的信息资源  
+- 高质量、结构化的信息资源
 - 实用的升学/学习经验分享
 - 持续更新的学习资料
 
@@ -16,7 +16,7 @@ NCEPUwiki是由华北电力大学学生共同维护的**非官方**校园知识�
 
 更新计划：
 
-- 计算机知识包括python，vs2010卸载
+- 计算机知识包括 python，vs2010 卸载
 - 保研
 - 竞赛
 - 留学
@@ -24,8 +24,17 @@ NCEPUwiki是由华北电力大学学生共同维护的**非官方**校园知识�
 如果你发现内容需要补充、修正，欢迎通过以下方式参与共建：
 
 - 提交 [Issue](https://github.com/NCEPUwiki/NCEPUwiki/issues) 或者 [pull request](https://github.com/NCEPUwiki/NCEPUwiki/pulls)
-- 加入交流QQ群 417695180
+- 加入交流 QQ 群 417695180
 - 或发邮件至 `1361942776@qq.com`
+
+## 本地编译并查看
+
+首先在系统中安装`npm`包（`Windows`用户可以试试`winget`），然后执行以下命令，就可以在浏览器中访问了：
+
+```bash
+npm install
+npm run build:serve
+```
 
 <div class="thanks-banner">
   <h2>🎉 感谢所有贡献者的无私贡献！</h2>
