@@ -1,0 +1,1220 @@
+# 2026-9-1 笔记：NLP、CNN、GAN、图像处理与 MindSpore 
+
+> 根据2029年9月1日备考笔记得出
+
+---
+
+## 目录
+
+1. 词向量：Word2Vec、GloVe、FastText、ELMo、BERT
+2. CNN 卷积层参数量计算
+3. GAN 的模式崩塌
+4. 图像去噪：均值 / 中值 / 高斯 / 拉普拉斯
+5. MindSpore 全连接层：`mindspore.nn.Dense`
+6. 神经网络结构设计：层数、单元数与输出层
+7. MindSpore 静态图：`GRAPH_MODE`
+8. MindSpore 图像增强：`mindspore.dataset.vision`
+9. NLP 共现窗口与共现频率
+10. 高频易错点总表
+11. 速记口诀
+
+---
+
+# 1. 词向量：Word2Vec、GloVe、FastText、ELMo、BERT
+
+## 1.1 题目结论
+
+题目：以下关于词向量的说法错误的是哪一项？
+
+- A. BERT 与 ELMo 都可以生成动态词向量 —— **正确**
+- B. Word2Vec 有两种典型模型：Skip-gram 与 CBOW —— **正确**
+- C. 原始 GloVe 方法可以很好地处理未登录词问题 —— **错误**
+- D. FastText 获取词向量时能够考虑子词级别信息 —— **正确**
+
+**答案：C**
+
+---
+
+## 1.2 为什么需要词向量？
+
+计算机不能直接理解“猫”“狗”“苹果”等自然语言符号，必须把它们变成数字。
+
+### One-hot 表示
+
+假设词表：
+
+```text
+猫、狗、苹果、香蕉
+```
+
+可以表示为：
+
+```text
+猫     [1,0,0,0]
+狗     [0,1,0,0]
+苹果   [0,0,1,0]
+香蕉   [0,0,0,1]
+```
+
+缺点：
+
+- 维度高
+- 非常稀疏
+- 不体现语义相似度
+
+所以后来发展出 **Embedding（嵌入 / 分布式表示）**。
+
+---
+
+## 1.3 分布假设
+
+词向量背后的经典思想：
+
+> 经常出现在相似上下文中的词，语义往往也相似。
+
+例如：
+
+```text
+我养了一只猫
+我养了一只狗
+```
+
+“猫”和“狗”的上下文相似，因此可以学到相近的向量。
+
+---
+
+## 1.4 Word2Vec
+
+Word2Vec 是经典的**静态词向量**方法。
+
+所谓静态：
+
+> 同一个词训练完成后，通常对应一个固定向量。
+
+例如“苹果”：
+
+```text
+我吃了一个苹果。
+苹果发布了新手机。
+```
+
+虽然两个“苹果”含义不同，但传统 Word2Vec 通常仍给它们同一个词向量。
+
+### Word2Vec 两种典型结构
+
+#### CBOW
+
+CBOW = Continuous Bag of Words
+
+核心：
+
+```text
+上下文 -> 中心词
+```
+
+例如：
+
+```text
+我 今天 去 [北京] 旅游
+```
+
+用“今天、去、旅游”等上下文预测“北京”。
+
+#### Skip-gram
+
+核心：
+
+```text
+中心词 -> 上下文
+```
+
+例如输入“北京”，预测：
+
+```text
+去、旅游、故宫……
+```
+
+### 口诀
+
+```text
+CBOW：周围猜中间
+Skip-gram：中间猜周围
+```
+
+---
+
+## 1.5 Word2Vec 常见伴生考点：负采样
+
+如果词表特别大，每次做完整 softmax 代价很高。
+
+因此常用 **Negative Sampling（负采样）**：
+
+- 正样本：真实共现词
+- 负样本：随机采一些不相关词
+
+这样可以显著降低计算量。
+
+---
+
+## 1.6 GloVe
+
+GloVe = Global Vectors for Word Representation
+
+核心关键词：
+
+```text
+Global
+Co-occurrence
+全局共现统计
+```
+
+GloVe 强调利用整个语料库中的词-词共现关系学习向量。
+
+可以用：
+
+\[
+X_{ij}
+\]
+
+表示词 \(i\) 和词 \(j\) 在上下文窗口中的共现次数。
+
+### 为什么原始 GloVe 不擅长 OOV？
+
+OOV = Out Of Vocabulary = 未登录词 / 词表外词。
+
+如果训练词表中没有某个词，那么原始 word-level GloVe 通常没有该词对应的预训练向量。
+
+因此：
+
+```text
+原始 GloVe 并不能很好解决 OOV
+```
+
+---
+
+## 1.7 FastText
+
+FastText 的经典特征：
+
+```text
+Subword
+Character n-gram
+```
+
+它不只把一个完整单词看作不可分割整体，而是进一步利用字符级 n-gram。
+
+例如：
+
+```text
+playing
+```
+
+可以得到类似：
+
+```text
+pla
+lay
+ayi
+yin
+ing
+...
+```
+
+因此即使完整单词没有出现过，只要部分字符 n-gram 见过，就有机会组合出合理表示。
+
+### FastText 与 OOV
+
+所以：
+
+```text
+FastText 对 OOV、低频词、词形变化更友好
+```
+
+但注意：
+
+> “能处理 OOV”不等于“动态词向量”。
+
+FastText 仍属于典型静态词表示方法。
+
+---
+
+## 1.8 ELMo
+
+ELMo = Embeddings from Language Models
+
+核心：
+
+```text
+BiLSTM
+上下文化表示
+动态词向量
+```
+
+同一个词在不同句子中，可以得到不同向量。
+
+例如：
+
+```text
+苹果很好吃。
+苹果发布了手机。
+```
+
+两个“苹果”的表示可以不同。
+
+---
+
+## 1.9 BERT
+
+BERT = Bidirectional Encoder Representations from Transformers
+
+关键词：
+
+```text
+Transformer Encoder
+Self-Attention
+Bidirectional
+Contextualized Representation
+```
+
+BERT 最终得到的是上下文相关表示，因此同一个 token 在不同上下文中的 hidden state 可以不同。
+
+### BERT 与 ELMo 对比
+
+| 模型 | 上下文化 | 主要架构 |
+|---|---|---|
+| ELMo | 是 | BiLSTM |
+| BERT | 是 | Transformer Encoder |
+
+---
+
+## 1.10 静态 vs 动态词向量
+
+| 方法 | 类型 | 核心特点 |
+|---|---|---|
+| Word2Vec | 静态 | CBOW / Skip-gram |
+| GloVe | 静态 | 全局共现 |
+| FastText | 静态 | 字符 n-gram / Subword |
+| ELMo | 动态 | BiLSTM 上下文化表示 |
+| BERT | 动态 | Transformer 上下文化表示 |
+
+### 必须区分
+
+```text
+Subword：往“词里面”看
+Context：往“词周围”看
+```
+
+二者不是同一个概念。
+
+---
+
+# 2. CNN 卷积层参数量计算
+
+## 2.1 题目
+
+输入图像：
+
+\[
+15\times15\times3
+\]
+
+卷积层：
+
+- 卷积核个数：4
+- 卷积核大小：\(5\times5\)
+- 步长：2
+- 无填充
+- 不计算 bias
+
+问：权重参数多少？
+
+**答案：300**
+
+---
+
+## 2.2 参数量公式
+
+卷积层权重参数量：
+
+\[
+K_h \times K_w \times C_{in} \times C_{out}
+\]
+
+其中：
+
+- \(K_h,K_w\)：卷积核高、宽
+- \(C_{in}\)：输入通道数
+- \(C_{out}\)：输出通道数，也就是卷积核个数
+
+本题：
+
+\[
+5\times5\times3\times4=300
+\]
+
+所以：
+
+\[
+\boxed{300}
+\]
+
+---
+
+## 2.3 为什么一个卷积核是 \(5\times5\times3\)？
+
+输入是 RGB 图像：
+
+\[
+15\times15\times3
+\]
+
+一个卷积核必须覆盖全部输入通道，因此单个卷积核不是 \(5\times5\)，而是：
+
+\[
+5\times5\times3
+\]
+
+单个卷积核权重：
+
+\[
+5\times5\times3=75
+\]
+
+4 个卷积核：
+
+\[
+75\times4=300
+\]
+
+---
+
+## 2.4 如果计算 bias
+
+每个输出通道通常有一个 bias，因此：
+
+\[
+参数量 =
+K_hK_wC_{in}C_{out}+C_{out}
+\]
+
+本题若算 bias：
+
+\[
+300+4=304
+\]
+
+---
+
+## 2.5 特别容易错：输入图像尺寸不决定权重数量
+
+输入的：
+
+\[
+15\times15
+\]
+
+会影响**输出特征图尺寸**，但不会直接影响卷积核权重参数量。
+
+### 输出尺寸公式
+
+无膨胀卷积时：
+
+\[
+H_{out}
+=
+\left\lfloor
+\frac{H_{in}+2P-K}{S}
+\right\rfloor+1
+\]
+
+本题：
+
+\[
+H_{out}
+=
+\left\lfloor
+\frac{15-5}{2}
+\right\rfloor+1
+=6
+\]
+
+所以输出大小：
+
+\[
+6\times6\times4
+\]
+
+注意：
+
+```text
+步长 S、padding P 会影响输出尺寸，
+但一般不改变卷积层的权重参数量。
+```
+
+---
+
+# 3. GAN 的模式崩塌
+
+## 3.1 题目
+
+GAN 生成样本非常单一，属于什么问题？
+
+**答案：模式崩塌（Mode Collapse）**
+
+---
+
+## 3.2 什么是模式崩塌？
+
+理想状态下，不同随机噪声：
+
+\[
+z_1,z_2,z_3,\dots
+\]
+
+应该生成多样样本：
+
+\[
+G(z_1),G(z_2),G(z_3),\dots
+\]
+
+模式崩塌时：
+
+\[
+G(z_1)\approx G(z_2)\approx G(z_3)
+\]
+
+即：
+
+> 大量不同输入被生成器映射到了非常相似的输出。
+
+表现：
+
+- 生成样本重复
+- 多样性低
+- 只覆盖真实数据分布的一小部分模式
+
+---
+
+## 3.3 为什么不是过拟合？
+
+### 过拟合
+
+主要含义：
+
+> 模型过度适应训练数据，泛化能力变差。
+
+### 模式崩塌
+
+主要含义：
+
+> GAN 生成器输出缺乏多样性。
+
+所以题目出现：
+
+```text
+GAN
+生成样本单一
+大量结果相似
+多样性不足
+```
+
+优先想到：
+
+\[
+\boxed{Mode\ Collapse}
+\]
+
+---
+
+## 3.4 梯度消失和模式崩塌的关系
+
+梯度消失属于优化问题，可能导致 GAN 训练困难，但题目如果直接问“生成样本单一”，专门术语仍然是：
+
+```text
+模式崩塌
+```
+
+---
+
+# 4. 图像去噪：均值 / 中值 / 高斯 / 拉普拉斯
+
+## 4.1 题目
+
+图片存放过程中出现很多小噪声，或黑白噪点，扫描后哪种去噪效果最好？
+
+选项：
+
+- A 均值滤波
+- B 中值滤波
+- C 高斯滤波
+- D 拉普拉斯滤波
+
+**答案：B，中值滤波**
+
+---
+
+## 4.2 这类噪声是什么？
+
+黑白随机噪点通常对应：
+
+```text
+椒盐噪声（Salt-and-Pepper Noise）
+```
+
+表现为：
+
+- 随机白点
+- 随机黑点
+- 像盐粒和胡椒粒撒在图像上
+
+这类属于典型的**脉冲噪声**。
+
+---
+
+## 4.3 为什么中值滤波最适合椒盐噪声？
+
+中值滤波：
+
+> 取局部窗口中的像素值排序，再取中间值。
+
+例如窗口：
+
+```text
+10, 11, 12,
+10, 255, 11,
+12, 10, 11
+```
+
+其中 `255` 是异常白噪点。
+
+排序后，中值仍会接近 11，而不会被极端值严重影响。
+
+因此中值滤波：
+
+- 抑制孤立极值能力强
+- 对椒盐噪声尤其有效
+- 相比均值滤波更能保护边缘
+
+---
+
+## 4.4 均值滤波
+
+局部像素求平均。
+
+优点：
+
+- 简单
+- 有平滑效果
+
+缺点：
+
+- 容易把边缘也模糊
+- 极端噪点会影响平均值
+
+所以对椒盐噪声通常不如中值滤波。
+
+---
+
+## 4.5 高斯滤波
+
+本质上也是平滑滤波，但不同位置权重不同：
+
+- 中心权重大
+- 距中心越远权重越小
+
+对**高斯噪声**更典型。
+
+关键词对应：
+
+```text
+高斯噪声 -> 高斯滤波
+椒盐噪声 -> 中值滤波
+```
+
+---
+
+## 4.6 拉普拉斯滤波
+
+拉普拉斯算子属于二阶微分算子，常用于：
+
+- 边缘检测
+- 图像锐化
+
+它不是典型的去椒盐噪声方案，甚至会增强噪声。
+
+因此看到“去噪”时不能机械选拉普拉斯。
+
+---
+
+# 5. MindSpore 全连接层：`mindspore.nn.Dense`
+
+## 5.1 题目
+
+以下哪一项属于 MindSpore 的网络结构算子？
+
+正确选项：
+
+```python
+mindspore.nn.Dense
+```
+
+**答案：A**
+
+---
+
+## 5.2 Dense 是什么？
+
+Dense 即：
+
+```text
+全连接层
+Fully Connected Layer
+```
+
+数学形式：
+
+\[
+y=Wx+b
+\]
+
+其中：
+
+- \(x\)：输入
+- \(W\)：权重矩阵
+- \(b\)：偏置
+- \(y\)：输出
+
+---
+
+## 5.3 MindSpore 中的典型写法
+
+```python
+import mindspore.nn as nn
+
+layer = nn.Dense(in_channels=128, out_channels=10)
+```
+
+也可以写完整路径：
+
+```python
+mindspore.nn.Dense
+```
+
+---
+
+## 5.4 常见混淆
+
+下面这些不是正确的 Dense 路径：
+
+```text
+mindspore.layer.Dense
+mindspore.nn.FC
+mindspore.layer.FC
+```
+
+至少在本题对应的 MindSpore API 中，标准网络层命名是：
+
+```text
+mindspore.nn.Dense
+```
+
+---
+
+# 6. 神经网络结构设计：层数、单元数与输出层
+
+## 6.1 题目
+
+以下关于神经网络结构设计，描述错误的是哪一项？
+
+D 选项：
+
+> 隐藏层层数越多，网络精度越高，所以可以设置尽可能多的隐藏层。
+
+**答案：D**
+
+---
+
+## 6.2 为什么 D 错？
+
+网络越深：
+
+```text
+不等于
+精度一定越高
+```
+
+增加层数可能提升模型表达能力，但也可能带来：
+
+- 过拟合
+- 梯度消失 / 梯度爆炸
+- 优化难度上升
+- 训练时间更长
+- 显存和计算开销增加
+- 数据不足时收益下降甚至性能下降
+
+因此隐藏层数应该依据：
+
+- 数据规模
+- 任务复杂度
+- 模型架构
+- 正则化策略
+- 验证集效果
+- 计算资源
+
+综合设计，而不是“越多越好”。
+
+---
+
+## 6.3 隐藏层单元数也是同理
+
+隐藏单元越多：
+
+- 表达能力通常增强
+- 参数量增加
+- 计算量增大
+- 过拟合风险提高
+
+所以也存在折中。
+
+---
+
+## 6.4 分类问题的输出层单元数
+
+在常见单标签多分类任务中：
+
+```text
+输出层单元数 = 类别数
+```
+
+例如 10 分类：
+
+```text
+out_features = 10
+```
+
+后面常配 softmax 或等价的分类损失处理。
+
+---
+
+## 6.5 LSTM 输入维度
+
+题目中的 A 提到 LSTM 输入常见为 3 维。
+
+典型输入形状：
+
+```text
+(batch_size, sequence_length, feature_size)
+```
+
+或者某些框架设置下：
+
+```text
+(sequence_length, batch_size, feature_size)
+```
+
+具体顺序取决于框架参数，但“序列批次 + 时间步 + 特征维”这三个维度是理解重点。
+
+---
+
+# 7. MindSpore 静态图：`GRAPH_MODE`
+
+## 7.1 题目
+
+MindSpore 支持动态图和静态图模式，静态图设置代码是哪一个？
+
+正确：
+
+```python
+context.set_context(mode=context.GRAPH_MODE)
+```
+
+**答案：B**
+
+---
+
+## 7.2 GRAPH_MODE
+
+含义：
+
+```text
+图模式 / 静态图执行模式
+```
+
+典型特点：
+
+- 先构建 / 编译计算图
+- 再高效执行
+- 有利于图优化
+- 通常适合性能敏感的训练和推理场景
+
+---
+
+## 7.3 PYNATIVE_MODE
+
+动态图模式通常对应：
+
+```python
+context.PYNATIVE_MODE
+```
+
+特点：
+
+- 即时执行
+- 更接近普通 Python 调试体验
+- 更容易逐步调试
+
+因此：
+
+```text
+GRAPH_MODE    -> 静态图
+PYNATIVE_MODE -> 动态图
+```
+
+---
+
+## 7.4 常见陷阱
+
+不存在本题中这种标准模式：
+
+```text
+GPU_MODE
+ASCEND_MODE
+```
+
+GPU / Ascend 更接近“设备目标”概念，不是图执行模式。
+
+所以必须区分：
+
+```text
+执行模式：GRAPH_MODE / PYNATIVE_MODE
+硬件设备：CPU / GPU / Ascend
+```
+
+---
+
+# 8. MindSpore 图像增强：`mindspore.dataset.vision`
+
+## 8.1 题目
+
+MindSpore 深度学习框架专门用于图像增强的是哪个模块？
+
+**答案：D**
+
+```python
+mindspore.dataset.vision
+```
+
+---
+
+## 8.2 `dataset.vision` 做什么？
+
+典型图像预处理 / 图像增强操作包括：
+
+- Resize
+- Crop
+- RandomCrop
+- RandomHorizontalFlip
+- Normalize
+- Decode
+- ColorAdjust 等
+
+这些通常用于训练数据流水线。
+
+---
+
+## 8.3 为什么其他模块不对？
+
+### `mindspore.numpy`
+
+更接近 NumPy 风格数值计算接口。
+
+### `mindspore.nn`
+
+主要放神经网络层、损失函数等网络结构组件。
+
+### `mindspore.ops`
+
+主要是张量操作和算子接口。
+
+### `mindspore.dataset.vision`
+
+专门面向视觉数据的预处理与增强。
+
+---
+
+## 8.4 图像增强的意义
+
+训练阶段对图像进行随机变化，可以增加数据多样性，例如：
+
+```text
+翻转
+裁剪
+旋转
+缩放
+颜色变化
+```
+
+作用：
+
+- 缓解过拟合
+- 提高模型鲁棒性
+- 改善泛化能力
+
+注意：
+
+> 数据增强不是“真的增加原始数据文件”，而是在训练过程中生成不同变换版本。
+
+---
+
+# 9. NLP 共现窗口与共现频率
+
+## 9.1 题目
+
+句子：
+
+```text
+Deep learning is my favorite subject
+```
+
+若窗口长度为 3，哪个词对共现频率为 0？
+
+选项：
+
+- A. Deep 与 subject
+- B. my 与 is
+- C. learning 与 is
+- D. favorite 与 subject
+
+**答案：A**
+
+---
+
+## 9.2 先编号
+
+```text
+1 Deep
+2 learning
+3 is
+4 my
+5 favorite
+6 subject
+```
+
+窗口长度为 3，可以滑动得到：
+
+```text
+[Deep, learning, is]
+[learning, is, my]
+[is, my, favorite]
+[my, favorite, subject]
+```
+
+---
+
+## 9.3 判断共现
+
+如果两个词至少同时出现在一个窗口中，就发生共现。
+
+### B：my 与 is
+
+出现在：
+
+```text
+[learning, is, my]
+[is, my, favorite]
+```
+
+所以共现频率不是 0。
+
+### C：learning 与 is
+
+出现在：
+
+```text
+[Deep, learning, is]
+[learning, is, my]
+```
+
+所以不是 0。
+
+### D：favorite 与 subject
+
+出现在：
+
+```text
+[my, favorite, subject]
+```
+
+所以不是 0。
+
+### A：Deep 与 subject
+
+一个在句首，一个在句尾，从未出现在同一个长度为 3 的窗口中。
+
+所以：
+
+\[
+\boxed{0}
+\]
+
+---
+
+## 9.4 共现窗口是什么？
+
+共现窗口是用于统计：
+
+> 某个词附近一定范围内出现了哪些词。
+
+这类统计是很多传统 NLP 方法的重要基础，包括：
+
+- 共现矩阵
+- GloVe
+- 词语相似度分析
+- 分布语义模型
+
+---
+
+## 9.5 容易混淆：窗口“长度”与“半径”
+
+不同教材可能有两种说法：
+
+### 说法 1：窗口长度 = 3
+
+表示每次滑动看 3 个连续词。
+
+### 说法 2：窗口大小 = 3
+
+有时表示中心词左右各看 3 个词。
+
+考试时必须以题目给出的定义或示例为准。
+
+本题显然按：
+
+```text
+连续 3 个词构成一个滑动窗口
+```
+
+理解即可。
+
+---
+
+# 10. 速记口诀
+
+## 词向量
+
+```text
+Word2Vec：上下文做预测
+CBOW：周围猜中间
+Skip-gram：中间猜周围
+GloVe：全局共现统计
+FastText：字符 n-gram 抗 OOV
+ELMo：BiLSTM + 动态上下文
+BERT：Transformer + 动态上下文
+```
+
+## CNN
+
+```text
+卷积参数只看：
+核高 × 核宽 × 输入通道 × 输出通道
+
+算 bias：
+再 + 输出通道数
+```
+
+## GAN
+
+```text
+GAN 生成样本都差不多
+= Mode Collapse
+```
+
+## 图像处理
+
+```text
+椒盐噪声 -> 中值滤波
+高斯噪声 -> 高斯滤波
+拉普拉斯 -> 边缘 / 锐化
+```
+
+## MindSpore
+
+```text
+全连接层 -> mindspore.nn.Dense
+静态图 -> GRAPH_MODE
+动态图 -> PYNATIVE_MODE
+图像增强 -> mindspore.dataset.vision
+```
+
+## 神经网络结构
+
+```text
+网络不是越深越好
+单元不是越多越好
+模型容量、过拟合、计算量要平衡
+```
+
+## NLP 共现
+
+```text
+先分词 -> 再滑窗口 -> 看两个词是否进入过同一个窗口
+```
+
+---
+
+# 11. 本次错题对应的直接记忆点
+
+本次对话中比较值得反复强化的几个点：
+
+1. **GloVe 不擅长原生处理 OOV；FastText 才是典型的子词方案。**
+2. **卷积参数量不要把输入图片的长和宽乘进去。**
+3. **GAN 输出单一不是普通“过拟合”，而是模式崩塌。**
+4. **椒盐噪声优先中值滤波，不是高斯滤波。**
+5. **MindSpore 的 Dense 在 `mindspore.nn` 下。**
+6. **静态图是 `GRAPH_MODE`，动态图是 `PYNATIVE_MODE`。**
+7. **图像增强模块是 `mindspore.dataset.vision`。**
+8. **神经网络层数并非越多越好。**
+9. **窗口共现题先把词编号，再逐个滑窗最稳。**
+
+---
+
+
+
+```text
+【词向量】
+Word2Vec = CBOW + Skip-gram
+CBOW：Context -> Center
+Skip-gram：Center -> Context
+GloVe：Global Co-occurrence
+FastText：Subword / Character n-gram / OOV 更强
+ELMo：BiLSTM / Contextual
+BERT：Transformer / Self-Attention / Contextual
+
+【CNN】
+参数量 = Kh × Kw × Cin × Cout
+算 bias：+ Cout
+Stride、Padding 影响输出尺寸，一般不影响权重个数
+
+【GAN】
+生成结果单一、多样性丢失 -> Mode Collapse
+
+【图像处理】
+椒盐噪声 -> Median Filter
+高斯噪声 -> Gaussian Filter
+Laplacian -> Edge / Sharpen
+
+【MindSpore】
+Dense -> mindspore.nn.Dense
+静态图 -> context.GRAPH_MODE
+动态图 -> context.PYNATIVE_MODE
+图像增强 -> mindspore.dataset.vision
+
+【神经网络设计】
+层越多 ≠ 一定越好
+分类输出层单元数通常对应类别数
+LSTM 常见输入是 3 维：batch × sequence × feature
+
+【共现窗口】
+窗口长度 3 -> 每次看连续 3 个词
+两个词从未同时落进一个窗口 -> 共现频率 0
+```
