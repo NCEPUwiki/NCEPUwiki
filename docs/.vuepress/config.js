@@ -182,8 +182,7 @@ module.exports = {
         // exclude: ['/404.html'],
         changefreq: 'always',   // 建议搜索引擎抓取频率
         outFile: 'sitemap.xml',// 生成的文件名，默认 sitemap.xml
-    }],
-    
+      }],
   ],
 
   markdown: {
