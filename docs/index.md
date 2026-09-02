@@ -100,14 +100,8 @@ data:
       textColor: '#6854A1' # 可选，默认var(--textColor)
 
     - name: 学习专题
-      desc: 学分选课、竞赛、课程评价、考证
+      desc: 课程、评优、竞赛、资料
       link: /categories/?category=学习专题 # 可选
-      bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
-      textColor: '#6854A1' # 可选，默认var(--textColor)
-
-    - name: 教材与资料
-      desc: 教材与资料
-      link: /categories/?category=教材与资料 # 可选
       bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
       textColor: '#6854A1' # 可选，默认var(--textColor)
 
