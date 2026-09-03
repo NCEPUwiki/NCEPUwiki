@@ -129,9 +129,9 @@ data:
       bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
       textColor: '#6854A1' # 可选，默认var(--textColor)
 
-    - name: 贡献和其他
+    - name: 贡献与其他
       desc: 和我们一起建设Wiki
-      link: /categories/?category=贡献和其他 # 可选
+      link: /categories/?category=贡献与其他 # 可选
       bgColor: '#CBEAFA' # 可选，默认var(--bodyBg)。颜色值有#号时请添加单引号
       textColor: '#6854A1' # 可选，默认var(--textColor)
 
