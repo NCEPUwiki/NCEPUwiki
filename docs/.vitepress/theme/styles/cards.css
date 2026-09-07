@@ -1,0 +1,429 @@
+.VPSidebar .directory-trigger {
+	display: flex;
+	justify-content: flex-start;
+	width: 100%;
+	margin-bottom: 12px;
+	padding: 10px 0;
+	border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.VPNavScreen .directory-trigger {
+	justify-content: flex-start;
+	width: 100%;
+	min-height: 48px;
+	border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.section-heading > .directory-trigger {
+	padding: 0;
+	font-size: 12px;
+	color: var(--vp-c-text-2);
+}
+
+.directory-sticky {
+	position: sticky;
+	top: 0;
+	margin: 0 -20px 12px;
+	padding: 18px 20px 12px;
+	border-bottom: 1px solid var(--vp-c-divider);
+	background: var(--vp-c-bg);
+	z-index: 1;
+}
+
+.directory-sticky .index-search {
+	margin: 12px 0 0;
+}
+
+.wiki-wide {
+	width: 90%;
+	margin: 0 auto;
+	padding: 32px 0 48px;
+}
+
+@media (min-width: 83em) {
+	.wiki-wide {
+		width: 80%;
+	}
+}
+
+.wiki-wide .article-index {
+	margin-top: 28px;
+}
+
+.wiki-wide .article-meta {
+	margin-bottom: 28px;
+}
+
+.wide-footer {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 12px;
+	margin-top: 40px;
+	padding-top: 20px;
+	border-top: 1px solid var(--vp-c-divider);
+	font-size: 13px;
+	color: var(--vp-c-text-2);
+}
+
+/* xupt-wiki's BlurCard proportions: centered portrait, soft surface, quiet tags. */
+.campus-card-grid,
+.friend-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+	gap: 1rem;
+	margin: 1.5rem 0 2rem;
+}
+
+.campus-card,
+.friend-link-card {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	overflow: hidden;
+	overflow-wrap: anywhere;
+	padding: 1.5rem;
+	border-radius: 0.5rem;
+	background: var(--vp-c-bg-soft);
+	text-align: center;
+	isolation: isolate;
+}
+
+.group-cards .campus-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.6rem;
+	padding: 1rem;
+}
+
+.vp-doc .campus-card-title {
+	margin: 0;
+	font-size: 1rem;
+	line-height: 1.55;
+	text-wrap: balance;
+}
+
+.group-avatar {
+	display: contents;
+}
+
+.card-avatar.card-avatar {
+	display: block;
+	width: 5rem;
+	height: 5rem;
+	margin: 0 auto 0.5rem;
+	object-fit: cover;
+}
+
+.vp-doc .card-avatar {
+	border-radius: 50%;
+}
+
+.card-avatar-fallback {
+	display: grid;
+	place-items: center;
+	background: var(--vp-c-brand-soft);
+	color: var(--vp-c-brand-1);
+}
+
+.card-avatar-fallback svg {
+	margin-top: 1rem;
+	font-size: 3rem;
+}
+
+.card-blur {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	transform: scale(1.2);
+	filter: saturate(2) contrast(0.5) blur(3rem);
+	mix-blend-mode: color;
+	object-fit: cover;
+	pointer-events: none;
+	z-index: -1;
+}
+
+.campus-card-field {
+	font-size: 0.8rem;
+	line-height: 1.7;
+}
+
+.campus-card-label {
+	display: block;
+	margin: 0 0 0.15rem;
+	font-size: 0.7rem;
+	color: var(--vp-c-text-2);
+}
+
+.card-description {
+	font-size: 0.85rem;
+	line-height: 1.7;
+	color: var(--vp-c-text-2);
+}
+
+.card-badges {
+	display: inline-block;
+	width: fit-content;
+	margin-top: auto;
+	padding: 2px 8px;
+	border-radius: 4px;
+	background: var(--vp-c-brand-soft);
+	font-size: 0.7rem;
+	line-height: 1.7;
+	color: var(--vp-c-brand-1);
+}
+
+.card-join {
+	margin-top: 6px;
+	font-size: 12px;
+	color: var(--vp-c-text-2);
+}
+
+.card-join summary {
+	padding: 4px;
+}
+
+.card-join .wiki-qr {
+	margin-top: 8px;
+}
+
+.copy-contact {
+	display: inline-block;
+	margin-left: 4px;
+	padding: 0 4px;
+	border-radius: 4px;
+	font-size: 11px;
+	color: var(--vp-c-brand-1);
+}
+
+.copy-contact:hover {
+	background: var(--vp-c-brand-soft);
+}
+
+.food-cards {
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+}
+
+.food-cards .campus-card {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 1.1rem 1.25rem;
+	text-align: start;
+}
+
+.food-card-icon {
+	position: absolute;
+	opacity: 0.06;
+	right: 8px;
+	bottom: 8px;
+	width: 72px;
+	height: 72px;
+	color: var(--vp-c-brand-1);
+	z-index: -1;
+}
+
+.food-card-icon svg {
+	width: 100%;
+	height: 100%;
+}
+
+.food-scores {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	font-size: 11px;
+	color: var(--vp-c-text-2);
+}
+
+.food-scores b {
+	color: var(--vp-c-brand-1);
+}
+
+.food-cards .campus-card-field:last-child {
+	margin-top: auto;
+}
+
+.friend-intro {
+	color: var(--vp-c-text-2);
+}
+
+.friend-link-card {
+	padding: 0;
+	transition: background var(--wiki-duration), box-shadow var(--wiki-duration);
+}
+
+.friend-link-card:hover {
+	box-shadow: 0 0 0 1px var(--vp-c-brand-1);
+	background: var(--vp-c-bg);
+}
+
+.vp-doc .friend-card-main {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 1.5rem;
+	text-decoration: none;
+	color: inherit;
+}
+
+.vp-doc .friend-card-main h2 {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 1rem;
+	text-wrap: balance;
+}
+
+.vp-doc .friend-card-main p {
+	margin: 0;
+	font-size: 0.85rem;
+	line-height: 1.7;
+	color: var(--vp-c-text-2);
+}
+
+.friend-card-visit {
+	font-size: 12px;
+	color: var(--vp-c-brand-1);
+}
+
+.friend-link-card .card-join {
+	margin: 0 0 1rem;
+}
+
+@media (max-width: 600px) {
+	.wiki-wide {
+		width: 100%;
+		padding: 24px 20px 40px;
+	}
+}
+
+.wiki-wide .vp-doc h1 {
+	text-align: center;
+}
+
+.wiki-wide .article-meta .chips {
+	justify-content: center;
+}
+
+.wiki-wide .article-list.article-cards li {
+	padding: 14px 16px;
+	border: 1px solid transparent;
+	background: var(--vp-c-bg-soft);
+}
+
+.wiki-wide .article-list.article-cards li:hover {
+	border-color: var(--vp-c-brand-1);
+	background: var(--vp-c-bg);
+}
+
+.group-contact {
+	display: flex;
+	align-items: baseline;
+	justify-content: center;
+	gap: 6px;
+	font-size: 13px;
+	line-height: 1.8;
+}
+
+.group-contact > svg {
+	flex: 0 0 16px;
+	align-self: center;
+	width: 16px;
+	height: 16px;
+}
+
+.copy-contact svg {
+	width: 14px;
+	height: 14px;
+	vertical-align: middle;
+}
+
+.media-trigger {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 4px 6px;
+	font-size: 12px;
+	color: var(--vp-c-brand-1);
+}
+
+.media-trigger svg {
+	width: 16px;
+	height: 16px;
+}
+
+.tippy-box[data-theme="wiki"] {
+	padding: 8px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 8px;
+	box-shadow: var(--vp-shadow-3);
+	background: var(--vp-c-bg-elv);
+	color: var(--vp-c-text-1);
+}
+
+.media-popover {
+	text-align: center;
+}
+
+.media-popover img {
+	display: block;
+	max-width: 260px;
+	max-height: 60vh;
+	object-fit: contain;
+}
+
+.media-popover p {
+	margin: 8px 0 0;
+	font-size: 12px;
+}
+
+.index-section-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-top: 28px;
+	padding-top: 16px;
+	border-top: 1px solid var(--vp-c-divider);
+}
+
+.vp-doc .index-section-heading h2 {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.section-count {
+	margin-left: 8px;
+	font-size: 14px;
+	font-weight: 400;
+	color: var(--vp-c-text-2);
+}
+
+.layout-switch {
+	display: flex;
+	gap: 4px;
+}
+
+.layout-switch button {
+	display: grid;
+	place-items: center;
+	padding: 6px;
+	border-radius: 5px;
+	color: var(--vp-c-text-2);
+}
+
+.layout-switch button[aria-pressed="true"] {
+	background: var(--vp-c-brand-soft);
+	color: var(--vp-c-brand-1);
+}
+
+.layout-switch svg {
+	width: 18px;
+	height: 18px;
+}

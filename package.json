@@ -1,55 +1,44 @@
 {
-  "name": "theme-vdoing-doc",
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "export NODE_OPTIONS=--openssl-legacy-provider && node --max_old_space_size=4096 ./node_modules/vuepress/cli.js dev docs",
-    "build": "export NODE_OPTIONS=--openssl-legacy-provider && node --max_old_space_size=4096 ./node_modules/vuepress/cli.js build docs",
-    "dev:win": "set NODE_OPTIONS=--openssl-legacy-provider && node --max_old_space_size=4096 ./node_modules/vuepress/cli.js dev docs",
-    "build:win": "set NODE_OPTIONS=--openssl-legacy-provider && node --max_old_space_size=4096 ./node_modules/vuepress/cli.js build docs",
-    "predev": "node utils/check.js dev && vdoing",
-    "prebuild": "node utils/check.js build && vdoing",
-    "updateTheme": "yarn remove vuepress-theme-vdoing && rm -rf node_modules && yarn && yarn add vuepress-theme-vdoing -D",
-    "editFm": "node utils/editFrontmatter.js",
-    "docs:build": "vuepress build docs",
-    "serve": "serve -L",
-    "build:serve": "vuepress build docs && serve -L"
-  },
+  "name": "ncepu-wiki",
+  "type": "module",
+  "version": "2.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.24.0",
   "license": "MIT",
-  "devDependencies": {
-    "@zenghp2015/vuepress-plugin-baidu-tongji": "^1.0.3",
-    "dayjs": "^1.9.7",
-    "inquirer": "^7.1.0",
-    "json2yaml": "^1.1.0",
-    "katex": "^0.16.22",
-    "markdown-it-katex": "^2.0.3",
-    "markdown-it-texmath": "^1.0.0",
-    "markmap-lib": "^0.18.12",
-    "markmap-toolbar": "^0.18.12",
-    "markmap-view": "^0.18.12",
-    "mermaid": "^11.17.2",
-    "vuepress": "1.9.9",
-    "vuepress-plugin-baidu-tongji": "^1.0.1",
-    "vuepress-plugin-demo-block": "^0.7.2",
-    "vuepress-plugin-fulltext-search": "^2.2.1",
-    "vuepress-plugin-katex": "^0.3.0",
-    "vuepress-plugin-mathjax": "^1.2.8",
-    "vuepress-plugin-mermaidjs": "^1.9.1",
-    "vuepress-plugin-one-click-copy": "^1.0.2",
-    "vuepress-plugin-sitemap": "^2.3.1",
-    "vuepress-plugin-thirdparty-search": "^1.0.2",
-    "vuepress-plugin-zooming": "^1.1.7",
-    "vuepress-theme-vdoing": "^1.12.9",
-    "yamljs": "^0.3.0"
+  "engines": {
+    "node": "^22.19 || ^24.11 || >=26",
+    "pnpm": ">=11"
+  },
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs",
+    "typecheck": "vue-tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "tsx --test tests/*.test.ts",
+    "check": "pnpm typecheck && pnpm lint && pnpm test"
   },
   "dependencies": {
-    "@renovamen/vuepress-plugin-katex": "^0.2.0",
-    "@vssue/api-github-v3": "^1.4.7",
-    "html2canvas": "^1.4.1",
-    "serve": "^14.2.4"
+    "@iconify-icons/ri": "^2.0.0",
+    "@iconify/vue": "^5.0.1",
+    "modern-screenshot": "^4.7.0",
+    "tippy.js": "^6.3.7",
+    "uqr": "^0.1.3",
+    "vue": "^3.5.42",
+    "vue-tippy": "^6.7.1"
   },
-  "overrides": {
-    "vue-server-renderer@2.7.16": {
-      "lodash.template": "4.5.0"
-    }
+  "devDependencies": {
+    "@antfu/eslint-config": "^9.3.0",
+    "@types/node": "^22.19.0",
+    "@vitepress-plugin/markmap": "^1.3.1",
+    "@zinkawaii/eslint-config-css": "^0.5.1",
+    "eslint": "^10.9.1",
+    "gray-matter": "^4.0.3",
+    "markdown-it-mathjax3": "^4.3.2",
+    "tsx": "^4.20.0",
+    "typescript": "^6.0.3",
+    "vitepress": "2.0.0-alpha.20",
+    "vue-tsc": "^3.3.0"
   }
 }
