@@ -1,0 +1,120 @@
+.share-actions {
+	display: inline-block;
+	margin: 20px 0;
+}
+.share-dialog {
+	width: min(900px, calc(100vw - 24px));
+	max-height: 88dvh;
+	margin: auto;
+	padding: 0;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 12px;
+	background: var(--vp-c-bg);
+	text-align: start;
+	color: var(--vp-c-text-1);
+}
+.share-dialog::backdrop { background: #0008; }
+.share-toolbar {
+	position: sticky;
+	top: 0;
+	padding: 16px 20px;
+	border-bottom: 1px solid var(--vp-c-divider);
+	background: var(--vp-c-bg);
+	z-index: 1;
+}
+.share-toolbar-title, .share-options {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+.vp-doc .share-toolbar h2 {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 18px;
+}
+.share-options {
+	justify-content: flex-start;
+	margin-top: 12px;
+	font-size: 13px;
+}
+.share-options select {
+	padding: 6px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 6px;
+	background: var(--vp-c-bg-soft);
+}
+.share-preview {
+	min-height: 120px;
+	padding: 20px;
+	background: var(--vp-c-bg-soft);
+}
+.share-preview img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+.share-stage {
+	position: fixed;
+	top: 0;
+	left: -100000px;
+	width: 960px;
+	pointer-events: none;
+}
+.share-sheet {
+	width: 960px;
+	padding: 36px;
+	background: var(--vp-c-bg);
+	color: var(--vp-c-text-1);
+}
+.share-heading {
+	margin-bottom: 28px;
+	padding-bottom: 24px;
+	border-bottom: 2px solid var(--vp-c-brand-1);
+}
+.vp-doc .share-brand {
+	margin: 0 0 14px;
+	font-size: 18px;
+	font-weight: 600;
+	color: var(--vp-c-brand-1);
+}
+.share-body { width: 100%; }
+.share-sheet .campus-card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.share-sheet table {
+	display: table;
+	width: 100%;
+}
+.share-sheet pre {
+	overflow-wrap: anywhere;
+	white-space: pre-wrap;
+}
+.share-signature {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	margin-top: 32px;
+	padding-top: 24px;
+	border-top: 1px solid var(--vp-c-divider);
+}
+.share-signature p {
+	overflow-wrap: anywhere;
+	font-size: 13px;
+}
+.share-signature small { color: var(--vp-c-text-2); }
+.share-page-qr {
+	flex: 0 0 140px;
+	background: white;
+	line-height: 0;
+}
+.share-page-qr svg {
+	width: 140px;
+	height: 140px;
+}
+@media print {
+	.VPNav, .VPLocalNav, .VPSidebar, .VPFooter, .wide-footer, [data-share-exclude], .directory-modal { display: none; }
+	.wiki-wide { padding: 0; }
+	.campus-card { break-inside: avoid; }
+}

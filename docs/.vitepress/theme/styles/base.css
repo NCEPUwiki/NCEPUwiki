@@ -1,0 +1,44 @@
+.chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+.chips a, .chips button {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	padding: 4px 9px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: var(--wiki-radius-small);
+	font-size: 12px;
+	line-height: 1.6;
+	text-decoration: none;
+	color: var(--vp-c-text-2);
+}
+.chips a:hover, .chips button:hover, .chips button[aria-pressed="true"] {
+	border-color: var(--vp-c-brand-1);
+	background: var(--vp-c-brand-soft);
+	color: var(--vp-c-brand-1);
+}
+.chips span {
+	opacity: 0.65;
+	font-size: 11px;
+}
+
+:root {
+	font-synthesis: style;
+	text-autospace: normal;
+	scrollbar-color: var(--vp-c-text-3) transparent;
+}
+code, pre { text-autospace: no-autospace; }
+::selection { background-color: var(--vp-c-brand-soft); }
+:where(a, button, summary, input):focus-visible {
+	outline: 2px solid var(--vp-c-brand-1);
+	outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--wiki-duration: 0s;
+		scroll-behavior: auto;
+	}
+}

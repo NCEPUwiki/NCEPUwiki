@@ -1,0 +1,20 @@
+/* Shared theme vocabulary, mapped onto VitePress public custom properties. */
+:root {
+	--wiki-hue: 162deg;
+	--wiki-radius: 0.625rem;
+	--wiki-radius-small: 0.375rem;
+	--wiki-radius-large: 1rem;
+	--wiki-content-width: 75rem;
+	--wiki-duration: 160ms;
+	--vp-c-brand-1: hsl(var(--wiki-hue) 43% 28%);
+	--vp-c-brand-2: hsl(var(--wiki-hue) 41% 34%);
+	--vp-c-brand-3: hsl(var(--wiki-hue) 38% 36%);
+	--vp-c-brand-soft: color-mix(in srgb, var(--vp-c-brand-1) 12%, transparent);
+	--vp-font-family-base: "Inter", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+	--vp-font-family-mono: "Cascadia Code", "JetBrains Mono", ui-monospace, monospace;
+}
+.dark {
+	--vp-c-brand-1: hsl(var(--wiki-hue) 43% 68%);
+	--vp-c-brand-2: hsl(var(--wiki-hue) 51% 75%);
+	--vp-c-brand-3: hsl(var(--wiki-hue) 41% 34%);
+}
