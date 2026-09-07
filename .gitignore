@@ -1,19 +1,8 @@
-# npm
-package-lock.json
-node_modules
-yarn-error.log
-
-# vscode
-.vscode
-
-#yarn
-yarn.lock
-
-# vuepress
-docs/.vuepress/dist
-
-# 百度链接推送
-urls.txt
-
-# mac
+node_modules/
+.npm-cache/
+.pnpm-store/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+.vscode/
 .DS_Store
+*.log
