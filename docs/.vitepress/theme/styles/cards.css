@@ -2,7 +2,7 @@
 	display: flex;
 	justify-content: flex-start;
 	width: 100%;
-	margin-bottom: 12px;
+	margin-bottom: 0;
 	padding: 10px 0;
 	border-bottom: 1px solid var(--vp-c-divider);
 }
@@ -311,7 +311,7 @@
 }
 
 .wiki-wide .article-list.article-cards li {
-	padding: 14px 16px;
+	padding: 12px 16px;
 	border: 1px solid transparent;
 	background: var(--vp-c-bg-soft);
 }
@@ -426,4 +426,45 @@
 .layout-switch svg {
 	width: 18px;
 	height: 18px;
+}
+
+/* Nested counters follow the generated sidebar tree, including collapsed groups. */
+.VPSidebar .nav,
+.VPSidebar .items {
+	counter-reset: sidebar;
+}
+
+.VPSidebarItem {
+	counter-increment: sidebar;
+}
+
+.VPSidebarItem > .item::before {
+	content: counter(sidebar) / "";
+	flex-shrink: 0;
+	align-self: baseline;
+	width: 0;
+	padding-block: 4px;
+	font-size: 10px;
+	letter-spacing: -0.05em;
+	line-height: 24px;
+	white-space: nowrap;
+	text-align: right;
+	color: var(--vp-c-text-3);
+	transform: translateX(-10px);
+}
+
+.VPSidebarItem.is-active > .item::before {
+	color: var(--vp-c-brand-1);
+}
+
+.VPSidebarItem.level-0 > .item::before {
+	content: counter(sidebar, cjk-ideographic) / "";
+}
+
+.VPSidebarItem:is(.level-2, .level-5) > .item::before {
+	content: counter(sidebar, lower-alpha) / "";
+}
+
+.VPSidebarItem.level-3 > .item::before {
+	content: counter(sidebar, lower-roman) / "";
 }

@@ -12,7 +12,7 @@ const { page } = useData()
 		<Content />
 	</div>
 	<footer class="wide-footer">
-		<a :href="`https://github.com/NCEPUwiki/NCEPUwiki/edit/main/docs/${page.filePath}`">在 GitHub 上编辑此页</a>
+		<a :href="`https://github.com/NCEPUwiki/NCEPUwiki/blame/main/docs/${page.filePath}`">源代码</a>
 		<time v-if="page.lastUpdated" :datetime="new Date(page.lastUpdated).toISOString()">内容日期：{{ new Date(page.lastUpdated).toISOString().slice(0, 10) }}</time>
 	</footer>
 </main>
