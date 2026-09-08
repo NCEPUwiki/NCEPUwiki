@@ -156,7 +156,7 @@
 	font-size: 11px;
 	color: var(--vp-c-text-3);
 }
-.wiki-home a:hover, .directory-tree a:hover { color: var(--vp-c-brand-1); }
+.wiki-home a:hover { color: var(--vp-c-brand-1); }
 .wiki-home a.primary:hover { color: white; }
 .home-aside p {
 	margin: 14px 0 6px;
@@ -187,7 +187,10 @@
 .home-activity { margin-top: 28px; }
 .home-activity p { margin-top: 8px; }
 .qr-details { margin-top: 16px; }
-.qr-details img { margin-top: 12px; }
+.qr-details .wiki-qr {
+	display: block;
+	margin-top: 12px;
+}
 summary { cursor: pointer; }
 @media (max-width: 960px) {
 	.wiki-hero {

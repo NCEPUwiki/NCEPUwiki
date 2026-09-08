@@ -15,28 +15,6 @@
 	color: var(--vp-c-text-2);
 }
 
-.index-search {
-	display: grid;
-	gap: 8px;
-	margin: 24px 0 12px;
-	font-size: 13px;
-}
-
-.index-search input {
-	width: 100%;
-	padding: 10px 14px;
-	border: 1px solid var(--vp-c-divider);
-	border-radius: 8px;
-	background: var(--vp-c-bg-soft);
-	font: inherit;
-	color: var(--vp-c-text-1);
-}
-
-.index-search input:focus {
-	outline: 2px solid var(--vp-c-brand-1);
-	outline-offset: 2px;
-}
-
 .vp-doc .article-list {
 	margin: 12px -16px;
 	padding: 0;
@@ -80,20 +58,6 @@
 	color: var(--vp-c-brand-1);
 }
 
-.directory-tree summary {
-	font-weight: 600;
-}
-
-.vp-doc .directory-tree {
-	padding-inline-start: 20px;
-	border-inline-start: 1px solid var(--vp-c-divider);
-	list-style: none;
-}
-
-.directory-tree li {
-	margin: 10px 0;
-}
-
 .wiki-download {
 	padding: 6px 14px;
 	border: 1px solid var(--vp-c-divider);
@@ -126,64 +90,6 @@
 	font-weight: 500;
 	line-height: 24px;
 	cursor: pointer;
-}
-
-.VPNavBar .directory-trigger {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	height: var(--vp-nav-height);
-	padding: 0 12px;
-	line-height: 24px;
-}
-
-.directory-modal {
-	width: min(960px, calc(100vw - 24px));
-	max-height: 85dvh;
-	margin: auto;
-	padding: 0;
-	border: 1px solid var(--vp-c-divider);
-	border-radius: 12px;
-	background: var(--vp-c-bg);
-	color: var(--vp-c-text-1);
-}
-
-.directory-modal::backdrop {
-	background: #0008;
-}
-
-.directory-panel {
-	padding: 0 20px 20px;
-}
-
-.directory-panel header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 12px;
-}
-
-.directory-panel h2 {
-	font-size: 20px;
-	font-weight: 600;
-}
-
-.directory-panel > .directory-tree {
-	columns: 2;
-	column-gap: 24px;
-}
-
-.directory-panel > .directory-tree > li {
-	break-inside: avoid;
-}
-
-.directory-panel .directory-tree {
-	padding-left: 16px;
-	font-size: 14px;
-}
-
-.directory-panel .directory-tree li {
-	margin: 6px 0;
 }
 
 .vp-doc .article-cards {
@@ -220,10 +126,6 @@
 }
 
 @media (max-width: 600px) {
-	.directory-panel > .directory-tree {
-		columns: 1;
-	}
-
 	.vp-doc .article-cards {
 		grid-template-columns: 1fr;
 	}

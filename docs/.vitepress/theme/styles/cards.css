@@ -7,33 +7,6 @@
 	border-bottom: 1px solid var(--vp-c-divider);
 }
 
-.VPNavScreen .directory-trigger {
-	justify-content: flex-start;
-	width: 100%;
-	min-height: 48px;
-	border-bottom: 1px solid var(--vp-c-divider);
-}
-
-.section-heading > .directory-trigger {
-	padding: 0;
-	font-size: 12px;
-	color: var(--vp-c-text-2);
-}
-
-.directory-sticky {
-	position: sticky;
-	top: 0;
-	margin: 0 -20px 12px;
-	padding: 18px 20px 12px;
-	border-bottom: 1px solid var(--vp-c-divider);
-	background: var(--vp-c-bg);
-	z-index: 1;
-}
-
-.directory-sticky .index-search {
-	margin: 12px 0 0;
-}
-
 .wiki-wide {
 	width: 90%;
 	margin: 0 auto;

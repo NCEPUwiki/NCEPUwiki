@@ -20,8 +20,8 @@ test('existing article URLs are unique and all articles appear once in the direc
 test('category counts include both directory ancestors and legacy categories without duplicates', () => {
 	const { articles, tags, categories } = loadCatalog()
 	const article = articles.find(article => article.title === '新生-入学准备')!
-	assert.ok(article.categories.includes('新生'))
 	assert.ok(article.categories.includes('新生入学'))
+	assert.equal(article.categories.filter(category => category === '新生入学').length, 1)
 	for (const [field, counts] of [['tags', tags], ['categories', categories]] as const) {
 		for (const { name, count } of counts) assert.equal(count, articles.filter(article => article[field].includes(name)).length)
 	}

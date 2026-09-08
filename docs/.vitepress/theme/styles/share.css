@@ -114,7 +114,7 @@
 	height: 140px;
 }
 @media print {
-	.VPNav, .VPLocalNav, .VPSidebar, .VPFooter, .wide-footer, [data-share-exclude], .directory-modal { display: none; }
+	.VPNav, .VPLocalNav, .VPSidebar, .VPFooter, .wide-footer, [data-share-exclude] { display: none; }
 	.wiki-wide { padding: 0; }
 	.campus-card { break-inside: avoid; }
 }

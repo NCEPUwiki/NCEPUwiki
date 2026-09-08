@@ -3,8 +3,6 @@ import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme-without-fonts'
 import { onMounted, watch } from 'vue'
 import ArticleMeta from './ArticleMeta.vue'
-import DirectoryModal from './DirectoryModal.vue'
-import DirectoryTrigger from './DirectoryTrigger.vue'
 import SiteIcon from './SiteIcon.vue'
 
 const { isDark } = useData()
@@ -21,11 +19,10 @@ onMounted(() => {
 		<SiteIcon class="site-icon" />
 	</template>
 	<template #sidebar-nav-before>
-		<DirectoryTrigger />
+		<a class="directory-trigger" href="/categories/">全部目录</a>
 	</template>
 	<template #doc-before>
 		<ArticleMeta />
 	</template>
 </DefaultTheme.Layout>
-<DirectoryModal />
 </template>
