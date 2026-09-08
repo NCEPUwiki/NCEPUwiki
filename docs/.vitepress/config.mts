@@ -42,9 +42,11 @@ export default defineConfig({
 			async _render(source, env, md) {
 				const article = articles.find(item => item.source === env.relativePath || outputPath(item.url) === env.relativePath)
 				const html = await md.renderAsync(source, env)
+				if (env.frontmatter?.search === false)
+					return ''
 				if (!article || article.hasHeading)
 					return html
-				return `<h1 id="article-title">${md.utils.escapeHtml(article.title)}</h1>\n${html}`
+				return `<h1 id="article-title">${md.utils.escapeHtml(article.title)}<a class="header-anchor" href="#article-title" aria-hidden="true"></a></h1>\n${html}`
 			},
 			locales: { root: { translations: {
 				button: { buttonText: '搜索文档', buttonAriaLabel: '搜索文档' },
@@ -77,10 +79,10 @@ export default defineConfig({
 					return rendered
 				return `<a class="wiki-image-zoom" href="${md.utils.escapeHtml(src)}" target="_blank" rel="noopener" aria-label="查看原图">${rendered}</a>`
 			}
-			const headingClose = md.renderer.rules.heading_close
-			md.renderer.rules.heading_close = (tokens, index, options, env, self) => {
+			const headingOpen = md.renderer.rules.heading_open
+			md.renderer.rules.heading_open = (tokens, index, options, env, self) => {
 				const decoration = tokens[index].tag === 'h2' ? '<span class="heading-wordmark" aria-hidden="true"></span>' : ''
-				return decoration + (headingClose?.(tokens, index, options, env, self) ?? self.renderToken(tokens, index, options))
+				return (headingOpen?.(tokens, index, options, env, self) ?? self.renderToken(tokens, index, options)) + decoration
 			}
 		},
 		languageAlias: { gitignore: 'text' },
