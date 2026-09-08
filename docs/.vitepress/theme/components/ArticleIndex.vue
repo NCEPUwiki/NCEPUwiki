@@ -5,6 +5,9 @@ import listIcon from '@iconify-icons/ri/list-check'
 import { Icon } from '@iconify/vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { data } from '../catalog.data'
+import { tagChips } from '../chips'
+import ArticleByline from './ArticleByline.vue'
+import WikiChips from './WikiChips.vue'
 
 const props = withDefaults(defineProps<{ mode?: IndexMode, category?: string }>(), { mode: 'archives', category: '' })
 const selected = ref(props.category)
@@ -54,17 +57,24 @@ const groups = computed(() => {
 
 <template>
 <div class="article-index">
-	<div v-if="choices.length && !category" class="chips filters" aria-label="筛选文章">
-		<button :aria-pressed="!selected" @click="updateQuery('')">
-			全部 {{ data.articles.length }}
-		</button>
-		<button v-for="choice in choices" :key="choice.name" :aria-pressed="selected === choice.name" @click="updateQuery(choice.name)">
-			{{ mode === 'tags' ? '# ' : '' }}{{ choice.name }} <span>{{ choice.count }}</span>
-		</button>
+	<WikiChips
+		v-if="choices.length && !category"
+		:items="[{ text: '全部', value: '', count: data.articles.length }, ...choices.map(choice => ({ text: `${mode === 'tags' ? '# ' : ''}${choice.name}`, value: choice.name, count: choice.count }))]"
+		:selected="selected"
+		label="筛选文章"
+		@select="updateQuery"
+	/>
+	<div class="index-controls">
+		<input v-model="query" type="search" aria-label="筛选标题、分类或标签" placeholder="筛选标题、分类或标签…" @input="updateQuery(selected, true)">
+		<div class="layout-switch" aria-label="文章展示形式">
+			<button :aria-pressed="view === 'cards'" aria-label="卡片视图" @click="view = 'cards'">
+				<Icon :icon="gridIcon" />
+			</button>
+			<button :aria-pressed="view === 'list'" aria-label="列表视图" @click="view = 'list'">
+				<Icon :icon="listIcon" />
+			</button>
+		</div>
 	</div>
-	<label class="index-search">筛选标题、分类或标签
-		<input v-model="query" type="search" placeholder="输入关键词…" @input="updateQuery(selected, true)">
-	</label>
 
 	<p v-if="!articles.length" class="empty-state">
 		没有找到符合条件的文章。<button @click="query = ''; updateQuery('')">
@@ -73,21 +83,15 @@ const groups = computed(() => {
 	</p>
 	<section v-for="[name, list] in groups" :key="name">
 		<div class="index-section-heading">
-			<h2>{{ name }} <span class="section-count">{{ list.length }}</span></h2><div class="layout-switch" :aria-label="`${name}展示形式`">
-				<button :aria-pressed="view === 'cards'" aria-label="卡片视图" @click="view = 'cards'">
-					<Icon :icon="gridIcon" />
-				</button><button :aria-pressed="view === 'list'" aria-label="列表视图" @click="view = 'list'">
-					<Icon :icon="listIcon" />
-				</button>
-			</div>
+			<h2>{{ name }} <span class="section-count">{{ list.length }}</span></h2>
 		</div>
 		<ul class="article-list" :class="{ 'article-cards': view === 'cards' }">
 			<li v-for="article in list" :key="article.url">
-				<a :href="article.url">{{ article.title }}</a>
-				<time v-if="article.updated" :datetime="article.updated">{{ article.updated }}</time>
-				<div class="chips tags">
-					<a v-for="tag in article.tags" :key="tag" :href="`/tags/?tag=${encodeURIComponent(tag)}`"># {{ tag }}</a>
+				<div class="index-item-content">
+					<a class="article-title" :href="article.url">{{ article.title }}</a>
+					<WikiChips :items="tagChips(article.tags)" class="tags" label="文章标签" />
 				</div>
+				<ArticleByline :date="article.updated" :author="article.author" />
 			</li>
 		</ul>
 	</section>

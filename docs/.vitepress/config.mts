@@ -23,6 +23,8 @@ export default defineConfig({
 	lastUpdated: true,
 	rewrites: source => rewrites.get(source) || source,
 	head: [
+		['link', { rel: 'stylesheet', href: 'https://s4.zstatic.net/npm/inter-ui@4.1.1/inter-variable.css' }],
+		['link', { rel: 'stylesheet', href: 'https://s4.zstatic.net/npm/inter-ui@4.1.1/inter.css' }],
 		['link', { 'rel': 'icon', 'type': 'image/svg+xml', 'href': '/favicon-light.svg', 'media': '(prefers-color-scheme: light)', 'data-wiki-icon': '' }],
 		['link', { 'rel': 'icon', 'type': 'image/svg+xml', 'href': '/favicon-dark.svg', 'media': '(prefers-color-scheme: dark)', 'data-wiki-icon': '' }],
 	],
@@ -69,13 +71,20 @@ export default defineConfig({
 		returnToTopLabel: '返回顶部',
 		outline: { level: [2, 3], label: '本页目录' },
 		docFooter: { prev: '上一篇', next: '下一篇' },
-		editLink: { pattern: 'https://github.com/NCEPUwiki/NCEPUwiki/blame/main/docs/:path', text: '在 GitHub 上查看此页' },
+		editLink: { pattern: 'https://github.com/NCEPUwiki/NCEPUwiki/blame/main/docs/:path', text: '源代码' },
 		lastUpdated: { text: '最后更新于', formatOptions: { dateStyle: 'medium' } },
 		footer: { message: '由华电学生共同维护的非官方校园知识库', copyright: `© 2025–${new Date().getFullYear()} NCEPUwiki-Group · MIT License` },
 	},
 	vite: { plugins: [markmapPlugin({ containerHeight: 500 })], resolve: { alias: { '@': fileURLToPath(new URL('./', import.meta.url)) } } },
 	markdown: {
-		config: md => cardlist(md),
+		config: (md) => {
+			cardlist(md)
+			const headingClose = md.renderer.rules.heading_close
+			md.renderer.rules.heading_close = (tokens, index, options, env, self) => {
+				const decoration = tokens[index].tag === 'h2' ? '<span class="heading-wordmark" aria-hidden="true"></span>' : ''
+				return decoration + (headingClose?.(tokens, index, options, env, self) ?? self.renderToken(tokens, index, options))
+			}
+		},
 		languageAlias: { gitignore: 'text' },
 		math: true,
 		container: { tipLabel: '提示', warningLabel: '注意', dangerLabel: '警告', infoLabel: '信息', detailsLabel: '详细信息' },
@@ -85,7 +94,7 @@ export default defineConfig({
 		if (article) {
 			page.title = article.title
 			page.lastUpdated = article.updatedTime || undefined
-			Object.assign(page.frontmatter, { title: article.title, categories: article.categories, tags: article.tags, articleHeader: !article.hasHeading, empty: article.empty })
+			Object.assign(page.frontmatter, { title: article.title, breadcrumbs: article.folders, categories: article.categories, tags: article.tags, articleHeader: !article.hasHeading, empty: article.empty })
 		}
 	},
 })

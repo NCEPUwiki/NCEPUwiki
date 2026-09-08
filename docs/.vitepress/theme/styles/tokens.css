@@ -10,11 +10,25 @@
 	--vp-c-brand-2: hsl(var(--wiki-hue) 41% 34%);
 	--vp-c-brand-3: hsl(var(--wiki-hue) 38% 36%);
 	--vp-c-brand-soft: color-mix(in srgb, var(--vp-c-brand-1) 12%, transparent);
-	--vp-font-family-base: "Inter", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+	--vp-font-family-base: "InterVariable", "Inter", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
 	--vp-font-family-mono: "Cascadia Code", "JetBrains Mono", ui-monospace, monospace;
 }
 .dark {
 	--vp-c-brand-1: hsl(var(--wiki-hue) 43% 68%);
 	--vp-c-brand-2: hsl(var(--wiki-hue) 51% 75%);
 	--vp-c-brand-3: hsl(var(--wiki-hue) 41% 34%);
+}
+
+/* ESLint's CSS grammar does not yet recognize the standard @styleset descriptors. */
+/* eslint-disable css/no-invalid-at-rules */
+@font-feature-values "InterVariable", "Inter" {
+	@styleset {
+		open-digits: 1;
+		disambiguation: 2;
+		round-quotes-and-commas: 3;
+	}
+}
+/* eslint-enable css/no-invalid-at-rules */
+:root {
+	font-variant-alternates: styleset(open-digits, disambiguation, round-quotes-and-commas);
 }
