@@ -34,5 +34,22 @@ export default {
 			if (typeof window !== 'undefined')
 				window.dispatchEvent(new Event('wiki:route-change'))
 		}
+		if (typeof document !== 'undefined') {
+			document.addEventListener('click', (event) => {
+				const target = event.target
+				if (!(target instanceof Element))
+					return
+				const image = target.closest('img')
+				if (!image || !image.closest('.vp-doc'))
+					return
+				if (image.closest('a'))
+					return
+				const src = image.currentSrc || image.src
+				if (!src || src.startsWith('blob:'))
+					return
+				event.preventDefault()
+				window.open(src, '_blank', 'noopener')
+			})
+		}
 	},
 } satisfies Theme

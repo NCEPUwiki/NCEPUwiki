@@ -79,6 +79,14 @@ export default defineConfig({
 	markdown: {
 		config: (md) => {
 			cardlist(md)
+			const image = md.renderer.rules.image
+			md.renderer.rules.image = (tokens, index, options, env, self) => {
+				const rendered = image?.(tokens, index, options, env, self) ?? self.renderToken(tokens, index, options)
+				const src = tokens[index].attrGet('src') || ''
+				if (!src || src.startsWith('data:'))
+					return rendered
+				return `<a class="wiki-image-zoom" href="${md.utils.escapeHtml(src)}" target="_blank" rel="noopener" aria-label="查看原图">${rendered}</a>`
+			}
 			const headingClose = md.renderer.rules.heading_close
 			md.renderer.rules.heading_close = (tokens, index, options, env, self) => {
 				const decoration = tokens[index].tag === 'h2' ? '<span class="heading-wordmark" aria-hidden="true"></span>' : ''

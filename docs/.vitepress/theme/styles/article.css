@@ -73,6 +73,7 @@
 
 .vp-doc img {
 	border-radius: var(--wiki-radius-small);
+	cursor: zoom-in;
 }
 
 .site-icon {
