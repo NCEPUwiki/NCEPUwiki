@@ -38,7 +38,7 @@ export default defineConfig({
 				{ text: '群汇总', link: '/topics/groups/', activeMatch: topicMatch('groups', '群汇总') },
 				{ text: '就业', link: '/topics/career/', activeMatch: topicMatch('career', '就业') },
 			] },
-			{ component: 'DirectoryTrigger' },
+			{ text: '全部目录', link: '/categories/' },
 			{ text: '探索', activeMatch: `${topicMatch('computing', '计算机知识专题')}|^/(categories|tags|archives)(/|$)`, items: [
 				{ text: '文章分类', link: '/categories/' },
 				{ text: '标签', link: '/tags/' },
