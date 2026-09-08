@@ -275,17 +275,6 @@
 	color: var(--vp-c-brand-1);
 }
 
-.vp-doc > div > h3::before {
-	content: "";
-	display: inline-block;
-	width: 1em;
-	height: 1em;
-	margin-inline-end: 0.35em;
-	background: var(--vp-c-brand-1);
-	mask: url("/favicon-light.svg") center / contain no-repeat;
-	vertical-align: -0.1em;
-}
-
 .index-controls {
 	display: flex;
 	align-items: center;

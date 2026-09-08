@@ -33,18 +33,8 @@ export default defineConfig({
 		nav: [
 			{ text: '新生入学', link: '/topics/newcomers/', activeMatch: topicMatch('newcomers', '新生入学') },
 			{ text: '学习专题', link: '/topics/study/', activeMatch: topicMatch('study', '学习专题') },
-			{ text: '校园生活', activeMatch: topicMatch('life|groups|career', '校园生活', '群汇总', '就业'), items: [
-				{ text: '校园生活', link: '/topics/life/', activeMatch: topicMatch('life', '校园生活') },
-				{ text: '群汇总', link: '/topics/groups/', activeMatch: topicMatch('groups', '群汇总') },
-				{ text: '就业', link: '/topics/career/', activeMatch: topicMatch('career', '就业') },
-			] },
+			{ text: '群汇总', link: '/topics/groups/', activeMatch: topicMatch('groups', '群汇总') },
 			{ text: '全部目录', link: '/categories/' },
-			{ text: '探索', activeMatch: `${topicMatch('computing', '计算机知识专题')}|^/(categories|tags|archives)(/|$)`, items: [
-				{ text: '文章分类', link: '/categories/' },
-				{ text: '标签', link: '/tags/' },
-				{ text: '最近更新', link: '/archives/' },
-				{ text: '计算机知识专题', link: '/topics/computing/', activeMatch: topicMatch('computing', '计算机知识专题') },
-			] },
 			{ text: '参与共建', link: '/pages/BasicContribution/', activeMatch: topicMatch('contribute', '贡献与其他') },
 		],
 		sidebar,
