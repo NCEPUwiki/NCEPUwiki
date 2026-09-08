@@ -1,6 +1,6 @@
 import type { Theme } from 'vitepress'
 import type { Component } from 'vue'
-import DefaultTheme from 'vitepress/theme'
+import DefaultTheme from 'vitepress/theme-without-fonts'
 import { defineAsyncComponent } from 'vue'
 import ArticleIndex from './components/ArticleIndex.vue'
 import CopyContact from './components/CopyContact.vue'

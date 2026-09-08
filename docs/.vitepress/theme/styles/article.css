@@ -1,16 +1,27 @@
-.article-meta { margin-bottom: 24px; }
-.article-meta h1 { margin: 22px 0 16px; }
-.article-meta .tags { margin-top: 12px; }
+.article-meta {
+	margin-bottom: 24px;
+}
+
+.article-meta h1 {
+	margin: 22px 0 16px;
+}
+
+.article-meta .tags {
+	margin-top: 12px;
+}
+
 .muted {
 	font-size: 13px;
 	color: var(--vp-c-text-2);
 }
+
 .index-search {
 	display: grid;
 	gap: 8px;
 	margin: 24px 0 12px;
 	font-size: 13px;
 }
+
 .index-search input {
 	width: 100%;
 	padding: 10px 14px;
@@ -20,52 +31,69 @@
 	font: inherit;
 	color: var(--vp-c-text-1);
 }
+
 .index-search input:focus {
 	outline: 2px solid var(--vp-c-brand-1);
 	outline-offset: 2px;
 }
+
 .vp-doc .article-list {
+	margin: 12px -16px;
 	padding: 0;
 	list-style: none;
 }
+
 .article-list li {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: baseline;
 	gap: 6px;
-	padding: 8px 0;
+	/* eslint-disable-next-line css/no-important */
+	margin-top: 0 !important;
+	padding: 16px;
 	border-bottom: 1px solid var(--vp-c-divider);
 }
-.article-list li > a {
+
+.article-list .article-title {
 	flex: 1;
 	min-width: 180px;
 	text-decoration: none;
 }
+
 .article-list time {
 	font-size: 12px;
 	color: var(--vp-c-text-2);
 }
-.article-list .chips { flex-basis: 100%; }
-.tags a {
-	border: none;
-	background: var(--vp-c-bg-soft);
+
+.article-list .chips {
+	flex-basis: 100%;
 }
+
 .empty-state {
 	padding: 20px;
 	border-radius: 8px;
 	background: var(--vp-c-bg-soft);
 }
+
 .empty-state button {
 	text-decoration: underline;
 	color: var(--vp-c-brand-1);
 }
-.directory-tree summary { font-weight: 600; }
+
+.directory-tree summary {
+	font-weight: 600;
+}
+
 .vp-doc .directory-tree {
 	padding-inline-start: 20px;
 	border-inline-start: 1px solid var(--vp-c-divider);
 	list-style: none;
 }
-.directory-tree li { margin: 10px 0; }
+
+.directory-tree li {
+	margin: 10px 0;
+}
+
 .wiki-download {
 	padding: 6px 14px;
 	border: 1px solid var(--vp-c-divider);
@@ -73,17 +101,23 @@
 	font: inherit;
 	cursor: pointer;
 }
+
 .wiki-download:disabled {
 	opacity: 0.6;
 	cursor: wait;
 }
-.vp-doc img { border-radius: var(--wiki-radius-small); }
+
+.vp-doc img {
+	border-radius: var(--wiki-radius-small);
+}
+
 .site-icon {
 	width: 28px;
 	height: 28px;
 	margin-right: 8px;
 	color: var(--vp-c-brand-1);
 }
+
 .directory-trigger {
 	display: inline-flex;
 	align-items: center;
@@ -93,6 +127,7 @@
 	line-height: 24px;
 	cursor: pointer;
 }
+
 .VPNavBar .directory-trigger {
 	display: inline-flex;
 	align-items: center;
@@ -101,6 +136,7 @@
 	padding: 0 12px;
 	line-height: 24px;
 }
+
 .directory-modal {
 	width: min(960px, calc(100vw - 24px));
 	max-height: 85dvh;
@@ -111,50 +147,65 @@
 	background: var(--vp-c-bg);
 	color: var(--vp-c-text-1);
 }
-.directory-modal::backdrop { background: #0008; }
-.directory-panel { padding: 0 20px 20px; }
+
+.directory-modal::backdrop {
+	background: #0008;
+}
+
+.directory-panel {
+	padding: 0 20px 20px;
+}
+
 .directory-panel header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 12px;
 }
+
 .directory-panel h2 {
 	font-size: 20px;
 	font-weight: 600;
 }
+
 .directory-panel > .directory-tree {
 	columns: 2;
 	column-gap: 24px;
 }
-.directory-panel > .directory-tree > li { break-inside: avoid; }
+
+.directory-panel > .directory-tree > li {
+	break-inside: avoid;
+}
+
 .directory-panel .directory-tree {
 	padding-left: 16px;
 	font-size: 14px;
 }
-.directory-panel .directory-tree li { margin: 6px 0; }
+
+.directory-panel .directory-tree li {
+	margin: 6px 0;
+}
+
 .vp-doc .article-cards {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
 	gap: 10px;
 }
+
 .vp-doc .article-cards li {
 	align-content: start;
 	margin: 0;
-	padding: 10px 12px;
+	padding: 16px;
 	border: 1px solid var(--vp-c-divider);
 	border-radius: 8px;
 }
-.article-cards li > a {
+
+.article-cards .article-title {
 	flex-basis: 100%;
 	min-width: 0;
 	font-size: 14px;
 }
-.article-list .chips { gap: 4px; }
-.article-list .chips a {
-	padding: 1px 5px;
-	font-size: 11px;
-}
+
 .wiki-qr {
 	display: inline-block;
 	max-width: 100%;
@@ -162,13 +213,20 @@
 	line-height: 0;
 	vertical-align: middle;
 }
+
 .wiki-qr svg {
 	width: 100%;
 	height: auto;
 }
+
 @media (max-width: 600px) {
-	.directory-panel > .directory-tree { columns: 1; }
-	.vp-doc .article-cards { grid-template-columns: 1fr; }
+	.directory-panel > .directory-tree {
+		columns: 1;
+	}
+
+	.vp-doc .article-cards {
+		grid-template-columns: 1fr;
+	}
 }
 
 .vp-doc .markmap-container table {
@@ -177,6 +235,228 @@
 	width: max-content;
 	margin: 0;
 }
+
 .vp-doc .markmap-container :is(th, td) {
 	white-space: nowrap;
+}
+
+.article-list:not(.article-cards) > li:last-child {
+	border-bottom: 0;
+}
+
+.article-cards > li {
+	position: relative;
+	isolation: isolate;
+}
+
+.article-cards > li .article-title::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+}
+
+.article-cards .tags a {
+	position: relative;
+	z-index: 1;
+}
+
+.article-cards > li:has(.article-title:focus-visible) {
+	outline: 2px solid var(--vp-c-brand-1);
+	outline-offset: 2px;
+}
+
+.article-cards > li .article-title:focus-visible {
+	outline: none;
+}
+
+.article-breadcrumbs ol {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 4px 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.article-breadcrumbs li + li {
+	margin-top: 0;
+}
+
+.article-breadcrumbs li + li::before {
+	content: "/" / "";
+	margin-inline-end: 8px;
+	color: var(--vp-c-text-3);
+}
+
+.article-breadcrumbs a {
+	font-size: 12px;
+	text-decoration: none;
+	color: var(--vp-c-text-2);
+}
+
+.article-byline,
+.article-author,
+.article-date {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 3px;
+}
+
+.article-byline {
+	gap: 8px 16px;
+	margin-block: 12px;
+	font-size: 12px;
+	color: var(--vp-c-text-2);
+}
+
+.article-byline svg {
+	width: 14px;
+	height: 14px;
+}
+
+.article-byline a {
+	text-decoration: none;
+	color: inherit;
+}
+
+/* Keep heading decorations within article prose, away from cards and diagrams. */
+.vp-doc > div {
+	counter-reset: article-section;
+}
+
+.vp-doc > div > h2 {
+	position: relative;
+	counter-increment: article-section;
+	isolation: isolate;
+}
+
+.vp-doc > div > h2::before {
+	content: counter(article-section) / "";
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline-start: -0.35em;
+	font-size: 3.5rem;
+	font-weight: 700;
+	line-height: 1;
+	color: transparent;
+	pointer-events: none;
+	z-index: -1;
+	-webkit-text-stroke: 1px var(--vp-c-divider);
+}
+
+.heading-wordmark {
+	display: none;
+}
+
+.vp-doc > div > h2 > .heading-wordmark {
+	display: inline-block;
+	float: inline-end;
+	opacity: 0.2;
+	margin-inline-start: 12px;
+	font-size: 18px;
+	font-weight: 600;
+	letter-spacing: -0.05em;
+	pointer-events: none;
+	user-select: none;
+}
+
+.heading-wordmark::before {
+	content: "NCEPU";
+}
+
+.heading-wordmark::after {
+	content: "Wiki";
+	color: var(--vp-c-brand-1);
+}
+
+.vp-doc > div > h3::before {
+	content: "";
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	margin-inline-end: 0.35em;
+	background: var(--vp-c-brand-1);
+	mask: url("/favicon-light.svg") center / contain no-repeat;
+	vertical-align: -0.1em;
+}
+
+.index-controls {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-block: 24px 12px;
+}
+
+.index-controls input {
+	flex: 1;
+	min-width: 0;
+	padding: 10px 14px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 8px;
+	background: var(--vp-c-bg-soft);
+	font: inherit;
+	font-size: 13px;
+	color: var(--vp-c-text-1);
+}
+
+.index-controls .layout-switch {
+	flex-shrink: 0;
+}
+
+.index-byline {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 4px;
+	font-size: 12px;
+	color: var(--vp-c-text-2);
+}
+
+.article-cards .index-byline {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px 12px;
+}
+
+.index-byline svg {
+	width: 14px;
+	height: 14px;
+}
+
+.index-item-content {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 6px;
+	min-width: 0;
+}
+
+.article-list:not(.article-cards) > li {
+	flex-wrap: nowrap;
+	gap: 16px;
+}
+
+.article-list:not(.article-cards) .article-title {
+	min-width: 0;
+}
+
+.article-list:not(.article-cards) .index-byline {
+	flex: 0 0 auto;
+	max-width: 45%;
+}
+
+.article-cards .index-item-content {
+	display: contents;
+}
+
+.article-cards .index-byline {
+	order: 1;
+}
+
+.article-cards .chips {
+	order: 2;
 }

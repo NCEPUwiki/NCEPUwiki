@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { data } from '../catalog.data'
+import { tagChips } from '../chips'
+import ArticleByline from './ArticleByline.vue'
 import DirectoryTrigger from './DirectoryTrigger.vue'
 import QrCode from './QrCode.vue'
 import SiteIcon from './SiteIcon.vue'
+import WikiChips from './WikiChips.vue'
 
 const topics = [
 	['新生入学', '从录取通知书到校园第一天'],
@@ -74,16 +77,15 @@ const latest = [...data.articles].sort((a, b) => b.updatedTime - a.updatedTime |
 				</div>
 				<ol class="recent-list">
 					<li v-for="article in latest" :key="article.url">
-						<a :href="article.url">{{ article.title }}</a><time :datetime="article.updated">{{ article.updated }}</time>
+						<a :href="article.url">{{ article.title }}</a>
+						<ArticleByline :date="article.updated" :author="article.author" />
 					</li>
 				</ol>
 			</section>
 			<section>
 				<div class="section-heading">
 					<h2>热门标签</h2><a href="/tags/">全部 →</a>
-				</div><div class="chips">
-					<a v-for="tag in data.tags.slice(0, 12)" :key="tag.name" :href="`/tags/?tag=${encodeURIComponent(tag.name)}`"># {{ tag.name }} <span>{{ tag.count }}</span></a>
-				</div>
+				</div><WikiChips :items="tagChips(data.tags.slice(0, 12))" label="热门标签" />
 			</section>
 			<section>
 				<h2>联系我们</h2><p>聊天交流 QQ 群 <strong>417695180</strong><br>编辑贡献 QQ 群 <strong>1049790737</strong></p><a href="mailto:1361942776@qq.com">1361942776@qq.com ↗</a><details class="qr-details">

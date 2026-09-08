@@ -147,7 +147,12 @@
 	display: block;
 	line-height: 1.65;
 }
-.recent-list time {
+.recent-list .index-byline {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px 12px;
+	margin-top: 6px;
 	font-size: 11px;
 	color: var(--vp-c-text-3);
 }
