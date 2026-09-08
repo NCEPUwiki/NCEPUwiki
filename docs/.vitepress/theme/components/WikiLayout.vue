@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useData } from 'vitepress'
-import DefaultTheme from 'vitepress/theme'
+import DefaultTheme from 'vitepress/theme-without-fonts'
 import { onMounted, watch } from 'vue'
 import ArticleMeta from './ArticleMeta.vue'
 import DirectoryModal from './DirectoryModal.vue'
