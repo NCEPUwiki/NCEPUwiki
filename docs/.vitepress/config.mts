@@ -39,12 +39,18 @@ export default defineConfig({
 		],
 		sidebar,
 		search: { provider: 'local', options: {
+			detailedView: true,
+			miniSearch: {
+				options: {
+					tokenize: text => Array.from(new Intl.Segmenter('zh-CN', { granularity: 'word' }).segment(text))
+						.filter(part => part.isWordLike)
+						.map(part => part.segment),
+				},
+				searchOptions: { combineWith: 'AND' },
+			},
 			async _render(source, env, md) {
-				const article = articles.find(item => item.source === env.relativePath || outputPath(item.url) === env.relativePath)
 				const html = await md.renderAsync(source, env)
-				if (!article || article.hasHeading)
-					return html
-				return `<h1 id="article-title">${md.utils.escapeHtml(article.title)}</h1>\n${html}`
+				return env.frontmatter?.search === false ? '' : html
 			},
 			locales: { root: { translations: {
 				button: { buttonText: '搜索文档', buttonAriaLabel: '搜索文档' },
@@ -69,6 +75,16 @@ export default defineConfig({
 	markdown: {
 		config: (md) => {
 			cardlist(md)
+			// The visible title lives in ArticleMeta. Local search mounts only the
+			// Markdown component, so it needs its own hidden heading for excerpts.
+			md.core.ruler.push('article-search-title', (state) => {
+				const article = articles.find(item => item.source === state.env.relativePath || outputPath(item.url) === state.env.relativePath)
+				if (!article || article.hasHeading)
+					return
+				const heading = new state.Token('html_block', '', 0)
+				heading.content = `<h1 hidden aria-hidden="true">${md.utils.escapeHtml(article.title)}<a class="header-anchor" href="#article-title" aria-hidden="true"></a></h1>\n`
+				state.tokens.unshift(heading)
+			})
 			const image = md.renderer.rules.image
 			md.renderer.rules.image = (tokens, index, options, env, self) => {
 				const rendered = image?.(tokens, index, options, env, self) ?? self.renderToken(tokens, index, options)
@@ -77,10 +93,10 @@ export default defineConfig({
 					return rendered
 				return `<a class="wiki-image-zoom" href="${md.utils.escapeHtml(src)}" target="_blank" rel="noopener" aria-label="查看原图">${rendered}</a>`
 			}
-			const headingClose = md.renderer.rules.heading_close
-			md.renderer.rules.heading_close = (tokens, index, options, env, self) => {
+			const headingOpen = md.renderer.rules.heading_open
+			md.renderer.rules.heading_open = (tokens, index, options, env, self) => {
 				const decoration = tokens[index].tag === 'h2' ? '<span class="heading-wordmark" aria-hidden="true"></span>' : ''
-				return decoration + (headingClose?.(tokens, index, options, env, self) ?? self.renderToken(tokens, index, options))
+				return (headingOpen?.(tokens, index, options, env, self) ?? self.renderToken(tokens, index, options)) + decoration
 			}
 		},
 		languageAlias: { gitignore: 'text' },
