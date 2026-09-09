@@ -1,8 +1,10 @@
+import type { MarkdownOptions } from 'vitepress'
 import { fileURLToPath } from 'node:url'
 import markmapPlugin from '@vitepress-plugin/markmap'
 import { defineConfig } from 'vitepress'
 import { cardlist } from './cardlist.ts'
-import { buildTree, outputPath, scanArticles } from './catalog.ts'
+import { buildTree, docsRoot, outputPath, scanArticles } from './catalog.ts'
+import { writeSearchIndex } from './search-index.ts'
 
 const articles = scanArticles()
 function topicMatch(slug: string, ...folders: string[]) {
@@ -14,6 +16,38 @@ const rewrites = new Map(articles.map(article => [article.source, outputPath(art
 const sidebar = Object.fromEntries(articles.map(article => [article.url, [
 	...buildTree(articles.filter(other => other.folders[0] === article.folders[0])),
 ]]))
+
+const markdownOptions: MarkdownOptions = {
+	config: (md) => {
+		cardlist(md)
+		// 无 Markdown 一级标题的文章，正文渲染时不包含标题文本。
+		// 这里插入一个隐藏 h1，保证搜索索引能拿到标题，也让标题可被整串匹配。
+		md.core.ruler.push('article-search-title', (state) => {
+			const article = articles.find(item => item.source === state.env.relativePath || outputPath(item.url) === state.env.relativePath)
+			if (!article || article.hasHeading)
+				return
+			const heading = new state.Token('html_block', '', 0)
+			heading.content = `<h1 hidden aria-hidden="true">${md.utils.escapeHtml(article.title)}<a class="header-anchor" href="#article-title" aria-hidden="true"></a></h1>\n`
+			state.tokens.unshift(heading)
+		})
+		const image = md.renderer.rules.image
+		md.renderer.rules.image = (tokens, index, options, env, self) => {
+			const rendered = image?.(tokens, index, options, env, self) ?? self.renderToken(tokens, index, options)
+			const src = tokens[index].attrGet('src') || ''
+			if (!src || src.startsWith('data:'))
+				return rendered
+			return `<a class="wiki-image-zoom" href="${md.utils.escapeHtml(src)}" target="_blank" rel="noopener" aria-label="查看原图">${rendered}</a>`
+		}
+		const headingOpen = md.renderer.rules.heading_open
+		md.renderer.rules.heading_open = (tokens, index, options, env, self) => {
+			const decoration = tokens[index].tag === 'h2' ? '<span class="heading-wordmark" aria-hidden="true"></span>' : ''
+			return (headingOpen?.(tokens, index, options, env, self) ?? self.renderToken(tokens, index, options)) + decoration
+		}
+	},
+	languageAlias: { gitignore: 'text' },
+	math: true,
+	container: { tipLabel: '提示', warningLabel: '注意', dangerLabel: '警告', infoLabel: '信息', detailsLabel: '详细信息' },
+}
 
 export default defineConfig({
 	lang: 'zh-CN',
@@ -38,25 +72,6 @@ export default defineConfig({
 			{ text: '参与共建', link: '/pages/BasicContribution/', activeMatch: topicMatch('contribute', '贡献与其他') },
 		],
 		sidebar,
-		search: { provider: 'local', options: {
-			detailedView: true,
-			miniSearch: {
-				options: {
-					tokenize: text => Array.from(new Intl.Segmenter('zh-CN', { granularity: 'word' }).segment(text))
-						.filter(part => part.isWordLike)
-						.map(part => part.segment),
-				},
-				searchOptions: { combineWith: 'AND' },
-			},
-			async _render(source, env, md) {
-				const html = await md.renderAsync(source, env)
-				return env.frontmatter?.search === false ? '' : html
-			},
-			locales: { root: { translations: {
-				button: { buttonText: '搜索文档', buttonAriaLabel: '搜索文档' },
-				modal: { displayDetails: '显示详情', resetButtonTitle: '清除搜索', backButtonTitle: '关闭搜索', noResultsText: '没有找到相关结果', footer: { selectText: '选择', navigateText: '切换', closeText: '关闭' } },
-			} } },
-		} },
 		socialLinks: [{ icon: 'github', link: 'https://github.com/NCEPUwiki/NCEPUwiki' }],
 		externalLinkIcon: true,
 		langMenuLabel: '切换语言',
@@ -71,37 +86,21 @@ export default defineConfig({
 		lastUpdated: { text: '最后更新于', formatOptions: { dateStyle: 'medium' } },
 		footer: { message: '由华电学生共同维护的非官方校园知识库', copyright: `© 2025–${new Date().getFullYear()} NCEPUwiki-Group · MIT License` },
 	},
-	vite: { plugins: [markmapPlugin({ containerHeight: 500 })], resolve: { alias: { '@': fileURLToPath(new URL('./', import.meta.url)) } } },
-	markdown: {
-		config: (md) => {
-			cardlist(md)
-			// The visible title lives in ArticleMeta. Local search mounts only the
-			// Markdown component, so it needs its own hidden heading for excerpts.
-			md.core.ruler.push('article-search-title', (state) => {
-				const article = articles.find(item => item.source === state.env.relativePath || outputPath(item.url) === state.env.relativePath)
-				if (!article || article.hasHeading)
-					return
-				const heading = new state.Token('html_block', '', 0)
-				heading.content = `<h1 hidden aria-hidden="true">${md.utils.escapeHtml(article.title)}<a class="header-anchor" href="#article-title" aria-hidden="true"></a></h1>\n`
-				state.tokens.unshift(heading)
-			})
-			const image = md.renderer.rules.image
-			md.renderer.rules.image = (tokens, index, options, env, self) => {
-				const rendered = image?.(tokens, index, options, env, self) ?? self.renderToken(tokens, index, options)
-				const src = tokens[index].attrGet('src') || ''
-				if (!src || src.startsWith('data:'))
-					return rendered
-				return `<a class="wiki-image-zoom" href="${md.utils.escapeHtml(src)}" target="_blank" rel="noopener" aria-label="查看原图">${rendered}</a>`
-			}
-			const headingOpen = md.renderer.rules.heading_open
-			md.renderer.rules.heading_open = (tokens, index, options, env, self) => {
-				const decoration = tokens[index].tag === 'h2' ? '<span class="heading-wordmark" aria-hidden="true"></span>' : ''
-				return (headingOpen?.(tokens, index, options, env, self) ?? self.renderToken(tokens, index, options)) + decoration
-			}
+	vite: {
+		plugins: [markmapPlugin({ containerHeight: 500 })],
+		resolve: {
+			alias: {
+				'@': fileURLToPath(new URL('./', import.meta.url)),
+				// 用自研整串搜索替换 VitePress 默认主题导航栏里的搜索组件
+				'./VPNavBarSearch.vue': fileURLToPath(new URL('./theme/components/WikiSearch.vue', import.meta.url)),
+			},
 		},
-		languageAlias: { gitignore: 'text' },
-		math: true,
-		container: { tipLabel: '提示', warningLabel: '注意', dangerLabel: '警告', infoLabel: '信息', detailsLabel: '详细信息' },
+	},
+	markdown: markdownOptions,
+	// 站点构建完成后，把渲染后的纯文本索引写入 dist/search-index.json，
+	// WikiSearch.vue 打开搜索框时再按需 fetch。
+	async buildEnd(siteConfig) {
+		await writeSearchIndex({ articles, docsRoot, outDir: siteConfig.outDir, markdown: markdownOptions })
 	},
 	transformPageData(page) {
 		const article = articles.find(item => item.source === page.relativePath || outputPath(item.url) === page.relativePath)
