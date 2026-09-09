@@ -115,14 +115,9 @@ function isExternal(link?: string) {
 				<h2 id="community-title">
 					你的经验，也能帮助下一位同学。
 				</h2>
-				<p>欢迎补充学习资料、课程评价、专业指南与内推信息。分享资料时，请注明校区、院系、专业和课程名。</p>
 				<!-- 次级 CTA：了解贡献流程 / 到 GitHub 反馈问题 -->
 				<div class="hero-actions">
 					<a class="primary" href="/pages/BasicContribution/">了解如何贡献</a><a href="https://github.com/NCEPUwiki/NCEPUwiki/issues">反馈问题 →</a>
-				</div>
-				<!-- 快捷入口：分类页、课程评价、内推信息与贡献者列表 -->
-				<div class="community-links">
-					<a href="/categories/?category=学习资料">学习资料</a><a href="/pages/CourseEvaluation">课程评价</a><a href="/pages/EmployeeRefer/">内推信息</a><a href="https://github.com/NCEPUwiki/NCEPUwiki/graphs/contributors">感谢所有贡献者 ↗</a>
 				</div>
 			</section>
 
