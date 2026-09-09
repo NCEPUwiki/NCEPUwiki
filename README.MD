@@ -53,7 +53,7 @@ CSS 按 tokens、base、home、article 分层组织，使用原生自定义属�
 - `docs/.vitepress/config.mts`：中文导航、本地全文搜索、数学公式、blame 查看链接、站点地图。
 - `docs/.vitepress/catalog.ts`：扫描编号目录，生成专题侧栏、分类、标签和归档数据。
 - `docs/.vitepress/theme/`：首页、文章索引和 Vue 3 组件。
-- `docs/public/`：静态资源，目前图片资源已经全部存在Cloudflare R2，上传访问<uploader.ncepuinfo.cc>。
+- `docs/public/`：静态资源，目前图片资源已经全部存在Cloudflare R2，上传访问<upload.ncepuinfo.cc>。
 - `docs/01.新生入学/` 等编号目录：保留原有文章层级，目录展示时去掉数字前缀。
 
 表格可以包裹在 `::: cardlist` 容器内，在构建时转为卡片。表头作为字段名，空字段不显示，正文仍为 Markdown 并可被搜索索引。二维码/联系图片使用 vue-tippy 悬浮展示，支持键盘聚焦和触屏点击；微信二维码不提供普通网页跳转。群号后可加 `<CopyContact value="群号" />`。维护表格时请保证各行列数相同。
