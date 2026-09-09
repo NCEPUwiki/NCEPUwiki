@@ -14,6 +14,14 @@ export function cardlist(md: MarkdownRenderer) {
 			return false
 		if (silent)
 			return true
+		// 页面级排列切换条：只在每篇 Markdown 的第一个 cardlist 前插入一次，
+		// 切换结果作用于整页所有卡片区块（由主题脚本写入 html[data-wiki-cardlist-layout]）。
+		const toolbar = `<div class="cardlist-layout-toolbar" role="group" aria-label="卡片排列方式">
+			<span class="cardlist-layout-label">排列方式</span>
+			<button type="button" data-wiki-cardlist-layout="cards">卡片</button>
+			<button type="button" data-wiki-cardlist-layout="compact">紧凑小卡</button>
+			<button type="button" data-wiki-cardlist-layout="table">列表</button>
+		</div>`
 		const tokens = md.parse(state.getLines(start + 1, close, state.blkIndent, false), state.env)
 		const html: string[] = []
 		let headers: string[] = []
@@ -26,6 +34,10 @@ export function cardlist(md: MarkdownRenderer) {
 				case 'table_open':
 					inTable = true
 					headers = []
+					if (!state.env.cardlistLayoutToolbar) {
+						state.env.cardlistLayoutToolbar = true
+						html.push(toolbar)
+					}
 					html.push('<div class="campus-card-grid" role="list">')
 					break
 				case 'table_close':

@@ -441,3 +441,197 @@
 .VPSidebarItem.level-3 > .item::before {
 	content: counter(sidebar, lower-roman) / "";
 }
+
+/* ---- cardlist 排列方式切换条 ---- */
+.cardlist-layout-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	margin: 0.25rem 0 0.75rem;
+	font-size: 0.75rem;
+	color: var(--vp-c-text-2);
+}
+
+.cardlist-layout-toolbar .cardlist-layout-label {
+	margin-right: 2px;
+}
+
+.cardlist-layout-toolbar button {
+	padding: 0.2rem 0.7rem;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 999px;
+	background: transparent;
+	font-size: 0.78rem;
+	color: inherit;
+	transition: border-color 0.2s, color 0.2s, background 0.2s;
+	cursor: pointer;
+}
+
+.cardlist-layout-toolbar button:hover {
+	border-color: var(--vp-c-brand-1);
+	color: var(--vp-c-brand-1);
+}
+
+html[data-wiki-cardlist-layout="cards"] .cardlist-layout-toolbar button[data-wiki-cardlist-layout="cards"],
+html[data-wiki-cardlist-layout="compact"] .cardlist-layout-toolbar button[data-wiki-cardlist-layout="compact"],
+html[data-wiki-cardlist-layout="table"] .cardlist-layout-toolbar button[data-wiki-cardlist-layout="table"] {
+	border-color: var(--vp-c-brand-1);
+	background: var(--vp-c-brand-soft);
+	font-weight: 600;
+	color: var(--vp-c-brand-1);
+}
+
+/* ---- 紧凑小卡：多列、去头像/装饰，突出群号或评分 ---- */
+html[data-wiki-cardlist-layout="compact"] .campus-card-grid {
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 8.5rem), 1fr));
+	gap: 0.5rem;
+	margin-top: 0.5rem;
+}
+
+html[data-wiki-cardlist-layout="compact"] .campus-card-grid .campus-card {
+	flex-direction: column;
+	gap: 0.2rem;
+	padding: 0.55rem 0.4rem;
+}
+
+html[data-wiki-cardlist-layout="compact"] .group-avatar,
+html[data-wiki-cardlist-layout="compact"] .card-blur,
+html[data-wiki-cardlist-layout="compact"] .campus-card-field,
+html[data-wiki-cardlist-layout="compact"] .card-join {
+	display: none;
+}
+
+html[data-wiki-cardlist-layout="compact"] .vp-doc .campus-card-title {
+	margin-top: 0.15rem;
+	font-size: 0.82rem;
+	line-height: 1.35;
+}
+
+html[data-wiki-cardlist-layout="compact"] .group-contact {
+	justify-content: center;
+	font-size: 0.78rem;
+	line-height: 1.4;
+}
+
+html[data-wiki-cardlist-layout="compact"] .card-badges {
+	margin-top: 0;
+	padding: 0 6px;
+	font-size: 0.65rem;
+	line-height: 1.5;
+}
+
+html[data-wiki-cardlist-layout="compact"] .card-description {
+	display: -webkit-box;
+	overflow: hidden;
+	font-size: 0.72rem;
+	-webkit-line-clamp: 2;
+	line-height: 1.45;
+	-webkit-box-orient: vertical;
+}
+
+html[data-wiki-cardlist-layout="compact"] .food-scores {
+	gap: 0.4rem;
+	font-size: 0.7rem;
+}
+
+/* ---- 列表：每条数据一行，去掉卡片背景与头像 ---- */
+html[data-wiki-cardlist-layout="table"] .campus-card-grid {
+	display: block;
+	margin-top: 0.5rem;
+}
+
+html[data-wiki-cardlist-layout="table"] .campus-card-grid .campus-card {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.2rem 0.75rem;
+	width: 100%;
+	margin: 0;
+	padding: 0.35rem 0.6rem;
+	border: 0;
+	border-bottom: 1px solid var(--vp-c-divider);
+	border-radius: 0;
+	background: transparent;
+	text-align: start;
+}
+
+html[data-wiki-cardlist-layout="table"] .campus-card + .campus-card {
+	margin-top: 0;
+}
+
+html[data-wiki-cardlist-layout="table"] .campus-card:last-child {
+	border-bottom: 0;
+}
+
+html[data-wiki-cardlist-layout="table"] .group-avatar,
+html[data-wiki-cardlist-layout="table"] .card-blur,
+html[data-wiki-cardlist-layout="table"] .card-join,
+html[data-wiki-cardlist-layout="table"] .food-card-icon {
+	display: none;
+}
+
+html[data-wiki-cardlist-layout="table"] .vp-doc .campus-card-title {
+	flex: 1 1 9rem;
+	margin: 0;
+	font-size: 0.92rem;
+	line-height: 1.45;
+}
+
+html[data-wiki-cardlist-layout="table"] .group-contact {
+	justify-content: flex-start;
+	font-size: 0.85rem;
+}
+
+html[data-wiki-cardlist-layout="table"] .card-badges {
+	margin: 0 0 0 auto;
+}
+
+html[data-wiki-cardlist-layout="table"] .food-scores {
+	margin-left: auto;
+	font-size: 0.75rem;
+}
+
+html[data-wiki-cardlist-layout="table"] .campus-card-field {
+	display: flex;
+	flex-basis: 100%;
+	flex-wrap: wrap;
+	gap: 0.2rem 0.5rem;
+	margin-top: 0.15rem;
+	font-size: 0.8rem;
+	line-height: 1.55;
+}
+
+html[data-wiki-cardlist-layout="table"] .campus-card-label {
+	flex: 0 0 auto;
+	min-width: 4.5rem;
+	margin: 0;
+	font-size: 0.7rem;
+	color: var(--vp-c-text-3);
+}
+
+html[data-wiki-cardlist-layout="table"] .card-description {
+	flex-basis: 100%;
+	font-size: 0.8rem;
+	line-height: 1.55;
+}
+
+/* 手机端 JS 尚未写入选择前的默认展示：直接先按紧凑小卡渲染，避免先撑开再收缩 */
+@media (max-width: 640px) {
+	html:not([data-wiki-cardlist-layout]) .campus-card-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.5rem;
+	}
+
+	html:not([data-wiki-cardlist-layout]) .group-avatar,
+	html:not([data-wiki-cardlist-layout]) .card-blur,
+	html:not([data-wiki-cardlist-layout]) .campus-card-field,
+	html:not([data-wiki-cardlist-layout]) .card-join {
+		display: none;
+	}
+
+	html:not([data-wiki-cardlist-layout]) .group-cards .campus-card {
+		padding: 0.5rem 0.35rem;
+	}
+}

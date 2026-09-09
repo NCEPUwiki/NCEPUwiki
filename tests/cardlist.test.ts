@@ -11,6 +11,7 @@ test('card lists preserve rich cells, omit empty fields, and leave ordinary tabl
 	const table = '| 名称 | 加入方式 | 备注 |\n| --- | --- | --- |\n| A & B | [12345](https://example.com) | |'
 	const html = md.render(`::: cardlist\n\n${table}\n\n:::\n\n${table}`)
 	assert.equal((html.match(/class="campus-card"/g) || []).length, 1)
+	assert.equal((html.match(/class="cardlist-layout-toolbar"/g) || []).length, 1)
 	assert.match(html, /A &amp; B/)
 	assert.match(html, /href="https:\/\/example.com"/)
 	assert.doesNotMatch(html, /campus-card-label">备注/)
