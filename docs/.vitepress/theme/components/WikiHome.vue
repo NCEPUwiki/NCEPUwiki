@@ -1,6 +1,10 @@
 <script setup lang="ts">
 // ================= 数据来源 =================
 
+// activity.data.ts 读取 docs/activity/ 下的 Markdown 活动公告，
+// 首页“活动”区只从这里取数，平时维护活动只需增删 Markdown 文件。
+import { data as activities } from '../activity.data'
+
 // catalog.data.ts 是 VitePress 的 data loader（.data.ts）：
 // 在开发与构建时会扫描 docs/ 下各编号目录中的 Markdown 文章，
 // 汇总出 data.articles（文章列表）、data.tree（目录树）、
@@ -46,6 +50,15 @@ const topicLinks: Record<string, string> = { 新生入学: 'newcomers', 学习�
 // 按 updatedTime（时间戳数值）降序，更新时间相同者再按 date 字符串降序，
 // 最后 slice(0, 5) 只保留最新的 5 篇用于展示。
 const latest = [...data.articles].sort((a, b) => b.updatedTime - a.updatedTime || b.date.localeCompare(a.date)).slice(0, 5)
+
+// “活动”区：date 为活动开始日期，end 可表示跨天活动的结束日期。
+// 只展示今天及以后的活动（未填 end 时视为当天活动），按开始日期升序排列。
+const today = new Date()
+const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+const upcomingActivities = activities.filter(activity => (activity.end || activity.date) >= todayKey)
+function isExternal(link?: string) {
+	return link?.startsWith('http') ?? false
+}
 </script>
 
 <template>
@@ -113,9 +126,39 @@ const latest = [...data.articles].sort((a, b) => b.updatedTime - a.updatedTime |
 				</div>
 			</section>
 
-			<!-- 活动占位区：活动信息目前只在文案层面提示，可后续替换为真实活动列表 -->
-			<section class="home-activity">
-				<h2>活动</h2><p>有校园活动需要宣传，欢迎通过反馈与共建联系我们。</p>
+			<!-- 活动区：内容来自 docs/activity/*.md，无需再改 Vue -->
+			<section aria-labelledby="activity-title" class="home-activity">
+				<div class="section-heading">
+					<h2 id="activity-title">
+						活动
+					</h2>
+				</div>
+				<ul v-if="upcomingActivities.length" class="activity-list">
+					<li v-for="activity in upcomingActivities" :key="activity.source">
+						<div class="activity-card">
+							<component
+								:is="activity.link ? 'a' : 'div'"
+								class="activity-heading"
+								:href="activity.link || undefined"
+								:target="isExternal(activity.link) ? '_blank' : undefined"
+								:rel="isExternal(activity.link) ? 'noopener' : undefined"
+							>
+								<time class="activity-date" :datetime="activity.date">
+									{{ activity.date }}<template v-if="activity.end && activity.end !== activity.date"> ~ {{ activity.end }}</template>
+								</time>
+								<span class="activity-title">{{ activity.title }}</span>
+								<span v-if="activity.campus || activity.venue" class="activity-meta"><template v-if="activity.campus">{{ activity.campus }}</template><template v-if="activity.campus && activity.venue"> · </template><template v-if="activity.venue">{{ activity.venue }}</template></span>
+							</component>
+							<p v-if="activity.description" class="activity-description">
+								{{ activity.description }}
+							</p>
+							<div v-if="activity.html" class="activity-body" v-html="activity.html" />
+						</div>
+					</li>
+				</ul>
+				<p v-else class="activity-empty">
+					暂无可报名活动。有校园活动需要宣传，欢迎通过反馈与共建联系我们。
+				</p>
 			</section>
 		</div>
 

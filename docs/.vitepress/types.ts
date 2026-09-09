@@ -25,6 +25,19 @@ export interface TaxonomyCount {
 	count: number
 }
 
+export interface Activity {
+	source: string
+	title: string
+	date: string
+	end?: string
+	campus?: string
+	venue?: string
+	link?: string
+	description?: string
+	body?: string
+	html?: string
+}
+
 export interface Catalog {
 	articles: Article[]
 	tree: DirectoryItem[]

@@ -184,8 +184,124 @@
 	font-size: 12px;
 	color: var(--vp-c-text-2);
 }
-.home-activity { margin-top: 28px; }
-.home-activity p { margin-top: 8px; }
+.home-activity {
+	margin-top: 28px;
+}
+.activity-list {
+	display: grid;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.activity-card {
+	display: grid;
+	gap: 6px 10px;
+	overflow-wrap: anywhere;
+	padding: 10px 12px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: var(--wiki-radius);
+	transition: border-color var(--wiki-duration), background var(--wiki-duration);
+}
+.activity-card:hover {
+	border-color: var(--vp-c-brand-1);
+	background: var(--vp-c-brand-soft);
+}
+.activity-card:hover .activity-title {
+	color: var(--vp-c-brand-1);
+}
+.activity-heading {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 4px 10px;
+	text-decoration: none;
+	color: inherit;
+}
+.activity-date {
+	font-size: 12px;
+	font-variant-numeric: tabular-nums;
+	color: var(--vp-c-text-2);
+}
+.activity-title {
+	font-weight: 600;
+	transition: color var(--wiki-duration);
+}
+.activity-description {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.7;
+	color: var(--vp-c-text-2);
+}
+.activity-meta {
+	font-size: 12px;
+	color: var(--vp-c-text-3);
+}
+.activity-body {
+	min-width: 0;
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.8;
+	color: var(--vp-c-text-2);
+}
+.activity-body > :first-child {
+	margin-top: 0;
+}
+.activity-body > :last-child {
+	margin-bottom: 0;
+}
+.activity-body :is(p, ul, ol, blockquote) {
+	margin: 0.45em 0;
+}
+.activity-body :is(ul, ol) {
+	padding-inline-start: 1.4em;
+}
+.activity-body li {
+	margin: 0.2em 0;
+}
+.activity-body :is(h1, h2, h3, h4, h5, h6) {
+	margin: 0.6em 0 0.3em;
+	font-weight: 650;
+	line-height: 1.5;
+}
+.activity-body h1 {
+	font-size: 1.1rem;
+}
+.activity-body h2 {
+	font-size: 1.05rem;
+}
+.activity-body h3,
+.activity-body h4,
+.activity-body h5,
+.activity-body h6 {
+	font-size: 1rem;
+}
+.activity-body a {
+	text-decoration: underline;
+	color: var(--vp-c-brand-1);
+}
+.activity-body img {
+	display: block;
+	max-width: 100%;
+	border-radius: var(--wiki-radius-small);
+}
+.activity-body blockquote {
+	padding-inline-start: 1em;
+	border-inline-start: 3px solid var(--vp-c-divider);
+	color: var(--vp-c-text-2);
+}
+.activity-body code {
+	padding: 0.1em 0.3em;
+	border-radius: 4px;
+	background: var(--vp-c-bg-soft);
+	font-size: 0.9em;
+}
+.activity-empty {
+	margin-top: 4px;
+	padding: 10px 12px;
+	border: 1px dashed var(--vp-c-divider);
+	border-radius: var(--wiki-radius);
+}
 .qr-details { margin-top: 16px; }
 .qr-details .wiki-qr {
 	display: block;

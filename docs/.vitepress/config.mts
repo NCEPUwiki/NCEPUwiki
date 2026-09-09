@@ -55,6 +55,7 @@ export default defineConfig({
 	description: '华北电力大学学生共同维护的非官方校园知识库：新生入学、学习升学、校园生活与就业指南。',
 	cleanUrls: true,
 	lastUpdated: true,
+	srcExclude: ['activity/**'],
 	rewrites: source => rewrites.get(source) || source,
 	head: [
 		['link', { rel: 'stylesheet', href: 'https://s4.zstatic.net/npm/inter-ui@4.1.1/inter-variable.css' }],
