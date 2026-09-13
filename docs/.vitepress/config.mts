@@ -17,19 +17,33 @@ const sidebar = Object.fromEntries(articles.map(article => [article.url, [
 	...buildTree(articles.filter(other => other.folders[0] === article.folders[0])),
 ]]))
 
+/** 标题文字来自 frontmatter，转义行内语法，避免标题里的符号被当成 Markdown。 */
+function escapeTitleText(title: string) {
+	return title.replace(/[\\`*_[\]<>&]/g, '\\$1')
+}
+
+/** 把一级标题拼在正文最前面（frontmatter 若还在，则接在其后）。 */
+function prependTitleHeading(source: string, title: string) {
+	const heading = `# ${escapeTitleText(title)}\n\n`
+	const frontmatter = source.match(/^(-{3,}\r?\n[\s\S]*?\r?\n-{3,}\r?\n?)/)
+	return frontmatter ? frontmatter[1] + heading + source.slice(frontmatter[1].length) : heading + source
+}
+
 const markdownOptions: MarkdownOptions = {
 	config: (md) => {
 		cardlist(md)
-		// 正文没有一级标题时，ArticleMeta 会用 frontmatter 的 title 生成一级标题；
-		// 这里再插入一个隐藏 h1，保证搜索索引能拿到标题，也让标题可被整串匹配。
-		// 正文里自己写了一级标题（#）的文章以作者写的为准，不插入自动标题。
-		md.core.ruler.push('article-search-title', (state) => {
+		// 正文没有一级标题的文章，把 frontmatter 的 title 作为一级标题拼在正文最前面，
+		// 交给 markdown-it 正常渲染，得到的标题、锚点与间距和作者手写的 `# 标题` 完全一致；
+		// 正文里自己写了一级标题（#）的文章以作者写的为准，不再自动生成。
+		// 卡片容器会用同一个 env 再解析一次内层 Markdown，这里只处理页面正文本身。
+		md.core.ruler.before('block', 'article-title', (state) => {
+			if (state.env.wikiTitleInserted)
+				return
 			const article = articles.find(item => item.source === state.env.relativePath || outputPath(item.url) === state.env.relativePath)
 			if (!article || article.hasHeading)
 				return
-			const heading = new state.Token('html_block', '', 0)
-			heading.content = `<h1 hidden aria-hidden="true">${md.utils.escapeHtml(article.title)}<a class="header-anchor" href="#article-title" aria-hidden="true"></a></h1>\n`
-			state.tokens.unshift(heading)
+			state.env.wikiTitleInserted = true
+			state.src = prependTitleHeading(state.src, article.title)
 		})
 		const image = md.renderer.rules.image
 		md.renderer.rules.image = (tokens, index, options, env, self) => {
@@ -109,7 +123,7 @@ export default defineConfig({
 		if (article) {
 			page.title = article.title
 			page.lastUpdated = article.updatedTime || undefined
-			Object.assign(page.frontmatter, { title: article.title, breadcrumbs: article.folders, categories: article.categories, tags: article.tags, articleHeader: !article.hasHeading, empty: article.empty })
+			Object.assign(page.frontmatter, { title: article.title, breadcrumbs: article.folders, categories: article.categories, tags: article.tags, empty: article.empty })
 		}
 	},
 })

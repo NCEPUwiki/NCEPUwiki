@@ -14,7 +14,7 @@ const date = computed(() => page.value.lastUpdated ? new Date(page.value.lastUpd
 </script>
 
 <template>
-<div v-if="fm.categories?.length || fm.articleHeader" class="article-meta vp-doc">
+<div v-if="fm.categories?.length" class="article-meta vp-doc">
 	<nav v-if="fm.breadcrumbs?.length" class="article-breadcrumbs" aria-label="文章所在目录">
 		<ol>
 			<li v-for="category in fm.breadcrumbs" :key="category">
@@ -22,9 +22,6 @@ const date = computed(() => page.value.lastUpdated ? new Date(page.value.lastUpd
 			</li>
 		</ol>
 	</nav>
-	<h1 v-if="fm.articleHeader" id="article-title">
-		{{ fm.title }}
-	</h1>
 	<div v-if="author || date" class="article-byline">
 		<span v-if="author" class="article-author">
 			<Icon :icon="userIcon" aria-hidden="true" />
