@@ -11,8 +11,18 @@ function strings(value: unknown): string[] {
 	return [...new Set(values.filter((item): item is string => typeof item === 'string').map(item => item.trim()).filter(Boolean))]
 }
 
+/**
+ * 正文是否自带一级标题。
+ *
+ * 正文没有一级标题时，页面会用 frontmatter 的 title 自动生成一级标题；
+ * 一旦作者自己写了一级标题（ATX `# 标题` 或 Setext `标题\n====`），
+ * 就以作者写的为准，不再自动生成。
+ *
+ * 代码块里的 `#` 和 `:::markmap` 脑图内容都不算标题。
+ */
 function hasTitleHeading(content: string): boolean {
 	let fence = ''
+	let previous = ''
 	for (const line of content.replace(/^:::markmap[^\S\n]*\n[\s\S]*?^:::[^\S\n]*$/gm, '').split('\n')) {
 		const marker = line.match(/^\s*(`{3,}|~{3,})/)?.[1]
 		if (marker) {
@@ -20,10 +30,18 @@ function hasTitleHeading(content: string): boolean {
 				fence = marker
 			else if (marker[0] === fence[0] && marker.length >= fence.length)
 				fence = ''
+			previous = ''
 			continue
 		}
-		if (!fence && /^ {0,3}#\s+/.test(line))
-			return true
+		if (!fence) {
+			// ATX 一级标题：# 标题
+			if (/^ {0,3}#\s+/.test(line))
+				return true
+			// Setext 一级标题：标题换行后跟一行等号
+			if (/^ {0,3}=+\s*$/.test(line) && previous.trim() && !/^ {0,3}(?:#{1,6}\s|>|[-+*]\s|\d+[.)]\s|\||:::)/.test(previous))
+				return true
+		}
+		previous = line
 	}
 	return false
 }

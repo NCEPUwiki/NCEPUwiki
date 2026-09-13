@@ -59,3 +59,35 @@ test('content dates are stable across repository-wide commits', () => {
 	assert.equal(article.updated, '2026-07-28')
 	assert.equal(article.updatedTime, Date.parse('2026-07-28'))
 })
+
+test('articles take the frontmatter title as the first-level heading only when the body has none', () => {
+	const root = mkdtempSync(join(tmpdir(), 'ncepu-title-'))
+	try {
+		mkdirSync(join(root, '01.专题'))
+		const write = (name: string, body: string) => writeFileSync(
+			join(root, `01.专题/${name}.md`),
+			`---\ntitle: ${name}\n---\n${body}`,
+		)
+		write('01.自动标题', '## 二级标题\n\n正文')
+		write('02.手写标题', '# 手写标题\n\n正文')
+		write('03.Setext标题', '手写 Setext 标题\n=====\n\n正文')
+		write('04.代码块', '```md\n# 只是代码\n```\n\n正文')
+		write('05.脑图', ':::markmap\n# 脑图节点\n:::\n\n正文')
+		write('06.引用里的标题', '> # 引用中的标题\n\n正文')
+
+		const headings = Object.fromEntries(scanArticles(root).map(article => [article.title, article.hasHeading]))
+		assert.deepEqual(headings, {
+			'01.自动标题': false,
+			'02.手写标题': true,
+			'03.Setext标题': true,
+			'04.代码块': false,
+			'05.脑图': false,
+			'06.引用里的标题': false,
+		})
+	}
+	finally {
+		const target = relative(tmpdir(), root)
+		assert.ok(target && !target.startsWith('..') && !isAbsolute(target))
+		rmSync(root, { recursive: true, force: true })
+	}
+})

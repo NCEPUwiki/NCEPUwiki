@@ -20,8 +20,9 @@ const sidebar = Object.fromEntries(articles.map(article => [article.url, [
 const markdownOptions: MarkdownOptions = {
 	config: (md) => {
 		cardlist(md)
-		// 无 Markdown 一级标题的文章，正文渲染时不包含标题文本。
-		// 这里插入一个隐藏 h1，保证搜索索引能拿到标题，也让标题可被整串匹配。
+		// 正文没有一级标题时，ArticleMeta 会用 frontmatter 的 title 生成一级标题；
+		// 这里再插入一个隐藏 h1，保证搜索索引能拿到标题，也让标题可被整串匹配。
+		// 正文里自己写了一级标题（#）的文章以作者写的为准，不插入自动标题。
 		md.core.ruler.push('article-search-title', (state) => {
 			const article = articles.find(item => item.source === state.env.relativePath || outputPath(item.url) === state.env.relativePath)
 			if (!article || article.hasHeading)
