@@ -65,6 +65,7 @@ export function scanArticles(root = docsRoot) {
 			const { data: fm, content } = matter(readFileSync(file, 'utf8'))
 			if (fm.article === false)
 				continue
+			const lastUpdated = fm.lastUpdated ? new Date(fm.lastUpdated).toISOString().slice(0, 10) : ''
 			const folders = source.split('/').slice(0, -1).map(label)
 			const url = fm.permalink || `/${source.replace(/\.md$/, '')}`
 			if (!url.startsWith('/') || /[?#]|\.\./.test(url))
@@ -78,8 +79,8 @@ export function scanArticles(root = docsRoot) {
 				tags: strings(fm.tags),
 				date: fm.date ? new Date(fm.date).toISOString().slice(0, 10) : '',
 				author: typeof fm.author === 'string' ? fm.author : fm.author?.name || 'NCEPUwiki-Group',
-				updated: fm.updated || fm.date ? new Date(fm.updated || fm.date).toISOString().slice(0, 10) : '',
-				updatedTime: fm.updated || fm.date ? new Date(fm.updated || fm.date).getTime() : 0,
+				lastUpdated,
+				lastUpdatedTime: lastUpdated ? Date.parse(lastUpdated) : 0,
 				hasHeading: hasTitleHeading(content),
 				empty: !content.trim(),
 			})
@@ -122,8 +123,8 @@ export function buildTree(articles: Article[], depth = 0): DirectoryItem[] {
 	return items
 }
 
-export function loadCatalog(): Catalog {
-	const articles = scanArticles()
+export function loadCatalog(root = docsRoot): Catalog {
+	const articles = scanArticles(root)
 	const count = (field: 'categories' | 'tags') => {
 		const counts = new Map<string, number>()
 		for (const article of articles) {

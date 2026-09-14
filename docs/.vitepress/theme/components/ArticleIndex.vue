@@ -42,11 +42,11 @@ const articles = computed(() => data.articles.filter((article) => {
 	const matches = !selected.value || props.mode === 'archives' || article[props.mode].includes(selected.value)
 	const text = [article.title, ...article.categories, ...article.tags].join(' ').toLocaleLowerCase()
 	return matches && text.includes(query.value.trim().toLocaleLowerCase())
-}).sort((a, b) => b.updatedTime - a.updatedTime || b.date.localeCompare(a.date) || a.title.localeCompare(b.title, 'zh-CN')))
+}).sort((a, b) => (b.lastUpdated || b.date).localeCompare(a.lastUpdated || a.date) || a.title.localeCompare(b.title, 'zh-CN')))
 const groups = computed(() => {
 	const result = new Map<string, Article[]>()
 	for (const article of articles.value) {
-		const group = props.mode === 'archives' ? (article.updated.slice(0, 7) || '日期待补充') : article.folders[0]
+		const group = props.mode === 'archives' ? ((article.lastUpdated || article.date).slice(0, 7) || '日期待补充') : article.folders[0]
 		if (!result.has(group))
 			result.set(group, [])
 		result.get(group)!.push(article)
@@ -91,7 +91,7 @@ const groups = computed(() => {
 					<a class="article-title" :href="article.url">{{ article.title }}</a>
 					<WikiChips :items="tagChips(article.tags)" class="tags" label="文章标签" />
 				</div>
-				<ArticleByline :date="article.updated" :author="article.author" />
+				<ArticleByline :date="article.lastUpdated || article.date" :author="article.author" />
 			</li>
 		</ul>
 	</section>

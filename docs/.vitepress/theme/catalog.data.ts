@@ -5,5 +5,5 @@ export declare const data: Catalog
 
 export default {
 	watch: [`${docsRoot.replaceAll('\\', '/')}/[0-9]*/**/*.md`],
-	load: loadCatalog,
+	load: () => loadCatalog(),
 }

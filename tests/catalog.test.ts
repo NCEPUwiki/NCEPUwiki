@@ -25,7 +25,7 @@ test('category counts include both directory ancestors and legacy categories wit
 	for (const [field, counts] of [['tags', tags], ['categories', categories]] as const) {
 		for (const { name, count } of counts) assert.equal(count, articles.filter(article => article[field].includes(name)).length)
 	}
-	assert.ok(articles.every(article => !article.updated || /^\d{4}-\d{2}-\d{2}$/.test(article.updated)))
+	assert.ok(articles.every(article => !article.lastUpdated || /^\d{4}-\d{2}-\d{2}$/.test(article.lastUpdated)))
 })
 
 test('new files use numeric directory order, preserve tags, infer missing titles, and reject duplicate routes', () => {
@@ -53,11 +53,24 @@ test('new files use numeric directory order, preserve tags, infer missing titles
 	}
 })
 
-test('content dates are stable across repository-wide commits', () => {
-	const article = loadCatalog().articles.find(article => article.url.includes('PowerGeneration'))!
-	assert.ok(article)
-	assert.equal(article.updated, '2026-07-28')
-	assert.equal(article.updatedTime, Date.parse('2026-07-28'))
+test('lastUpdated is explicit and never falls back to creation dates or legacy updated', () => {
+	const root = mkdtempSync(join(tmpdir(), 'ncepu-dates-'))
+	try {
+		mkdirSync(join(root, '01.专题'))
+		writeFileSync(join(root, '01.专题/01.文章.md'), '---\ndate: 2025-08-31\nlastUpdated: 2026-09-14\n---\n正文')
+		writeFileSync(join(root, '01.专题/02.无修改日期.md'), '---\ndate: 2025-08-31\nupdated: 2026-09-14\n---\n正文')
+		const [article, missing] = loadCatalog(root).articles
+		assert.equal(article.date, '2025-08-31')
+		assert.equal(article.lastUpdated, '2026-09-14')
+		assert.equal(article.lastUpdatedTime, Date.parse('2026-09-14'))
+		assert.equal(missing.lastUpdated, '')
+		assert.equal(missing.lastUpdatedTime, 0)
+	}
+	finally {
+		const target = relative(tmpdir(), root)
+		assert.ok(target && !target.startsWith('..') && !isAbsolute(target))
+		rmSync(root, { recursive: true, force: true })
+	}
 })
 
 test('articles take the frontmatter title as the first-level heading only when the body has none', () => {
