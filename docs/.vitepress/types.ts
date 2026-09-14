@@ -6,8 +6,8 @@ export interface Article {
 	categories: string[]
 	tags: string[]
 	date: string
-	updated: string
-	updatedTime: number
+	lastUpdated: string
+	lastUpdatedTime: number
 	author: string
 	hasHeading: boolean
 	empty: boolean

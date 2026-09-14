@@ -13,7 +13,7 @@ const { page } = useData()
 	</div>
 	<footer class="wide-footer">
 		<a :href="`https://github.com/NCEPUwiki/NCEPUwiki/blame/main/docs/${page.filePath}`">源代码</a>
-		<time v-if="page.lastUpdated" :datetime="new Date(page.lastUpdated).toISOString()">内容日期：{{ new Date(page.lastUpdated).toISOString().slice(0, 10) }}</time>
+		<time v-if="page.lastUpdated" :datetime="new Date(page.lastUpdated).toISOString()">最后修改于：{{ new Date(page.lastUpdated).toISOString().slice(0, 10) }}</time>
 	</footer>
 </main>
 </template>

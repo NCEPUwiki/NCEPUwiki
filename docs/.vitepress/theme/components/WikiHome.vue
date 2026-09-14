@@ -46,10 +46,10 @@ const topicLinks: Record<string, string> = { 新生入学: 'newcomers', 学习�
 
 // ================= 动态数据加工 =================
 
-// 侧栏“最近更新”取前 5 篇文章：先复制文章数组再排序，
-// 按 updatedTime（时间戳数值）降序，更新时间相同者再按 date 字符串降序，
+// 侧栏“最近更新”只收录有 lastUpdated 的文章，
+// 按 lastUpdatedTime（时间戳数值）降序，更新时间相同者再按 date 字符串降序，
 // 最后 slice(0, 5) 只保留最新的 5 篇用于展示。
-const latest = [...data.articles].sort((a, b) => b.updatedTime - a.updatedTime || b.date.localeCompare(a.date)).slice(0, 5)
+const latest = data.articles.filter(article => article.lastUpdatedTime > 0).sort((a, b) => b.lastUpdatedTime - a.lastUpdatedTime || b.date.localeCompare(a.date)).slice(0, 5)
 
 // “活动”区：date 为活动开始日期，end 可表示跨天活动的结束日期。
 // 只展示今天及以后的活动（未填 end 时视为当天活动），按开始日期升序排列。
@@ -160,7 +160,7 @@ function isExternal(link?: string) {
 		<!-- ========== 右栏（aside）：动态信息与联系方式 ========== -->
 		<aside class="home-aside">
 			<!-- 最近更新：取上方加工出的 latest 前 5 篇文章，
-				显示标题，并由 ArticleByline 展示 updated 日期与 author -->
+				显示标题，并由 ArticleByline 展示 lastUpdated 日期与 author -->
 			<section>
 				<div class="section-heading">
 					<h2>最近更新</h2><a href="/archives/">更多 →</a>
@@ -168,7 +168,7 @@ function isExternal(link?: string) {
 				<ol class="recent-list">
 					<li v-for="article in latest" :key="article.url">
 						<a :href="article.url">{{ article.title }}</a>
-						<ArticleByline :date="article.updated" :author="article.author" />
+						<ArticleByline :date="article.lastUpdated" :author="article.author" />
 					</li>
 				</ol>
 			</section>

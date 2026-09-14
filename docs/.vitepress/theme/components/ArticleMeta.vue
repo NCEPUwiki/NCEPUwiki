@@ -7,10 +7,10 @@ import { computed } from 'vue'
 import { tagChips } from '../chips'
 import WikiChips from './WikiChips.vue'
 
-const { frontmatter: fm, page } = useData()
+const { frontmatter: fm } = useData()
 const author = computed(() => typeof fm.value.author === 'string' ? fm.value.author : fm.value.author?.name)
 const authorUrl = computed(() => typeof fm.value.author === 'object' ? fm.value.author?.url || fm.value.author?.link : undefined)
-const date = computed(() => page.value.lastUpdated ? new Date(page.value.lastUpdated).toISOString().slice(0, 10) : '')
+const date = computed(() => fm.value.date ? new Date(fm.value.date).toISOString().slice(0, 10) : '')
 </script>
 
 <template>
