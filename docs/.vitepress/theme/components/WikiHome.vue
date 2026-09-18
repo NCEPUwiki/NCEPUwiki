@@ -52,10 +52,10 @@ const topicLinks: Record<string, string> = { 新生入学: 'newcomers', 学习�
 const latest = data.articles.filter(article => article.lastUpdatedTime > 0).sort((a, b) => b.lastUpdatedTime - a.lastUpdatedTime || b.date.localeCompare(a.date)).slice(0, 5)
 
 // “活动”区：date 为活动开始日期，end 可表示跨天活动的结束日期。
-// 只展示今天及以后的活动（未填 end 时视为当天活动），按开始日期升序排列。
+// 填了 end 的活动在结束日期次日隐藏；未填 end 的活动不设过期时间，始终显示。
 const today = new Date()
 const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
-const upcomingActivities = activities.filter(activity => (activity.end || activity.date) >= todayKey)
+const upcomingActivities = activities.filter(activity => !activity.end || activity.end >= todayKey)
 function isExternal(link?: string) {
 	return link?.startsWith('http') ?? false
 }
