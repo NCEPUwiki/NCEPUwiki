@@ -2,6 +2,7 @@
 import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme-without-fonts'
 import { onMounted, watch } from 'vue'
+import ArticleAuthors from './ArticleAuthors.vue'
 import ArticleMeta from './ArticleMeta.vue'
 import SiteIcon from './SiteIcon.vue'
 
@@ -23,6 +24,9 @@ onMounted(() => {
 	</template>
 	<template #doc-before>
 		<ArticleMeta />
+	</template>
+	<template #doc-footer-before>
+		<ArticleAuthors />
 	</template>
 </DefaultTheme.Layout>
 </template>

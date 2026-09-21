@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import timeIcon from '@iconify-icons/ri/time-line'
-import userIcon from '@iconify-icons/ri/user-line'
 import { Icon } from '@iconify/vue'
 import { useData } from 'vitepress'
 import { computed } from 'vue'
@@ -8,8 +7,6 @@ import { tagChips } from '../chips'
 import WikiChips from './WikiChips.vue'
 
 const { frontmatter: fm } = useData()
-const author = computed(() => typeof fm.value.author === 'string' ? fm.value.author : fm.value.author?.name)
-const authorUrl = computed(() => typeof fm.value.author === 'object' ? fm.value.author?.url || fm.value.author?.link : undefined)
 const date = computed(() => fm.value.date ? new Date(fm.value.date).toISOString().slice(0, 10) : '')
 </script>
 
@@ -22,13 +19,8 @@ const date = computed(() => fm.value.date ? new Date(fm.value.date).toISOString(
 			</li>
 		</ol>
 	</nav>
-	<div v-if="author || date" class="article-byline">
-		<span v-if="author" class="article-author">
-			<Icon :icon="userIcon" aria-hidden="true" />
-			<a v-if="authorUrl" :href="authorUrl" target="_blank" rel="noopener noreferrer">{{ author }}</a>
-			<span v-else>{{ author }}</span>
-		</span>
-		<span v-if="date" class="article-date">
+	<div v-if="date" class="article-byline">
+		<span class="article-date">
 			<Icon :icon="timeIcon" aria-hidden="true" />
 			<time :datetime="date">{{ date }}</time>
 		</span>

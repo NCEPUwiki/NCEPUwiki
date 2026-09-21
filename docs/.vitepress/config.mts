@@ -2,11 +2,15 @@ import type { MarkdownOptions } from 'vitepress'
 import { fileURLToPath } from 'node:url'
 import markmapPlugin from '@vitepress-plugin/markmap'
 import { defineConfig } from 'vitepress'
+import { collectAuthors } from './authors.ts'
 import { cardlist } from './cardlist.ts'
 import { buildTree, docsRoot, outputPath, scanArticles } from './catalog.ts'
 import { writeSearchIndex } from './search-index.ts'
 
 const articles = scanArticles()
+function findArticle(relativePath: string) {
+	return articles.find(item => item.source === relativePath || outputPath(item.url) === relativePath)
+}
 function topicMatch(slug: string, ...folders: string[]) {
 	const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 	const paths = articles.filter(article => folders.includes(article.folders[0])).flatMap(article => [article.url.replace(/\/$/, ''), `/${article.source.replace(/\.md$/, '')}`]).map(escape)
@@ -39,7 +43,7 @@ const markdownOptions: MarkdownOptions = {
 		md.core.ruler.before('block', 'article-title', (state) => {
 			if (state.env.wikiTitleInserted)
 				return
-			const article = articles.find(item => item.source === state.env.relativePath || outputPath(item.url) === state.env.relativePath)
+			const article = findArticle(state.env.relativePath)
 			if (!article || article.hasHeading)
 				return
 			state.env.wikiTitleInserted = true
@@ -119,11 +123,13 @@ export default defineConfig({
 		await writeSearchIndex({ articles, docsRoot, outDir: siteConfig.outDir, markdown: markdownOptions })
 	},
 	transformPageData(page) {
-		const article = articles.find(item => item.source === page.relativePath || outputPath(item.url) === page.relativePath)
+		const article = findArticle(page.relativePath)
 		if (article) {
 			page.title = article.title
 			page.lastUpdated = article.lastUpdatedTime || undefined
 			Object.assign(page.frontmatter, { title: article.title, breadcrumbs: article.folders, categories: article.categories, tags: article.tags, empty: article.empty })
+			// 页尾作者列表：frontmatter 与 Git 提交历史合并去重，构建期算好后随页面数据下发
+			page.frontmatter.authors = collectAuthors(article.source, page.frontmatter.author, docsRoot)
 		}
 	},
 })

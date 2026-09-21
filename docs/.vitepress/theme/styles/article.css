@@ -221,6 +221,99 @@
 	color: inherit;
 }
 
+/* 页尾作者列表：frontmatter 与 Git 提交历史合并去重后全部列出，可能十人以上 */
+.article-authors {
+	margin-top: 32px;
+	padding: 16px 20px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: var(--wiki-radius);
+	background: var(--vp-c-bg-soft);
+}
+
+.article-authors-title {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin: 0 0 14px;
+	padding: 0;
+	border: 0;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 20px;
+	color: var(--vp-c-text-1);
+}
+
+.article-authors-title svg {
+	width: 14px;
+	height: 14px;
+	color: var(--vp-c-brand-1);
+}
+
+.article-authors-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr));
+	gap: 10px 16px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.article-author-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+}
+
+.article-author-avatar {
+	flex: none;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: var(--vp-c-bg-alt);
+	object-fit: cover;
+}
+
+.article-author-avatar-fallback {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--vp-c-text-1);
+}
+
+.article-author-body {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	line-height: 1.4;
+}
+
+.article-author-name,
+.article-author-email {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.article-author-name {
+	font-size: 13px;
+	font-weight: 500;
+	text-decoration: none;
+	color: var(--vp-c-text-1);
+}
+
+a.article-author-name:hover {
+	text-decoration: underline;
+	color: var(--vp-c-brand-1);
+}
+
+.article-author-email {
+	font-size: 11px;
+	color: var(--vp-c-text-3);
+}
+
 /* Keep heading decorations within article prose, away from cards and diagrams. */
 .vp-doc > div {
 	counter-reset: article-section;
