@@ -1,9 +1,10 @@
-import type { Article, Catalog, DirectoryItem } from './types.ts'
+import type { Article, Catalog, DirectoryItem, TaxonomyCount } from './types.ts'
 import { readdirSync, readFileSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import matter from 'gray-matter'
 import { frontmatterAuthors } from './authors.ts'
+import { categoryPaths, collectCategories } from './category.ts'
 
 export const docsRoot = fileURLToPath(new URL('../', import.meta.url))
 const label = (name: string) => name.replace(/^\d+\./, '').replace(/\.md$/, '')
@@ -76,7 +77,9 @@ export function scanArticles(root = docsRoot) {
 				url,
 				title: fm.title || label(entry.name),
 				folders,
-				categories: strings([...folders, ...strings(fm.categories).flatMap(category => category.split(/\s+-\s+/))]),
+				// 分类只看 frontmatter 的 categories（缩进表示层级），与文章所在目录无关；
+				// 写了上级又写了更深的子分类时两条都算，文章会同时出现在两个分类里。
+				categories: categoryPaths(fm.categories),
 				tags: strings(fm.tags),
 				date: fm.date ? new Date(fm.date).toISOString().slice(0, 10) : '',
 				// 卡片只显示 frontmatter 声明的名字，多个作者用「、」连接；没声明时回退组织账号
@@ -127,12 +130,13 @@ export function buildTree(articles: Article[], depth = 0): DirectoryItem[] {
 
 export function loadCatalog(root = docsRoot): Catalog {
 	const articles = scanArticles(root)
-	const count = (field: 'categories' | 'tags') => {
-		const counts = new Map<string, number>()
-		for (const article of articles) {
-			for (const name of article[field]) counts.set(name, (counts.get(name) || 0) + 1)
-		}
-		return [...counts].map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-CN'))
+	return { articles, tree: buildTree(articles), categories: collectCategories(articles), tags: countTags(articles) }
+}
+
+function countTags(articles: Article[]): TaxonomyCount[] {
+	const counts = new Map<string, number>()
+	for (const article of articles) {
+		for (const tag of article.tags) counts.set(tag, (counts.get(tag) || 0) + 1)
 	}
-	return { articles, tree: buildTree(articles), categories: count('categories'), tags: count('tags') }
+	return [...counts].map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-CN'))
 }

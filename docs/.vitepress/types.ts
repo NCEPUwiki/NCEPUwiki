@@ -43,6 +43,16 @@ export interface TaxonomyCount {
 	count: number
 }
 
+/** 分类：一条完整层级路径，以及直接属于它的文章数（不含子分类）。 */
+export interface CategoryCount {
+	/** 当前层级的名字，例如「竞赛专题」 */
+	name: string
+	/** 完整路径，用 / 连接，例如「学习专题/竞赛专题」，同时用作筛选参数 */
+	path: string
+	/** 直接属于该分类的文章数，子分类的文章不计入 */
+	count: number
+}
+
 export interface Activity {
 	source: string
 	title: string
@@ -59,7 +69,7 @@ export interface Activity {
 export interface Catalog {
 	articles: Article[]
 	tree: DirectoryItem[]
-	categories: TaxonomyCount[]
+	categories: CategoryCount[]
 	tags: TaxonomyCount[]
 }
 

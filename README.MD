@@ -10,7 +10,7 @@ NCEPUwiki 是由华北电力大学学生共同维护的**非官方**校园知识
 
 长期更新计划：
 
-- 各专业[学习资料](/categories/?category=学习资料)，提供请注明校区、院系、专业、课程名。
+- 各专业[学习资料](/categories/?category=学习专题/课程资料)，提供请注明校区、院系、专业、课程名。
 - 各个课程的[评价](/pages/CourseEvaluation)，问卷<https://www.wjx.cn/vm/myKSytv.aspx#>
 - [内推码](/pages/EmployeeRefer/)
 

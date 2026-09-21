@@ -8,14 +8,20 @@ import WikiChips from './WikiChips.vue'
 
 const { frontmatter: fm } = useData()
 const date = computed(() => fm.value.date ? new Date(fm.value.date).toISOString().slice(0, 10) : '')
+// 分类来自 frontmatter，面包屑用最具体的那条分类路径，每一级都指向完整路径
+const breadcrumbs = computed(() => {
+	const paths: string[] = fm.value.categories || []
+	const segments = [...paths].sort((a, b) => b.split('/').length - a.split('/').length)[0]?.split('/').filter(Boolean) || []
+	return segments.map((name, depth) => ({ name, href: `/categories/?category=${encodeURIComponent(segments.slice(0, depth + 1).join('/'))}` }))
+})
 </script>
 
 <template>
-<div v-if="fm.categories?.length" class="article-meta vp-doc">
-	<nav v-if="fm.breadcrumbs?.length" class="article-breadcrumbs" aria-label="文章所在目录">
+<div v-if="date || breadcrumbs.length || fm.tags?.length || fm.empty" class="article-meta vp-doc">
+	<nav v-if="breadcrumbs.length" class="article-breadcrumbs" aria-label="文章分类">
 		<ol>
-			<li v-for="category in fm.breadcrumbs" :key="category">
-				<a :href="`/categories/?category=${encodeURIComponent(category)}`">{{ category }}</a>
+			<li v-for="item in breadcrumbs" :key="item.name">
+				<a :href="item.href">{{ item.name }}</a>
 			</li>
 		</ol>
 	</nav>

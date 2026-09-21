@@ -127,7 +127,7 @@ export default defineConfig({
 		if (article) {
 			page.title = article.title
 			page.lastUpdated = article.lastUpdatedTime || undefined
-			Object.assign(page.frontmatter, { title: article.title, breadcrumbs: article.folders, categories: article.categories, tags: article.tags, empty: article.empty })
+			Object.assign(page.frontmatter, { title: article.title, categories: article.categories, tags: article.tags, empty: article.empty })
 			// 页尾作者列表：frontmatter 与 Git 提交历史合并去重，构建期算好后随页面数据下发
 			page.frontmatter.authors = collectAuthors(article.source, page.frontmatter.author, docsRoot)
 		}

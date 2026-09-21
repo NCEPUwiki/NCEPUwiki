@@ -4,6 +4,7 @@ import gridIcon from '@iconify-icons/ri/grid-line'
 import listIcon from '@iconify-icons/ri/list-check'
 import { Icon } from '@iconify/vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { categoryChildren, resolveCategory } from '../../category'
 import { data } from '../catalog.data'
 import { tagChips } from '../chips'
 import ArticleByline from './ArticleByline.vue'
@@ -14,7 +15,28 @@ const selected = ref(props.category)
 const view = ref('cards')
 const query = ref('')
 const key = computed(() => props.mode === 'categories' ? 'category' : 'tag')
-const choices = computed(() => props.mode === 'archives' ? [] : data[props.mode])
+// 分类做成层级后，筛选栏只列最上层的分类，子分类通过下面的“子分类”行逐级进入。
+const choices = computed(() => {
+	if (props.mode === 'archives')
+		return []
+	if (props.mode === 'tags')
+		return data.tags
+	return data.categories.filter(category => !category.path.includes('/'))
+})
+/** 选中的分类路径，兼容只写末级名字的旧链接（例如 ?category=学习资料）。 */
+const activeCategory = computed(() => props.mode === 'categories' ? resolveCategory(data.categories, selected.value) : selected.value)
+/** 当前分类的下一级分类；没有选中分类时不显示。 */
+const childChips = computed(() => {
+	if (props.mode !== 'categories' || !activeCategory.value)
+		return []
+	return categoryChildren(data.categories, activeCategory.value).map(category => ({
+		text: category.name,
+		count: category.count || undefined,
+		// 专题页把分类固定在组件上，子分类只能跳到分类页；
+		// 分类页自己则原地筛选，避免整页刷新后丢掉当前的搜索与视图。
+		...(props.category ? { href: `/categories/?category=${encodeURIComponent(category.path)}` } : { value: category.path }),
+	}))
+})
 function readQuery() {
 	const params = new URLSearchParams(window.location.search)
 	selected.value = props.category || params.get(key.value) || ''
@@ -39,14 +61,24 @@ onUnmounted(() => {
 	window.removeEventListener('wiki:route-change', readQuery)
 })
 const articles = computed(() => data.articles.filter((article) => {
-	const matches = !selected.value || props.mode === 'archives' || article[props.mode].includes(selected.value)
+	// 分类按完整路径精确匹配：查看上级分类时不会再带出子分类的文章
+	const matches = props.mode === 'archives'
+		? true
+		: props.mode === 'categories'
+			? !activeCategory.value || article.categories.includes(activeCategory.value)
+			: !selected.value || article.tags.includes(selected.value)
 	const text = [article.title, ...article.categories, ...article.tags].join(' ').toLocaleLowerCase()
 	return matches && text.includes(query.value.trim().toLocaleLowerCase())
 }).sort((a, b) => (b.lastUpdated || b.date).localeCompare(a.lastUpdated || a.date) || a.title.localeCompare(b.title, 'zh-CN')))
 const groups = computed(() => {
 	const result = new Map<string, Article[]>()
 	for (const article of articles.value) {
-		const group = props.mode === 'archives' ? ((article.lastUpdated || article.date).slice(0, 7) || '日期待补充') : article.folders[0]
+		const group = props.mode === 'archives'
+			? ((article.lastUpdated || article.date).slice(0, 7) || '日期待补充')
+			// 选中分类后，这一组就是这个分类本身；否则按文章所属的最上层分类分组
+			: props.mode === 'categories' && activeCategory.value
+				? activeCategory.value
+				: (article.categories[0] || '').split('/')[0] || '未分类'
 		if (!result.has(group))
 			result.set(group, [])
 		result.get(group)!.push(article)
@@ -64,6 +96,10 @@ const groups = computed(() => {
 		label="筛选文章"
 		@select="updateQuery"
 	/>
+	<div v-if="childChips.length" class="index-subcategories">
+		<span>子分类</span>
+		<WikiChips :items="childChips" :selected="selected" label="子分类" @select="updateQuery" />
+	</div>
 	<div class="index-controls">
 		<input v-model="query" type="search" aria-label="筛选标题、分类或标签" placeholder="筛选标题、分类或标签…" @input="updateQuery(selected, true)">
 		<div class="layout-switch" aria-label="文章展示形式">

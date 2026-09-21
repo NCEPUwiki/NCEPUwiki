@@ -8,7 +8,7 @@ const links = [
 	{ name: '柊三米', image: 'https://img.ncepuinfo.cc/10/10/柊三米.webp', url: 'https://space.bilibili.com/163004797', description: '一位学长，制作了新生入学指南发布在 B 站', tag: '同学创作' },
 	{ name: 'SWJTUwiki', image: 'https://img.ncepuinfo.cc/10/10/西南交通大学校徽.png', url: 'https://wiki.swjtu.top/', description: '西南交通大学 Wiki', tag: '兄弟院校' },
 	{ name: '西邮 Wiki', image: 'https://p.qlogo.cn/gh/924632788/924632788/100/', url: 'https://wiki.cooo.site/', description: '西安邮电大学校园知识库', tag: '兄弟院校' },
-	{ name: '华电Math', url: 'http://math.ncepuinfo.cc/', description: '华北电力大学非官方数学学习网', tag: '华电数学网' },
+	{ name: '华电Math', image: 'https://img.ncepuinfo.cc/10/10/华电Math.jpg', url: 'http://math.ncepuinfo.cc/', description: '华北电力大学非官方数学学习网', tag: '华电数学网' },
 ]
 </script>
 
