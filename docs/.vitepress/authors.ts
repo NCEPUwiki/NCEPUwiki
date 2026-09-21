@@ -140,7 +140,9 @@ export function parseGitLog(output: string, prefix = ''): Map<string, Author[]> 
 	}
 	return new Map([...perPath].map(([source, authors]) => [
 		source,
-		[...authors.values()].sort((a, b) => (b.commits ?? 0) - (a.commits ?? 0) || a.name.localeCompare(b.name)),
+		// 提交次数多的在前；次数相同保持 git log 顺序（最近提交者在前）。
+		// 不用 localeCompare：不同 Node/ICU 版本对中文的排序结果不一致，会让页尾顺序随机变化。
+		[...authors.values()].sort((a, b) => (b.commits ?? 0) - (a.commits ?? 0)),
 	]))
 }
 

@@ -116,12 +116,16 @@ test('gitAuthors 读取仓库历史，collectAuthors 与 frontmatter 作者合�
 		writeFileSync(file, '# 文章\n\n补充\n')
 		run(['add', '.'])
 		commitAs('乙', 'yi@example.com', '第二篇')
+		writeFileSync(file, '# 文章\n\n补充\n\n再补充\n')
+		run(['add', '.'])
+		commitAs('甲', 'jia@example.com', '第三篇')
 
 		const authors = gitAuthors(docs).get('01.专题/01.文章.md') ?? []
-		assert.deepEqual(authors.map(author => [author.name, author.commits]), [['甲', 1], ['乙', 1]])
+		assert.deepEqual(authors.map(author => [author.name, author.commits]), [['甲', 2], ['乙', 1]])
 
 		const merged = collectAuthors('01.专题/01.文章.md', { name: '甲', email: 'jia@example.com' }, docs)
 		assert.deepEqual(merged.map(author => author.name), ['甲', '乙'])
+		assert.equal(merged[0].commits, 2)
 		assert.equal(merged[0].email, 'jia@example.com')
 		assert.equal(merged[0].origin, 'frontmatter')
 		assert.equal(merged[1].origin, 'git')
