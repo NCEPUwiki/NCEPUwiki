@@ -131,7 +131,8 @@ const groups = computed(() => {
 					<a class="article-title" :href="article.url">{{ article.title }}</a>
 					<WikiChips :items="tagChips(article.tags)" class="tags" label="文章标签" />
 				</div>
-				<ArticleByline :date="article.lastUpdated || article.date" :author="article.author" />
+				<!-- 索引页只显示日期，作者留在文章页页尾 -->
+				<ArticleByline :date="article.lastUpdated || article.date" />
 			</li>
 		</ul>
 	</section>

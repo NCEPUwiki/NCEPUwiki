@@ -196,7 +196,6 @@
 }
 
 .article-byline,
-.article-author,
 .article-date {
 	display: flex;
 	flex-wrap: wrap;

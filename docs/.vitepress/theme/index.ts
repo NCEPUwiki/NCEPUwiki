@@ -12,6 +12,7 @@ import QrCode from './components/QrCode.vue'
 import WidePage from './components/WidePage.vue'
 import WikiHome from './components/WikiHome.vue'
 import WikiLayout from './components/WikiLayout.vue'
+import { syncSidebarCollapsed } from './sidebar'
 import '@vitepress-plugin/markmap/style.css'
 import './styles/index.css'
 
@@ -71,6 +72,7 @@ export default {
 		}
 		if (typeof document !== 'undefined') {
 			syncCardLayout()
+			syncSidebarCollapsed()
 			const cardMobileQuery = window.matchMedia('(max-width: 640px)')
 			cardMobileQuery.addEventListener('change', () => {
 				// 仅在用户没有主动选择时跟随默认布局（手机/桌面）

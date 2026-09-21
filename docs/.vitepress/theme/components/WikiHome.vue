@@ -160,7 +160,7 @@ function isExternal(link?: string) {
 		<!-- ========== 右栏（aside）：动态信息与联系方式 ========== -->
 		<aside class="home-aside">
 			<!-- 最近更新：取上方加工出的 latest 前 5 篇文章，
-				显示标题，并由 ArticleByline 展示 lastUpdated 日期与 author -->
+				显示标题，并由 ArticleByline 展示 lastUpdated 日期 -->
 			<section>
 				<div class="section-heading">
 					<h2>最近更新</h2><a href="/archives/">更多 →</a>
@@ -168,7 +168,7 @@ function isExternal(link?: string) {
 				<ol class="recent-list">
 					<li v-for="article in latest" :key="article.url">
 						<a :href="article.url">{{ article.title }}</a>
-						<ArticleByline :date="article.lastUpdated" :author="article.author" />
+						<ArticleByline :date="article.lastUpdated" />
 					</li>
 				</ol>
 			</section>
