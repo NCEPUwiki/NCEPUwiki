@@ -22,10 +22,8 @@ onMounted(() => {
 	<template #sidebar-nav-before>
 		<a class="directory-trigger" href="/categories/">全部目录</a>
 	</template>
-	<template #doc-before>
-		<ArticleMeta />
-	</template>
 	<template #doc-footer-before>
+		<ArticleMeta />
 		<ArticleAuthors />
 	</template>
 </DefaultTheme.Layout>
