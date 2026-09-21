@@ -371,16 +371,6 @@ a.article-author-name:hover {
 	margin-block: 24px 12px;
 }
 
-.index-subcategories {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: baseline;
-	gap: 0 10px;
-	margin-top: 10px;
-	font-size: 12px;
-	color: var(--vp-c-text-3);
-}
-
 .index-controls input {
 	flex: 1;
 	min-width: 0;
@@ -424,6 +414,17 @@ a.article-author-name:hover {
 	flex-direction: column;
 	gap: 6px;
 	min-width: 0;
+}
+
+/* 子分类条目和文章条目同款，只在标题下面多一个「子分类」徽标 */
+.article-kind {
+	align-self: flex-start;
+	padding: 2px 8px;
+	border-radius: var(--wiki-radius-small);
+	background: var(--vp-c-brand-soft);
+	color: var(--vp-c-brand-1);
+	font-size: 12px;
+	line-height: 1.4;
 }
 
 .article-list:not(.article-cards) > li {

@@ -25,18 +25,17 @@ const choices = computed(() => {
 })
 /** 选中的分类路径，兼容只写末级名字的旧链接（例如 ?category=学习资料）。 */
 const activeCategory = computed(() => props.mode === 'categories' ? resolveCategory(data.categories, selected.value) : selected.value)
-/** 当前分类的下一级分类；没有选中分类时不显示。 */
-const childChips = computed(() => {
+/** 当前分类的下一级分类，以和文章一样的条目形式排在文章列表最前面。 */
+const childEntries = computed(() => {
 	if (props.mode !== 'categories' || !activeCategory.value)
 		return []
 	return categoryChildren(data.categories, activeCategory.value).map(category => ({
-		text: category.name,
-		count: category.count || undefined,
-		// 专题页把分类固定在组件上，子分类只能跳到分类页；
-		// 分类页自己则原地筛选，避免整页刷新后丢掉当前的搜索与视图。
-		...(props.category ? { href: `/categories/?category=${encodeURIComponent(category.path)}` } : { value: category.path }),
+		name: category.name,
+		href: `/categories/?category=${encodeURIComponent(category.path)}`,
 	}))
 })
+/** 分组里只有当组正是当前分类时才排子分类条目。 */
+const childEntriesOf = (group: string) => group === activeCategory.value ? childEntries.value : []
 function readQuery() {
 	const params = new URLSearchParams(window.location.search)
 	selected.value = props.category || params.get(key.value) || ''
@@ -72,6 +71,9 @@ const articles = computed(() => data.articles.filter((article) => {
 }).sort((a, b) => (b.lastUpdated || b.date).localeCompare(a.lastUpdated || a.date) || a.title.localeCompare(b.title, 'zh-CN')))
 const groups = computed(() => {
 	const result = new Map<string, Article[]>()
+	// 选中分类后先建好这一组：即使它还没有直属文章，子分类条目也要有地方显示
+	if (props.mode === 'categories' && activeCategory.value)
+		result.set(activeCategory.value, [])
 	for (const article of articles.value) {
 		const group = props.mode === 'archives'
 			? ((article.lastUpdated || article.date).slice(0, 7) || '日期待补充')
@@ -96,10 +98,6 @@ const groups = computed(() => {
 		label="筛选文章"
 		@select="updateQuery"
 	/>
-	<div v-if="childChips.length" class="index-subcategories">
-		<span>子分类</span>
-		<WikiChips :items="childChips" :selected="selected" label="子分类" @select="updateQuery" />
-	</div>
 	<div class="index-controls">
 		<input v-model="query" type="search" aria-label="筛选标题、分类或标签" placeholder="筛选标题、分类或标签…" @input="updateQuery(selected, true)">
 		<div class="layout-switch" aria-label="文章展示形式">
@@ -112,7 +110,7 @@ const groups = computed(() => {
 		</div>
 	</div>
 
-	<p v-if="!articles.length" class="empty-state">
+	<p v-if="!articles.length && (!childEntries.length || query.trim())" class="empty-state">
 		没有找到符合条件的文章。<button @click="query = ''; updateQuery('')">
 			清除筛选
 		</button>
@@ -122,6 +120,12 @@ const groups = computed(() => {
 			<h2>{{ name }} <span class="section-count">{{ list.length }}</span></h2>
 		</div>
 		<ul class="article-list" :class="{ 'article-cards': view === 'cards' }">
+			<li v-for="entry in childEntriesOf(name)" :key="entry.href">
+				<div class="index-item-content">
+					<a class="article-title" :href="entry.href">{{ entry.name }}</a>
+					<span class="article-kind">子分类</span>
+				</div>
+			</li>
 			<li v-for="article in list" :key="article.url">
 				<div class="index-item-content">
 					<a class="article-title" :href="article.url">{{ article.title }}</a>
