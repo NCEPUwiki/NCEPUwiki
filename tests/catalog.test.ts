@@ -53,17 +53,17 @@ test('new files use numeric directory order, preserve tags, infer missing titles
 	}
 })
 
-test('author 支持字符串、对象与数组写法，缺省时回退 NCEPUwiki-Group', () => {
+test('author 只认对象数组写法，缺省或非规范写法回退 NCEPUwiki-Group', () => {
 	const root = mkdtempSync(join(tmpdir(), 'ncepu-author-name-'))
 	try {
 		mkdirSync(join(root, '01.专题'))
-		writeFileSync(join(root, '01.专题/01.字符串.md'), '---\ntitle: 字符串\nauthor: 凝雨 NCEPUwiki-Group\n---\n正文')
+		writeFileSync(join(root, '01.专题/01.非规范.md'), '---\ntitle: 非规范\nauthor: 凝雨 NCEPUwiki-Group\n---\n正文')
 		writeFileSync(join(root, '01.专题/02.数组.md'), '---\ntitle: 数组\nauthor: [{ name: 甲 }, { name: 乙 }, 丙]\n---\n正文')
 		writeFileSync(join(root, '01.专题/03.缺省.md'), '---\ntitle: 缺省\n---\n正文')
 		const authors = Object.fromEntries(scanArticles(root).map(article => [article.title, article.author]))
 		assert.deepEqual(authors, {
-			字符串: '凝雨 NCEPUwiki-Group',
-			数组: '甲、乙、丙',
+			非规范: 'NCEPUwiki-Group',
+			数组: '甲、乙',
 			缺省: 'NCEPUwiki-Group',
 		})
 	}

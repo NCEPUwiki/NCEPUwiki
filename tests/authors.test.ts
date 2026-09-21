@@ -21,23 +21,24 @@ function commit(name: string, email: string, ...files: string[]): string {
 	return `\u001E${name}\u001F${email}\n${files.join('\n')}\n`
 }
 
-test('frontmatter author 支持字符串、对象与数组写法', () => {
-	// 一个字符串就是一个作者的名字，不再按空格或顿号切分
-	assert.deepEqual(frontmatterAuthors('凝雨').map(author => author.name), ['凝雨'])
-	assert.deepEqual(frontmatterAuthors('凝雨 NCEPUwiki-Group').map(author => author.name), ['凝雨 NCEPUwiki-Group'])
-	assert.deepEqual(frontmatterAuthors(['Rubbish_Seven', 'Liu']).map(author => author.name), ['Rubbish_Seven', 'Liu'])
+test('frontmatter author 只支持对象数组写法', () => {
 	const authors = frontmatterAuthors([
 		{ name: '硕动力233 裴一淅', email: 'pyx0726@foxmail.com' },
 		{ name: '鹰仓茉子', email: 'mailto:1361942776@qq.com', avatar: 'https://img.ncepuinfo.cc/mako.png' },
 	])
 	assert.deepEqual(authors.map(author => author.name), ['硕动力233 裴一淅', '鹰仓茉子'])
 	assert.equal(authors[0].email, 'pyx0726@foxmail.com')
+	assert.equal(authors[0].avatar, undefined)
 	assert.equal(authors[1].email, '1361942776@qq.com')
 	assert.equal(authors[1].avatar, 'https://img.ncepuinfo.cc/mako.png')
+	// 字符串、单个对象、名字字符串元素、缺 name、链接、数字等一律忽略
+	assert.deepEqual(frontmatterAuthors('凝雨'), [])
+	assert.deepEqual(frontmatterAuthors('凝雨 NCEPUwiki-Group'), [])
+	assert.deepEqual(frontmatterAuthors({ name: '凝雨' }), [])
+	assert.deepEqual(frontmatterAuthors(['凝雨', 'Liu']), [])
+	assert.deepEqual(frontmatterAuthors([{ link: 'mailto:a@b.com' }, 42, ['甲'], null]), [])
 	assert.deepEqual(frontmatterAuthors(null), [])
-	// 主页链接不再支持，只有链接没有邮箱时不会解析出任何信息
-	assert.deepEqual(frontmatterAuthors([{ name: '凝雨', link: 'https://github.com/TakakuraMako' }, { link: 'mailto:a@b.com' }, 42]).map(author => author.name), ['凝雨'])
-	assert.equal(frontmatterAuthors({ name: '凝雨', link: 'https://github.com/TakakuraMako' })[0].email, undefined)
+	assert.equal(frontmatterAuthors([{ name: '凝雨', link: 'mailto:ninyu@example.com' }])[0].email, undefined)
 })
 
 test('parseGitLog 按文件累计提交次数，跳过合并提交与目录外文件', () => {
@@ -125,14 +126,14 @@ test('gitAuthors 读取仓库历史，collectAuthors 与 frontmatter 作者合�
 		const authors = gitAuthors(docs).get('01.专题/01.文章.md') ?? []
 		assert.deepEqual(authors.map(author => [author.name, author.commits]), [['甲', 2], ['乙', 1]])
 
-		const merged = collectAuthors('01.专题/01.文章.md', { name: '甲', email: 'jia@example.com' }, docs)
+		const merged = collectAuthors('01.专题/01.文章.md', [{ name: '甲', email: 'jia@example.com' }], docs)
 		assert.deepEqual(merged.map(author => author.name), ['甲', '乙'])
 		assert.equal(merged[0].commits, 2)
 		assert.equal(merged[0].email, 'jia@example.com')
 		assert.equal(merged[0].origin, 'frontmatter')
 		assert.equal(merged[1].origin, 'git')
 		assert.ok(merged[1].fallback!.startsWith('data:image/svg+xml'))
-		assert.deepEqual(collectAuthors('01.专题/02.不存在.md', '凝雨', docs).map(author => author.name), ['凝雨'])
+		assert.deepEqual(collectAuthors('01.专题/02.不存在.md', [{ name: '凝雨' }], docs).map(author => author.name), ['凝雨'])
 	}
 	finally {
 		const target = relative(tmpdir(), root)
