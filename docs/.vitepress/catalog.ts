@@ -6,6 +6,18 @@ import matter from 'gray-matter'
 
 export const docsRoot = fileURLToPath(new URL('../', import.meta.url))
 const label = (name: string) => name.replace(/^\d+\./, '').replace(/\.md$/, '')
+
+/** frontmatter 里 author 的展示名：字符串、`{ name }` 对象，或它们的数组（用「、」连接）。 */
+function authorName(value: unknown): string {
+	if (typeof value === 'string')
+		return value.trim()
+	if (Array.isArray(value))
+		return value.map(authorName).filter(Boolean).join('、')
+	if (value && typeof value === 'object' && typeof (value as { name?: unknown }).name === 'string')
+		return (value as { name: string }).name.trim()
+	return ''
+}
+
 function strings(value: unknown): string[] {
 	const values: unknown[] = Array.isArray(value) ? value : [value]
 	return [...new Set(values.filter((item): item is string => typeof item === 'string').map(item => item.trim()).filter(Boolean))]
@@ -78,7 +90,7 @@ export function scanArticles(root = docsRoot) {
 				categories: strings([...folders, ...strings(fm.categories).flatMap(category => category.split(/\s+-\s+/))]),
 				tags: strings(fm.tags),
 				date: fm.date ? new Date(fm.date).toISOString().slice(0, 10) : '',
-				author: typeof fm.author === 'string' ? fm.author : fm.author?.name || 'NCEPUwiki-Group',
+				author: authorName(fm.author) || 'NCEPUwiki-Group',
 				lastUpdated,
 				lastUpdatedTime: lastUpdated ? Date.parse(lastUpdated) : 0,
 				hasHeading: hasTitleHeading(content),

@@ -22,8 +22,10 @@ function commit(name: string, email: string, ...files: string[]): string {
 }
 
 test('frontmatter author 支持字符串、对象与数组写法', () => {
-	assert.deepEqual(frontmatterAuthors('凝雨 NCEPUwiki-Group').map(author => author.name), ['凝雨', 'NCEPUwiki-Group'])
-	assert.deepEqual(frontmatterAuthors('Rubbish_Seven、Liu').map(author => author.name), ['Rubbish_Seven', 'Liu'])
+	// 一个字符串就是一个作者的名字，不再按空格或顿号切分
+	assert.deepEqual(frontmatterAuthors('凝雨').map(author => author.name), ['凝雨'])
+	assert.deepEqual(frontmatterAuthors('凝雨 NCEPUwiki-Group').map(author => author.name), ['凝雨 NCEPUwiki-Group'])
+	assert.deepEqual(frontmatterAuthors(['Rubbish_Seven', 'Liu']).map(author => author.name), ['Rubbish_Seven', 'Liu'])
 	const authors = frontmatterAuthors([
 		{ name: '硕动力233 裴一淅', email: 'pyx0726@foxmail.com' },
 		{ name: '鹰仓茉子', email: 'mailto:1361942776@qq.com', avatar: 'https://img.ncepuinfo.cc/mako.png' },

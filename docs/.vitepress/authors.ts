@@ -66,17 +66,18 @@ function remoteAvatar(rawEmail: string, url: string): string {
  * 把 frontmatter 的 `author` 归一化成作者列表。
  *
  * 支持三种写法：
- * - 字符串：`author: 凝雨 NCEPUwiki-Group`，按空白、`、`、`,`、`;`、`/`、`&`、`|` 切分；
+ * - 字符串：`author: 凝雨`，一个字符串就是一个作者的名字，不做任何切分；
  * - 对象：`author: { name, email, avatar }`，`email` 直接写邮箱或写成 `mailto:`；
- * - 数组：以上两种写法的任意组合。
+ * - 数组：`author: [凝雨, Liu]` 或对象数组，多个作者必须用数组声明。
  *
- * 姓名本身含空格时请用对象写法，例如 `name: 硕动力233 裴一淅`。
+ * 名字里带空格、顿号都当成一个名字的一部分，多个作者不要拼在一个字符串里。
  */
 export function frontmatterAuthors(value: unknown): Author[] {
 	const authors: Author[] = []
 	for (const item of Array.isArray(value) ? value : [value]) {
 		if (typeof item === 'string') {
-			for (const name of item.split(/[\s、,，;；/&|]+/).map(part => part.trim()).filter(Boolean))
+			const name = item.trim()
+			if (name)
 				authors.push({ name, origin: 'frontmatter' })
 			continue
 		}
