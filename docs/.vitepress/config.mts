@@ -11,10 +11,11 @@ const articles = scanArticles()
 function findArticle(relativePath: string) {
 	return articles.find(item => item.source === relativePath || outputPath(item.url) === relativePath)
 }
-function topicMatch(slug: string, ...folders: string[]) {
+/** 某个分类下所有文章的路由，用来给「参与共建」这类导航项做高亮 */
+function categoryMatch(...folders: string[]) {
 	const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 	const paths = articles.filter(article => folders.includes(article.folders[0])).flatMap(article => [article.url.replace(/\/$/, ''), `/${article.source.replace(/\.md$/, '')}`]).map(escape)
-	return `^(?:/topics/(?:${slug})|${paths.join('|')})/?$`
+	return `^(?:${paths.join('|')})/?$`
 }
 const rewrites = new Map(articles.map(article => [article.source, outputPath(article.url)]))
 const sidebar = Object.fromEntries(articles.map(article => [article.url, [
@@ -85,11 +86,11 @@ export default defineConfig({
 	sitemap: { hostname: 'https://wiki.ncepuinfo.cc' },
 	themeConfig: {
 		nav: [
-			{ text: '新生入学', link: '/topics/newcomers/', activeMatch: topicMatch('newcomers', '新生入学') },
-			{ text: '学习专题', link: '/topics/study/', activeMatch: topicMatch('study', '学习专题') },
-			{ text: '群汇总', link: '/topics/groups/', activeMatch: topicMatch('groups', '群汇总') },
+			{ text: '新生入学', link: '/categories/?category=新生入学' },
+			{ text: '学习专题', link: '/categories/?category=学习专题' },
+			{ text: '群汇总', link: '/categories/?category=群汇总' },
 			{ text: '全部分类', link: '/categories/' },
-			{ text: '参与共建', link: '/pages/BasicContribution/', activeMatch: topicMatch('contribute', '贡献与其他') },
+			{ text: '参与共建', link: '/pages/BasicContribution/', activeMatch: categoryMatch('贡献与其他') },
 		],
 		sidebar,
 		socialLinks: [{ icon: 'github', link: 'https://github.com/NCEPUwiki/NCEPUwiki' }],

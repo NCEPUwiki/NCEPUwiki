@@ -49,6 +49,8 @@ function updateQuery(value = selected.value, replace = false) {
 	if (query.value)
 		params.set('q', query.value)
 	window.history[replace ? 'replaceState' : 'pushState']({}, '', window.location.pathname + (params.size ? `?${params}` : ''))
+	// 分类页的导航入口也用查询串区分，切换后通知一遍，让导航高亮等跟着更新
+	window.dispatchEvent(new Event('wiki:route-change'))
 }
 onMounted(() => {
 	readQuery()
