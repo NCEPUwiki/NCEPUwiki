@@ -3,7 +3,6 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import matter from 'gray-matter'
-import { frontmatterAuthors } from './authors.ts'
 import { categoryPaths, collectCategories } from './category.ts'
 
 export const docsRoot = fileURLToPath(new URL('../', import.meta.url))
@@ -82,8 +81,6 @@ export function scanArticles(root = docsRoot) {
 				categories: categoryPaths(fm.categories),
 				tags: strings(fm.tags),
 				date: fm.date ? new Date(fm.date).toISOString().slice(0, 10) : '',
-				// 卡片只显示 frontmatter 声明的名字，多个作者用「、」连接；没声明时回退组织账号
-				author: frontmatterAuthors(fm.author).map(author => author.name).join('、') || 'NCEPUwiki-Group',
 				lastUpdated,
 				lastUpdatedTime: lastUpdated ? Date.parse(lastUpdated) : 0,
 				hasHeading: hasTitleHeading(content),

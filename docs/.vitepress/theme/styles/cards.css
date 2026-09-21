@@ -1,10 +1,16 @@
-.VPSidebar .directory-trigger {
+/* 侧栏顶部一行：「全部目录」+ 收起左侧目录的按钮 */
+.sidebar-top {
 	display: flex;
-	justify-content: flex-start;
-	width: 100%;
+	align-items: center;
+	gap: 4px;
+	border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.VPSidebar .directory-trigger {
+	flex: 1;
+	min-width: 0;
 	margin-bottom: 0;
 	padding: 10px 0;
-	border-bottom: 1px solid var(--vp-c-divider);
 }
 
 .wiki-wide {
@@ -595,14 +601,16 @@ html[data-wiki-cardlist-layout="table"] .card-description {
 	}
 }
 
-/* 桌面端可以把左侧目录整个收起来，正文随之变宽。
+/* 桌面端可以把左侧目录整个收起来，正文随之变宽：
+   展开时按钮在侧栏顶部，收起后变成左边缘上的小按钮，方便再展开。
    手机上本来就是抽屉式菜单；首页、分类页等没有左侧目录的页面也不显示这个按钮 */
 .wiki-sidebar-toggle {
 	display: none;
 }
 
 @media (min-width: 60rem) {
-	html:has(.VPContent.has-sidebar) .wiki-sidebar-toggle {
+	html:has(.VPContent.has-sidebar) .sidebar-top .wiki-sidebar-toggle,
+	html[data-wiki-sidebar="collapsed"]:has(.VPContent.has-sidebar) .wiki-sidebar-toggle-floating {
 		display: grid;
 		place-items: center;
 		width: 36px;
@@ -612,14 +620,24 @@ html[data-wiki-cardlist-layout="table"] .card-description {
 		transition: color var(--wiki-duration), background var(--wiki-duration);
 	}
 
-	html:has(.VPContent.has-sidebar) .wiki-sidebar-toggle:hover {
+	.sidebar-top .wiki-sidebar-toggle:hover,
+	.wiki-sidebar-toggle-floating:hover {
 		color: var(--vp-c-text-1);
 		background: var(--vp-c-default-soft);
 	}
 
-	html:has(.VPContent.has-sidebar) .wiki-sidebar-toggle svg {
+	.wiki-sidebar-toggle svg {
 		width: 18px;
 		height: 18px;
+	}
+
+	.wiki-sidebar-toggle-floating {
+		position: fixed;
+		z-index: 26;
+		inset-block-start: calc(var(--vp-nav-height) + 5px);
+		inset-inline-start: 8px;
+		border: 1px solid var(--vp-c-divider);
+		background: var(--vp-c-bg);
 	}
 
 	html[data-wiki-sidebar="collapsed"] .VPSidebar {
@@ -634,10 +652,6 @@ html[data-wiki-cardlist-layout="table"] .card-description {
 	   VitePress 的 .VPDoc.has-aside .content-container 是 scoped 样式，这里要选得比它更具体 */
 	html[data-wiki-sidebar="collapsed"] .VPDoc.has-aside .content-container {
 		max-width: 860px;
-	}
-
-	html[data-wiki-sidebar="collapsed"]:has(.VPContent.has-sidebar) .wiki-sidebar-toggle {
-		color: var(--vp-c-brand-1);
 	}
 }
 

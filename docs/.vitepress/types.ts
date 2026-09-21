@@ -26,7 +26,6 @@ export interface Article {
 	date: string
 	lastUpdated: string
 	lastUpdatedTime: number
-	author: string
 	hasHeading: boolean
 	empty: boolean
 }

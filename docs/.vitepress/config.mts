@@ -88,7 +88,7 @@ export default defineConfig({
 			{ text: '新生入学', link: '/topics/newcomers/', activeMatch: topicMatch('newcomers', '新生入学') },
 			{ text: '学习专题', link: '/topics/study/', activeMatch: topicMatch('study', '学习专题') },
 			{ text: '群汇总', link: '/topics/groups/', activeMatch: topicMatch('groups', '群汇总') },
-			{ text: '全部目录', link: '/categories/' },
+			{ text: '全部分类', link: '/categories/' },
 			{ text: '参与共建', link: '/pages/BasicContribution/', activeMatch: topicMatch('contribute', '贡献与其他') },
 		],
 		sidebar,

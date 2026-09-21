@@ -77,7 +77,7 @@ function isExternal(link?: string) {
 			</p>
 			<!-- 主要行动按钮：跳转新生指南；第二个链接前往文章分类索引页 /categories/ -->
 			<div class="hero-actions">
-				<a class="primary" href="/pages/Preparation">阅读新生指南 <span aria-hidden="true">↗</span></a><a href="/categories/">浏览全部目录 →</a>
+				<a class="primary" href="/pages/Preparation">阅读新生指南 <span aria-hidden="true">↗</span></a><a href="/categories/">浏览全部分类 →</a>
 			</div>
 		</div>
 		<!-- Hero 右侧小卡片：校徽、校区范围、由 data loader 统计的条目总数、一句话定位 -->
@@ -96,7 +96,7 @@ function isExternal(link?: string) {
 					<!-- aria-labelledby 让标题与本节语义关联，便于读屏器识别 -->
 					<h2 id="topics-title">
 						探索专题
-					</h2><a href="/categories/">全部目录 →</a>
+					</h2><a href="/categories/">全部分类 →</a>
 				</div>
 				<div class="topic-grid">
 					<!-- 动态专题卡片：v-for 遍历 topics 并解构出 [name, desc]；
