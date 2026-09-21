@@ -96,7 +96,7 @@ export default defineConfig({
 		socialLinks: [{ icon: 'github', link: 'https://github.com/NCEPUwiki/NCEPUwiki' }],
 		externalLinkIcon: true,
 		langMenuLabel: '切换语言',
-		sidebarMenuLabel: '专题目录',
+		sidebarMenuLabel: '分类文章',
 		darkModeSwitchLabel: '主题',
 		lightModeSwitchTitle: '切换到浅色模式',
 		darkModeSwitchTitle: '切换到深色模式',
