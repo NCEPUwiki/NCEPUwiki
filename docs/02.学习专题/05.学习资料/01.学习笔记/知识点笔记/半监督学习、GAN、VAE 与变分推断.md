@@ -1,3 +1,23 @@
+---
+title: 半监督学习、GAN、VAE 与变分推断
+description: 半监督学习、GAN、CatGAN、CCGAN、极大似然估计、EM、变分推断与 VAE 学习笔记，涵盖概率与信息论基础、KL/JS 散度、Jensen 不等式、ELBO、重参数化及一致性正则化等内容，并结合公式推导与实例进行整理。
+date: 2026-09-24
+lastUpdated: 2026-09-24
+author:
+  - name: lzxms
+    email: 3165865378@qq.com
+categories:
+  - 学习笔记
+tags:
+  - 半监督学习
+  - GAN
+  - VAE
+  - 变分推断
+  - 生成模型
+  - 深度学习
+permalink: /pages/semi-supervised-learning-gan-vae/
+---
+
 # 半监督学习、GAN、VAE 与变分推断
 
 >本笔记可以作为华为AI认证考试的相关章节复习资料。由GPT辅助生成
