@@ -63,3 +63,17 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+      # 部署完成后通知 IndexNow（Bing、Yandex 等），让新内容不必等自然抓取。
+      # 脚本只用 Node 内置模块，且用 --remote 读取线上 sitemap.xml，
+      # 因此这里不需要安装依赖，也不依赖 build 任务的产物。
+      - name: Checkout source
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Submit URLs to IndexNow
+        run: node scripts/indexnow.ts --remote

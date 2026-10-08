@@ -17,6 +17,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "tsx --test tests/*.test.ts",
+    "indexnow": "node scripts/indexnow.ts",
+    "indexnow:dry": "node scripts/indexnow.ts --dry-run",
+    "indexnow:remote": "node scripts/indexnow.ts --remote",
     "check": "pnpm typecheck && pnpm lint && pnpm test"
   },
   "dependencies": {

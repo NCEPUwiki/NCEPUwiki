@@ -61,7 +61,9 @@ export function scanArticles(root = docsRoot) {
 			if (!entry.name.endsWith('.md'))
 				continue
 			const source = relative(root, file).replaceAll('\\', '/')
-			if (!/^\d+\./.test(source))
+			// 404.md 恰好也满足「数字开头」的命名，但它是 VitePress 的错误页，
+			// 不属于文章，不能进入目录树、分类、搜索索引和站点地图。
+			if (source === '404.md' || !/^\d+\./.test(source))
 				continue
 			const { data: fm, content } = matter(readFileSync(file, 'utf8'))
 			if (fm.article === false)
