@@ -44,6 +44,22 @@ pnpm preview  # 预览生产产物
 
 产物位于 `docs/.vitepress/dist/`。GitHub Actions 使用锁文件安装依赖，构建后发布到 GitHub Pages；域名由 `docs/public/CNAME` 保留。
 
+## IndexNow 收录通知
+
+站点接入 [IndexNow](https://www.indexnow.org/documentation)，部署完成后把 `sitemap.xml` 里的全部页面推送给 Bing、Yandex 等搜索引擎，新内容不必干等自然抓取。
+
+```bash
+pnpm indexnow:dry      # 只打印将要提交的 URL，不发请求
+pnpm indexnow          # 提交本地构建产物中的页面（需先 pnpm build）
+pnpm indexnow:remote   # 改用线上 sitemap.xml，不依赖本地构建
+```
+
+- `docs/.vitepress/indexnow.ts`：协议实现，包含站点地图解析、提交体组装、状态码翻译和提交前的密钥可用性检查。
+- `scripts/indexnow.ts`：命令行入口，只用 Node 内置模块，CI 中无需安装依赖。
+- `docs/public/d793882a93998188251d6bc0f1b5b9d4.txt`：密钥文件，构建后发布到站点根目录，搜索引擎据此校验归属。**更换密钥需同时改文件名和 `indexnow.ts` 里的 `indexNowKey`**，两者由 `pnpm test` 校验一致。
+
+提交前会先确认密钥文件能公开访问，避免搜索引擎校验失败却静默返回 202。未发布的密钥文件会导致提交中止并报错。`.github/workflows/static.yml` 在 `deploy` 任务结束后执行 `node scripts/indexnow.ts --remote`，此时密钥文件已随站点上线。
+
 依赖版本直接维护在 `package.json`；`pnpm-workspace.yaml` 只保留安装脚本白名单等 pnpm 设置。提交 `pnpm-lock.yaml` 保证 CI 安装一致。样式检查参考 [homepage-v5](https://github.com/L33Z22L11/homepage-v5)，由 `@zinkawaii/eslint-config-css` 接入 ESLint 统一处理。`pnpm lint:fix` 可自动修复格式问题。TypeScript 严格检查主题和索引代码；历史 Markdown 示例不参与 ESLint，由生产构建校验。
 
 CSS 按 tokens、base、home、article 分层组织，使用原生自定义属性、逻辑属性和 `color-mix()`；键盘焦点及减少动画偏好在通用样式中统一处理。`.editorconfig` 和 `.gitattributes` 统一 UTF-8 / LF，代码使用 Tab，Markdown / JSON / YAML 使用空格缩进。
