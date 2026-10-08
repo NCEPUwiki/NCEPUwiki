@@ -1,0 +1,36 @@
+# NCEPUwiki
+
+> 华北电力大学学生共同维护的非官方校园知识库：提供高质量、结构化的信息资源、实用的升学/学习经验分享与持续更新的学习资料。
+
+## 站点核心信息
+- 官网：https://wiki.ncepuinfo.cc
+- 代码仓库：https://github.com/NCEPUwiki/NCEPUwiki
+- 校区覆盖：北京校区、保定校区
+- 站点许可：MIT License
+
+## 核心专题与指南路由
+- 新生入学：
+  - 入学准备：https://wiki.ncepuinfo.cc/pages/Preparation
+  - 交通路线：https://wiki.ncepuinfo.cc/pages/Transportation
+  - 报到流程：https://wiki.ncepuinfo.cc/pages/Registration
+  - 日常生活：https://wiki.ncepuinfo.cc/pages/SchoolLife
+  - 常见问答 Q&A：https://wiki.ncepuinfo.cc/pages/QuestionAndAnswer
+- 学习与升学：
+  - 学分与选课：https://wiki.ncepuinfo.cc/pages/gradeandcourse
+  - 课程评价：https://wiki.ncepuinfo.cc/pages/CourseEvaluation
+  - 本科生综合测评（综测）：https://wiki.ncepuinfo.cc/pages/appraise/
+  - 考研备考经验：https://wiki.ncepuinfo.cc/pages/kaoyan/
+  - 保研推免指南：https://wiki.ncepuinfo.cc/pages/PostgraduateRecommendation/
+  - 课外实践学分急救攻略：https://wiki.ncepuinfo.cc/pages/extracurricularpractice
+- 校园生活与服务：
+  - 常用账号与默认密码：https://wiki.ncepuinfo.cc/pages/accountpassword
+  - 常用网站与校外VPN：https://wiki.ncepuinfo.cc/pages/webs
+  - 自习室与图书馆：https://wiki.ncepuinfo.cc/pages/SelfStudy/
+  - 食堂与周边美食：https://wiki.ncepuinfo.cc/pages/food/
+  - 大学生医保：https://wiki.ncepuinfo.cc/pages/medicalinsurance/
+- 就业求职：
+  - 就业知识汇总：https://wiki.ncepuinfo.cc/pages/job/
+  - 校友企业内推渠道：https://wiki.ncepuinfo.cc/pages/EmployeeRefer/
+- 贡献与社区：
+  - 基础贡献指南：https://wiki.ncepuinfo.cc/pages/BasicContribution/
+  - 进阶贡献指南：https://wiki.ncepuinfo.cc/pages/AdvanceContribution/

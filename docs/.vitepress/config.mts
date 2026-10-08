@@ -1,4 +1,4 @@
-import type { MarkdownOptions } from 'vitepress'
+import type { HeadConfig, MarkdownOptions } from 'vitepress'
 import { fileURLToPath } from 'node:url'
 import markmapPlugin from '@vitepress-plugin/markmap'
 import { defineConfig } from 'vitepress'
@@ -6,11 +6,14 @@ import { collectAuthors } from './authors.ts'
 import { cardlist } from './cardlist.ts'
 import { buildTree, docsRoot, outputPath, scanArticles } from './catalog.ts'
 import { writeSearchIndex } from './search-index.ts'
+import { assertSeoTitleMapMatches, seoTitleFor, siteUrl, standaloneSeo } from './seo.ts'
 
 const articles = scanArticles()
+assertSeoTitleMapMatches(articles)
 function findArticle(relativePath: string) {
 	return articles.find(item => item.source === relativePath || outputPath(item.url) === relativePath)
 }
+
 /** 某个分类下所有文章的路由，用来给「参与共建」这类导航项做高亮 */
 function categoryMatch(...folders: string[]) {
 	const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -75,7 +78,7 @@ export default defineConfig({
 	description: '华北电力大学学生共同维护的非官方校园知识库：新生入学、学习升学、校园生活与就业指南。',
 	cleanUrls: true,
 	lastUpdated: false,
-	srcExclude: ['activity/**'],
+	srcExclude: ['activity/**', 'public/mermaid/**'],
 	rewrites: source => rewrites.get(source) || source,
 	head: [
 		['link', { rel: 'stylesheet', href: 'https://s4.zstatic.net/npm/inter-ui@4.1.1/inter-variable.css' }],
@@ -83,7 +86,15 @@ export default defineConfig({
 		['link', { 'rel': 'icon', 'type': 'image/svg+xml', 'href': '/favicon-light.svg', 'media': '(prefers-color-scheme: light)', 'data-wiki-icon': '' }],
 		['link', { 'rel': 'icon', 'type': 'image/svg+xml', 'href': '/favicon-dark.svg', 'media': '(prefers-color-scheme: dark)', 'data-wiki-icon': '' }],
 	],
-	sitemap: { hostname: 'https://wiki.ncepuinfo.cc' },
+	sitemap: {
+		hostname: siteUrl,
+		transformItems(items) {
+			// 404 错误页与空占位页（只有 frontmatter、没有正文）都应 noindex，不进站点地图
+			const normalize = (u: string) => u.replace(/^https?:\/\/[^/]+/, '').replace(/^\//, '').replace(/\/$/, '')
+			const emptyUrls = new Set(articles.filter(a => a.empty).map(a => normalize(a.url)))
+			return items.filter(item => normalize(item.url) !== '404' && !emptyUrls.has(normalize(item.url)))
+		},
+	},
 	themeConfig: {
 		nav: [
 			{ text: '新生入学', link: '/categories/?category=新生入学' },
@@ -126,11 +137,100 @@ export default defineConfig({
 	transformPageData(page) {
 		const article = findArticle(page.relativePath)
 		if (article) {
-			page.title = article.title
+			page.title = seoTitleFor(article)
 			page.lastUpdated = article.lastUpdatedTime || undefined
 			Object.assign(page.frontmatter, { title: article.title, categories: article.categories, tags: article.tags, empty: article.empty })
 			// 页尾作者列表：frontmatter 与 Git 提交历史合并去重，构建期算好后随页面数据下发
 			page.frontmatter.authors = collectAuthors(article.source, page.frontmatter.author, docsRoot)
+			return
 		}
+		// <title> 由 pageData 渲染，非文章页也要在这里覆盖，
+		// 否则 transformHead 只影响 og:/twitter:，正式标签仍是短标题。
+		const standalone = standaloneSeo[page.relativePath]
+		if (standalone?.title)
+			page.title = standalone.title
+	},
+	transformHead({ pageData, title }) {
+		const article = findArticle(pageData.relativePath)
+		const isHome = pageData.relativePath === 'index.md'
+		const standalone = standaloneSeo[pageData.relativePath]
+
+		let canonicalUrl = siteUrl
+		if (article) {
+			canonicalUrl = `${siteUrl}${article.url}`
+		}
+		else if (isHome) {
+			canonicalUrl = `${siteUrl}/`
+		}
+		else {
+			const clean = pageData.relativePath.replace(/((^|\/)index)?\.md$/, '$2')
+			canonicalUrl = `${siteUrl}/${clean}`.replace(/\/+/g, '/').replace('https:/', 'https://')
+		}
+
+		// title 由 VitePress 按 titleTemplate 拼好（首页自带 titleTemplate，其余页面走站点默认后缀），
+		// 不再在这里重复拼一次，避免两处逻辑不一致。
+		const description = pageData.description
+			|| (pageData.frontmatter && (pageData.frontmatter.description as string))
+			|| '华北电力大学学生共同维护的非官方校园知识库：新生入学、学习升学、校园生活与就业指南。'
+
+		const head: HeadConfig[] = [
+			['link', { rel: 'canonical', href: canonicalUrl }],
+			['meta', { property: 'og:site_name', content: 'NCEPUwiki' }],
+			['meta', { property: 'og:type', content: isHome ? 'website' : 'article' }],
+			['meta', { property: 'og:title', content: title }],
+			['meta', { property: 'og:description', content: description }],
+			['meta', { property: 'og:url', content: canonicalUrl }],
+			['meta', { property: 'og:image', content: `${siteUrl}/img/logo.png` }],
+			['meta', { name: 'twitter:card', content: 'summary' }],
+			['meta', { name: 'twitter:title', content: title }],
+			['meta', { name: 'twitter:description', content: description }],
+			['meta', { name: 'twitter:image', content: `${siteUrl}/img/logo.png` }],
+		]
+
+		// 空占位页（只有 frontmatter、没有正文）不索引：正文为空时收录只会带来薄内容问题
+		if (article?.empty || standalone?.noindex) {
+			head.push(['meta', { name: 'robots', content: 'noindex, nofollow' }])
+		}
+
+		if (isHome) {
+			head.push(['script', { type: 'application/ld+json' }, JSON.stringify({
+				'@context': 'https://schema.org',
+				'@type': 'WebSite',
+				'name': 'NCEPUwiki',
+				'alternateName': '华北电力大学校园知识库',
+				'url': `${siteUrl}/`,
+				'description': description,
+				'inLanguage': 'zh-CN',
+				'publisher': {
+					'@type': 'Organization',
+					'name': 'NCEPUwiki-Group',
+					'url': `${siteUrl}/`,
+					'logo': `${siteUrl}/img/logo.png`,
+				},
+			})])
+		}
+		else if (article && !article.empty) {
+			const jsonLd: Record<string, any> = {
+				'@context': 'https://schema.org',
+				'@type': 'Article',
+				// headline 与用户看到的 <title> 主体保持一致，避免结构化数据与页面标题不符
+				'headline': seoTitleFor(article),
+				'description': description,
+				'url': canonicalUrl,
+				'inLanguage': 'zh-CN',
+				'publisher': {
+					'@type': 'Organization',
+					'name': 'NCEPUwiki-Group',
+					'url': `${siteUrl}/`,
+				},
+			}
+			if (article.date)
+				jsonLd.datePublished = article.date
+			if (article.lastUpdated)
+				jsonLd.dateModified = article.lastUpdated
+			head.push(['script', { type: 'application/ld+json' }, JSON.stringify(jsonLd)])
+		}
+
+		return head
 	},
 })

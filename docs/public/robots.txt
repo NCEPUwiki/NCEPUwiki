@@ -1,5 +1,6 @@
 User-agent: *
-
 Allow: /
+# 分类/标签/筛选都通过查询串切换同一页面，屏蔽查询串避免同一内容被当成多个 URL 收录
+Disallow: /*?*
 
 Sitemap: https://wiki.ncepuinfo.cc/sitemap.xml
