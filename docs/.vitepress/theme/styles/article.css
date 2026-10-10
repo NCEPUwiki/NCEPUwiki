@@ -195,7 +195,6 @@
 	color: var(--vp-c-text-2);
 }
 
-.article-byline,
 .article-date {
 	display: flex;
 	flex-wrap: wrap;
@@ -203,21 +202,16 @@
 	gap: 3px;
 }
 
-.article-byline {
-	gap: 8px 16px;
-	margin-block: 12px;
-	font-size: 12px;
+/* 页尾时间行：创建于 …，最后更新于 … */
+.article-dates {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.7;
 	color: var(--vp-c-text-2);
 }
 
-.article-byline svg {
-	width: 14px;
-	height: 14px;
-}
-
-.article-byline a {
-	text-decoration: none;
-	color: inherit;
+.article-dates time {
+	font-variant-numeric: tabular-nums;
 }
 
 /* 页尾作者列表：frontmatter 与 Git 提交历史合并去重后全部列出，可能十人以上 */
@@ -421,9 +415,9 @@ a.article-author-name:hover {
 	padding: 2px 8px;
 	border-radius: var(--wiki-radius-small);
 	background: var(--vp-c-brand-soft);
-	color: var(--vp-c-brand-1);
 	font-size: 12px;
 	line-height: 1.4;
+	color: var(--vp-c-brand-1);
 }
 
 .article-list:not(.article-cards) > li {

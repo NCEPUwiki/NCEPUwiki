@@ -622,8 +622,8 @@ html[data-wiki-cardlist-layout="table"] .card-description {
 
 	.sidebar-top .wiki-sidebar-toggle:hover,
 	.wiki-sidebar-toggle-floating:hover {
-		color: var(--vp-c-text-1);
 		background: var(--vp-c-default-soft);
+		color: var(--vp-c-text-1);
 	}
 
 	.wiki-sidebar-toggle svg {
@@ -633,11 +633,11 @@ html[data-wiki-cardlist-layout="table"] .card-description {
 
 	.wiki-sidebar-toggle-floating {
 		position: fixed;
-		z-index: 26;
 		inset-block-start: calc(var(--vp-nav-height) + 5px);
 		inset-inline-start: 8px;
 		border: 1px solid var(--vp-c-divider);
 		background: var(--vp-c-bg);
+		z-index: 26;
 	}
 
 	html[data-wiki-sidebar="collapsed"] .VPSidebar {

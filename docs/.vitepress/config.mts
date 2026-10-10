@@ -125,6 +125,8 @@ export default defineConfig({
 				'@': fileURLToPath(new URL('./', import.meta.url)),
 				// 用自研整串搜索替换 VitePress 默认主题导航栏里的搜索组件
 				'./VPNavBarSearch.vue': fileURLToPath(new URL('./theme/components/WikiSearch.vue', import.meta.url)),
+				// 页尾时间改为「创建于 …，最后更新于 …」，替换默认主题只显示最后更新的组件
+				'./VPDocFooterLastUpdated.vue': fileURLToPath(new URL('./theme/components/ArticleDates.vue', import.meta.url)),
 			},
 		},
 	},
@@ -138,7 +140,9 @@ export default defineConfig({
 		const article = findArticle(page.relativePath)
 		if (article) {
 			page.title = seoTitleFor(article)
-			page.lastUpdated = article.lastUpdatedTime || undefined
+			// 页尾时间由 ArticleDates 按 frontmatter 渲染；没有 lastUpdated 的文章用创建日期占位，
+			// 保证 VitePress 的页尾信息行仍然出现（那里只显示实际存在的日期）。
+			page.lastUpdated = article.lastUpdatedTime || (article.date ? Date.parse(article.date) : undefined)
 			Object.assign(page.frontmatter, { title: article.title, categories: article.categories, tags: article.tags, empty: article.empty })
 			// 页尾作者列表：frontmatter 与 Git 提交历史合并去重，构建期算好后随页面数据下发
 			page.frontmatter.authors = collectAuthors(article.source, page.frontmatter.author, docsRoot)
