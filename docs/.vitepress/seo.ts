@@ -63,6 +63,9 @@ export const seoTitleMap: Record<string, string> = {
 	'/pages/PowerGeneration/': '电厂就业入门：分班倒班机制与职称晋升路径',
 	'/pages/EmploymentForElectricalEngineeringUndergraduates/': '华北电力大学电气本科就业方向与备考建议',
 	'/pages/job/': '华电求职知识与技能手册：简历制作与笔面试准备',
+	// AI专题
+	'/pages/ai-coding-budget/': 'AI 编程穷鬼套餐怎么选：ChatGPT Plus、OpenCode Go 与免费模型对比',
+	'/pages/ai-model-selection/': '全场景 AI 选型指南：搜题答疑、资料检索、写代码与科研怎么挑模型',
 	// 贡献与其他
 	'/pages/BasicContribution/': '基础贡献指南：Markdown 写作与提交规范',
 	'/pages/AdvanceContribution/': '进阶贡献指南：图片上传与 Pull Request 流程',
