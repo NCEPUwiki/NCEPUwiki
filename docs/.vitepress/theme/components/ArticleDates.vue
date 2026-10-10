@@ -15,5 +15,9 @@ const updated = computed(() => isoDate(frontmatter.value.lastUpdated))
 </script>
 
 <template>
-<p v-if="created || updated" class="article-dates"><template v-if="created">创建于 <time :datetime="created">{{ created }}</time></template><template v-if="created && updated">，</template><template v-if="updated">最后更新于 <time :datetime="updated">{{ updated }}</time></template></p>
+<p v-if="created || updated" class="article-dates">
+	<span v-if="created">创建于 <time :datetime="created">{{ created }}</time></span>
+	<span v-if="created && updated">，</span>
+	<span v-if="updated">最后更新于 <time :datetime="updated">{{ updated }}</time></span>
+</p>
 </template>
