@@ -644,7 +644,18 @@ html[data-wiki-cardlist-layout="table"] .card-description {
 		display: none;
 	}
 
+	/* 展开时导航栏背景从侧栏右边才开始，左上角那一段由侧栏自己铺；
+	   收起后侧栏没了，让导航栏铺满整行，否则正文会从顶部左方透出来 */
+	html[data-wiki-sidebar="collapsed"] .VPNavBar.has-sidebar {
+		--vp-nav-col-offset: 0px;
+	}
+
 	html[data-wiki-sidebar="collapsed"] .VPContent.has-sidebar {
+		padding-left: 0;
+	}
+
+	/* 窄桌面宽度下正文上方还有一条吸顶导航，同样不再为侧栏留位 */
+	html[data-wiki-sidebar="collapsed"] .VPLocalNav.has-sidebar {
 		padding-left: 0;
 	}
 
