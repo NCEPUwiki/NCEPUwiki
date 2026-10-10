@@ -9,6 +9,9 @@ const links = [
 	{ name: 'SWJTUwiki', image: 'https://img.ncepuinfo.cc/10/10/西南交通大学校徽.png', url: 'https://wiki.swjtu.top/', description: '西南交通大学 Wiki', tag: '兄弟院校' },
 	{ name: '西邮 Wiki', image: 'https://p.qlogo.cn/gh/924632788/924632788/100/', url: 'https://wiki.cooo.site/', description: '西安邮电大学校园知识库', tag: '兄弟院校' },
 	{ name: '华电Math', image: 'https://img.ncepuinfo.cc/10/10/华电Math.jpg', url: 'http://math.ncepuinfo.cc/', description: '华北电力大学非官方数学学习网', tag: '华电数学网' },
+	{ name: '青理Wiki', image: 'https://pic1.imgdb.cn/i/0349E4NqLje1oLHNowvJ4R.png', url: 'https://wiki.quters.top/', description: '青岛理工大学Wiki', tag: '兄弟院校' },
+	{ name: '河大Wiki', image: 'https://hbuwiki.top/%E6%8A%A0%E5%9B%BE%E5%90%8E%E6%9C%88%E8%A7%81hbuwik%E5%9B%BE%E6%A0%87i.png', url: 'https://hbuwiki.top/', description: '河北大学Wiki', tag: '兄弟院校' },
+	{ name: 'NKUWiki', image: 'https://freshnkuer.wiki/img/logo.svg', url: 'https://freshnkuer.wiki/', description: '南开大学Wiki', tag: '兄弟院校' },
 ]
 </script>
 
