@@ -85,6 +85,7 @@ export const standaloneSeo: Record<string, { title?: string, noindex?: boolean }
 	'archives/index.md': { title: '最近更新：华北电力大学校园知识库修订记录' },
 	'categories/index.md': { title: '文章分类：浏览校园知识库全部专题' },
 	'tags/index.md': { title: '标签：按主题检索校园知识库条目' },
+	'map.md': { title: '校园地图：华北电力大学北京校部与保定校区点位导览' },
 	'404.md': { noindex: true },
 }
 

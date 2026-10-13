@@ -79,6 +79,7 @@ export default {
 	enhanceApp({ app, router }) {
 		// VitePress 2 no longer exposes the plugin's automatic registration marker.
 		app.component('markmap', defineAsyncComponent(async () => (await import('@vitepress-plugin/markmap/markmap')).default as unknown as Component))
+		app.component('CampusMap', defineAsyncComponent(async () => (await import('./components/CampusMap.vue')).default as unknown as Component))
 		app.component('WikiHome', WikiHome)
 		app.component('wide', WidePage)
 		app.component('GroupAvatar', GroupAvatar)

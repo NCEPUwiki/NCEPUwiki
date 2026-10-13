@@ -100,6 +100,7 @@ export default defineConfig({
 			{ text: '新生入学', link: '/categories/?category=新生入学' },
 			{ text: '学习专题', link: '/categories/?category=学习专题' },
 			{ text: '群汇总', link: '/categories/?category=群汇总' },
+			{ text: '校园地图', link: '/map' },
 			{ text: '全部分类', link: '/categories/' },
 			{ text: '参与共建', link: '/pages/BasicContribution/', activeMatch: categoryMatch('贡献与其他') },
 			{ text: '联系我们', link: '/pages/ContactUs/', activeMatch: categoryMatch('贡献与其他') },
