@@ -102,6 +102,7 @@ export default defineConfig({
 			{ text: '群汇总', link: '/categories/?category=群汇总' },
 			{ text: '全部分类', link: '/categories/' },
 			{ text: '参与共建', link: '/pages/BasicContribution/', activeMatch: categoryMatch('贡献与其他') },
+			{ text: '联系我们', link: '/pages/ContactUs/', activeMatch: categoryMatch('贡献与其他') },
 		],
 		sidebar,
 		socialLinks: [{ icon: 'github', link: 'https://github.com/NCEPUwiki/NCEPUwiki' }],
