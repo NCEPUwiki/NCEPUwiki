@@ -597,8 +597,13 @@ onBeforeUnmount(() => {
 		<p v-if="selectedPoi.description" class="wiki-map-card-desc">
 			{{ selectedPoi.description }}
 		</p>
+		<div v-if="selectedPoi.images?.length" class="wiki-map-card-gallery">
+			<a v-for="(image, index) in selectedPoi.images" :key="`${image}-${index}`" :href="image" target="_blank" rel="noopener">
+				<img :src="image" :alt="`${selectedPoi.name} 图片 ${index + 1}`" decoding="async">
+			</a>
+		</div>
 		<div class="wiki-map-card-actions">
-			<a :href="amapLink(selectedPoi)" target="_blank" rel="noopener">高德导航</a>
+			<a :href="amapLink(selectedPoi)" target="_blank" rel="noopener">高德地图</a>
 			<a :href="baiduLink(selectedPoi)" target="_blank" rel="noopener">百度地图</a>
 		</div>
 		<a v-if="selectedPoi.link" class="wiki-map-card-link" :href="withBase(selectedPoi.link)">查看相关文章 →</a>
@@ -859,9 +864,11 @@ onBeforeUnmount(() => {
 
 .wiki-map-card {
 	position: absolute;
+	overflow-y: auto;
 	right: 12px;
 	bottom: 12px;
 	width: min(340px, calc(100% - 24px));
+	max-height: calc(100% - 24px);
 	padding: 14px 16px 12px;
 	border: 1px solid var(--vp-c-divider);
 	border-radius: var(--wiki-radius-large);
@@ -920,6 +927,27 @@ onBeforeUnmount(() => {
 	font-size: 13px;
 	line-height: 1.7;
 	color: var(--vp-c-text-2);
+}
+
+.wiki-map-card-gallery {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-top: 10px;
+}
+
+.wiki-map-card-gallery a {
+	display: block;
+	overflow: hidden;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: var(--wiki-radius-small);
+}
+
+.wiki-map-card-gallery img {
+	display: block;
+	width: 100%;
+	max-height: 180px;
+	object-fit: cover;
 }
 
 .wiki-map-card-actions {

@@ -44,6 +44,8 @@ export interface MapPoi {
 	keywords?: string[]
 	/** 信息卡片里的补充说明 */
 	description?: string
+	/** 信息卡片里的图片，外链地址；按顺序显示，点击打开原图 */
+	images?: string[]
 	/** 关联的 wiki 文章路径 */
 	link?: string
 }
