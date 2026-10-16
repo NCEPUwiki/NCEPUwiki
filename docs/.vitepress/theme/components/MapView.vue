@@ -395,6 +395,56 @@ function baiduLink(poi: MapPoi) {
 	return `https://api.map.baidu.com/marker?location=${bdLat.toFixed(6)},${bdLng.toFixed(6)}&title=${encodeURIComponent(poi.name)}&content=${encodeURIComponent(poi.name)}&output=html&src=webapp.NCEPUwiki`
 }
 
+/**
+ * 电脑浏览器不能从网页调起高德/百度的桌面客户端（它们没有注册可被网页唤起的协议），
+ * 只有移动端才有对应的 App 调起协议，所以「直接跳到软件」只对手机生效。
+ */
+function isMobileBrowser() {
+	return /Android|iPhone|iPad|iPod|HarmonyOS|Mobile/i.test(navigator.userAgent)
+}
+
+/** 高德地图 App 的调起协议（Android 与 iOS 各有一套 scheme，坐标用 GCJ-02 原值）。 */
+function amapAppLink(poi: MapPoi) {
+	const [lng, lat] = poi.coord
+	const query = `sourceApplication=NCEPUwiki&poiname=${encodeURIComponent(poi.name)}&lat=${lat}&lon=${lng}&dev=0`
+	return /iPhone|iPad|iPod/i.test(navigator.userAgent)
+		? `iosamap://viewMap?${query}`
+		: `androidamap://viewMap?${query}`
+}
+
+/** 百度地图 App 的调起协议（坐标用 BD-09，location 顺序是「纬度,经度」）。 */
+function baiduAppLink(poi: MapPoi) {
+	const [bdLng, bdLat] = gcj02ToBd09(poi.coord[0], poi.coord[1])
+	return `baidumap://map/marker?location=${bdLat.toFixed(6)},${bdLng.toFixed(6)}&title=${encodeURIComponent(poi.name)}&content=${encodeURIComponent(poi.name)}&src=webapp.NCEPUwiki&coord_type=bd09ll&zoom=18`
+}
+
+/**
+ * 移动端点击「高德地图 / 百度地图」时优先调起对应 App，
+ * 1.5 秒内没有切到 App（没装或调起失败）就退回网页版，保证点击总能到达结果。
+ * 调起动作用隐藏 iframe 发起，避免"没装 App 时主页面被未知协议导航走"而丢掉回退；
+ * 桌面端不拦截，照旧打开网页版。
+ */
+function onMapLinkClick(event: MouseEvent, poi: MapPoi, kind: 'amap' | 'baidu') {
+	if (typeof navigator === 'undefined' || !isMobileBrowser())
+		return
+	event.preventDefault()
+	const webLink = kind === 'amap' ? amapLink(poi) : baiduLink(poi)
+	let fallback: ReturnType<typeof setTimeout> | undefined
+	document.addEventListener('visibilitychange', () => {
+		// 成功调起 App 后页面会进入后台，此时取消网页版回退
+		if (document.hidden)
+			clearTimeout(fallback)
+	}, { once: true })
+	fallback = setTimeout(() => {
+		window.location.href = webLink
+	}, 1500)
+	const frame = document.createElement('iframe')
+	frame.style.display = 'none'
+	frame.src = kind === 'amap' ? amapAppLink(poi) : baiduAppLink(poi)
+	document.body.append(frame)
+	setTimeout(() => frame.remove(), 2000)
+}
+
 function setupMap() {
 	const amapNs = amap
 	const el = container.value
@@ -592,8 +642,8 @@ onBeforeUnmount(() => {
 			</a>
 		</div>
 		<div class="wiki-map-card-actions">
-			<a :href="amapLink(selectedPoi)" target="_blank" rel="noopener">高德地图</a>
-			<a :href="baiduLink(selectedPoi)" target="_blank" rel="noopener">百度地图</a>
+			<a :href="amapLink(selectedPoi)" target="_blank" rel="noopener" @click="onMapLinkClick($event, selectedPoi, 'amap')">高德地图</a>
+			<a :href="baiduLink(selectedPoi)" target="_blank" rel="noopener" @click="onMapLinkClick($event, selectedPoi, 'baidu')">百度地图</a>
 		</div>
 		<a v-if="selectedPoi.link" class="wiki-map-card-link" :href="withBase(selectedPoi.link)">查看相关文章 →</a>
 	</aside>
