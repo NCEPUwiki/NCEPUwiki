@@ -27,7 +27,7 @@ const keyword = ref('')
 const selectedId = ref<string | null>(null)
 const pickCoord = ref<LngLat | null>(null)
 const pickName = ref('')
-const pickCategory = ref('other')
+const pickCategory = ref(props.dataset.categories.at(-1)?.id ?? '')
 const toast = ref('')
 
 let amap: AmapNamespace | null = null
