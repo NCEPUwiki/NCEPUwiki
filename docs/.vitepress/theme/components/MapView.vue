@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { AmapLngLat, AmapMap, AmapMarker, AmapNamespace, AmapOverlay } from '../amap.ts'
-import type { LngLat, MapDataset, MapIconData, MapPoi } from '../map-types.ts'
+import type { LngLat, MapArea, MapDataset, MapIconData, MapPoi } from '../map-types.ts'
 import closeIcon from '@iconify-icons/ri/close-line'
-import locateIcon from '@iconify-icons/ri/gps-line'
 import searchIcon from '@iconify-icons/ri/search-line'
 import { Icon } from '@iconify/vue'
 import { useData, withBase } from 'vitepress'
@@ -18,7 +17,7 @@ type MapStatus = 'loading' | 'ready' | 'missing-key' | 'error'
 
 const container = ref<HTMLDivElement | null>(null)
 /** 点击标记后地图平移的动画时长（ms），越小越快；设为 0 则直接跳转。 */
-const PAN_DURATION = 50
+const PAN_DURATION = 75
 const status = ref<MapStatus>('loading')
 const statusText = ref('')
 const pickMode = ref(false)
@@ -35,7 +34,6 @@ let amap: AmapNamespace | null = null
 let map: AmapMap | null = null
 let overlays: AmapOverlay[] = []
 let pickMarker: AmapMarker | null = null
-let userMarker: AmapMarker | null = null
 let focusFromUrl: string | null = null
 let toastTimer: ReturnType<typeof setTimeout> | undefined
 let hoverLockedUntil = 0
@@ -44,6 +42,28 @@ const markers = new Map<string, AmapMarker>()
 const markerEls = new Map<string, HTMLDivElement>()
 
 const area = computed(() => props.dataset.areas.find(item => item.id === areaId.value) ?? props.dataset.areas[0])
+
+/** 按 city 把校区分组：左上角第一级选城市，第二级选该城市下的校区。 */
+const cityGroups = computed(() => {
+	const groups: { name: string, areas: MapArea[] }[] = []
+	for (const item of props.dataset.areas) {
+		const group = groups.find(entry => entry.name === item.city)
+		if (group)
+			group.areas.push(item)
+		else
+			groups.push({ name: item.city, areas: [item] })
+	}
+	return groups
+})
+
+const showCityRow = computed(() => cityGroups.value.length > 1)
+const activeCity = computed(() => area.value?.city ?? '')
+/** 第二级展示的校区：有多个城市时只列当前城市的，否则退化为原来的平铺列表。 */
+const visibleAreas = computed(() => {
+	if (!showCityRow.value)
+		return props.dataset.areas
+	return cityGroups.value.find(entry => entry.name === activeCity.value)?.areas ?? []
+})
 
 const selectedPoi = computed(() => {
 	if (!selectedId.value || !area.value)
@@ -131,7 +151,7 @@ function iconSvg(icon: MapIconData | undefined) {
 	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" fill="currentColor" aria-hidden="true">${icon.body}</svg>`
 }
 
-/** 生成一枚自定义标记：未选中是小圆点，选中后变成水滴图钉；名称胶囊固定显示在下方。 */
+/** 生成一枚自定义标记：未选中是小圆点，选中后变成水滴图钉；名称胶囊固定显示在下方，点击图钉或名称都能选中。 */
 function createPin(poi: MapPoi) {
 	const el = document.createElement('div')
 	el.className = 'wiki-map-pin'
@@ -194,7 +214,7 @@ function renderArea() {
 	overlays = [...polygons, ...markers.values()]
 	amapMap.add(overlays)
 	applyCategory()
-	amapMap.setZoomAndCenter(current.zoom, current.center, false, 300)
+	amapMap.setZoomAndCenter(current.zoom, current.center, false, 1000)
 }
 
 /** 按分类显示/隐藏标记。 */
@@ -219,6 +239,13 @@ function switchArea(id: string) {
 	categoryId.value = 'all'
 	renderArea()
 	syncUrl()
+}
+
+/** 点击城市：切到该城市下的第一个校区，下方校区列表随之更新。 */
+function switchCity(name: string) {
+	const first = props.dataset.areas.find(item => item.city === name)
+	if (first)
+		switchArea(first.id)
 }
 
 function selectPoi(id: string, recenter: 'none' | 'pan' | 'zoom' = 'none') {
@@ -368,46 +395,6 @@ function baiduLink(poi: MapPoi) {
 	return `https://api.map.baidu.com/marker?location=${bdLat.toFixed(6)},${bdLng.toFixed(6)}&title=${encodeURIComponent(poi.name)}&content=${encodeURIComponent(poi.name)}&output=html&src=webapp.NCEPUwiki`
 }
 
-/** 浏览器定位（高德 Geolocation 插件）。 */
-async function locate() {
-	const amapNs = amap
-	const amapMap = map
-	if (!amapNs || !amapMap)
-		return
-	try {
-		await new Promise<void>((resolve) => {
-			amapNs.plugin(['AMap.Geolocation'], () => resolve())
-		})
-		const geolocation = new amapNs.Geolocation({ enableHighAccuracy: true, timeout: 8000 })
-		geolocation.getCurrentPosition((result, data) => {
-			if (result === 'complete' && data.position) {
-				const coord: LngLat = [data.position.getLng(), data.position.getLat()]
-				amapMap.setZoomAndCenter(17, coord)
-				addUserMarker(coord)
-			}
-			else {
-				showToast('定位失败，请检查浏览器的定位权限')
-			}
-		})
-	}
-	catch {
-		showToast('定位组件加载失败')
-	}
-}
-
-function addUserMarker(coord: LngLat) {
-	const amapNs = amap
-	const amapMap = map
-	if (!amapNs || !amapMap)
-		return
-	if (userMarker)
-		amapMap.remove(userMarker)
-	const el = document.createElement('div')
-	el.className = 'wiki-map-user-pin'
-	userMarker = new amapNs.Marker({ position: coord, content: el, anchor: 'center', zIndex: 350 })
-	amapMap.add(userMarker)
-}
-
 function setupMap() {
 	const amapNs = amap
 	const el = container.value
@@ -510,8 +497,13 @@ onBeforeUnmount(() => {
 	</div>
 
 	<div v-if="status === 'ready' && !pickMode" class="wiki-map-panel">
-		<div v-if="dataset.areas.length > 1" class="wiki-map-tabs">
-			<button v-for="item in dataset.areas" :key="item.id" type="button" class="wiki-map-tab" :class="{ 'is-active': item.id === areaId }" @click="switchArea(item.id)">
+		<div v-if="showCityRow" class="wiki-map-cities">
+			<button v-for="group in cityGroups" :key="group.name" type="button" class="wiki-map-city" :class="{ 'is-active': group.name === activeCity }" @click="switchCity(group.name)">
+				{{ group.name }}
+			</button>
+		</div>
+		<div v-if="showCityRow || visibleAreas.length > 1" class="wiki-map-tabs" :class="{ 'is-nested': showCityRow }">
+			<button v-for="item in visibleAreas" :key="item.id" type="button" class="wiki-map-tab" :class="{ 'is-active': item.id === areaId }" @click="switchArea(item.id)">
 				{{ item.name }}
 			</button>
 		</div>
@@ -542,9 +534,6 @@ onBeforeUnmount(() => {
 	<div v-if="status === 'ready'" class="wiki-map-tools">
 		<button type="button" class="wiki-map-tool" :class="{ 'is-active': pickMode }" @click="togglePick">
 			{{ pickMode ? '退出拾取' : '拾取坐标' }}
-		</button>
-		<button type="button" class="wiki-map-tool" @click="locate">
-			<Icon :icon="locateIcon" aria-hidden="true" />定位
 		</button>
 	</div>
 
@@ -698,10 +687,43 @@ onBeforeUnmount(() => {
 	z-index: 5;
 }
 
+.wiki-map-cities {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.wiki-map-city {
+	padding: 4px 12px;
+	border: 1px solid transparent;
+	border-radius: 999px;
+	background: var(--vp-c-default-soft);
+	font-size: 13px;
+	color: var(--vp-c-text-2);
+	transition: background var(--wiki-duration), color var(--wiki-duration);
+	cursor: pointer;
+}
+
+.wiki-map-city:hover {
+	color: var(--vp-c-text-1);
+}
+
+.wiki-map-city.is-active {
+	background: var(--vp-c-brand-soft);
+	color: var(--vp-c-brand-1);
+}
+
 .wiki-map-tabs {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 6px;
+}
+
+/* 第二级（校区）缩进并加一条竖向引导线，表明它从属于上面的城市 */
+.wiki-map-tabs.is-nested {
+	margin-left: 3px;
+	padding-left: 10px;
+	border-left: 2px solid var(--vp-c-divider);
 }
 
 .wiki-map-tab {
@@ -1108,7 +1130,7 @@ onBeforeUnmount(() => {
 
 <style>
 /*
- * 图钉、拾取点和定位点是脚本动态创建的高德覆盖物 DOM，
+ * 图钉和拾取点是脚本动态创建的高德覆盖物 DOM，
  * 不会带上 <style scoped> 编译出的 data-v 作用域属性，因此这批样式
  * 必须放在非 scoped 块里，否则浏览器会按默认样式渲染（黑色填充 + 文字竖排）。
  */
@@ -1200,7 +1222,8 @@ onBeforeUnmount(() => {
 	transition: transform 0.2s ease-out, opacity 0.15s ease-out, visibility 0s;
 }
 
-/* 名称固定显示在标记正下方，横向一行；浅色底胶囊保证压在底图上也能看清 */
+/* 名称固定显示在标记正下方，横向一行；浅色底胶囊保证压在底图上也能看清。
+   与图钉一样可点：点击名称同样会选中该点位并平滑平移地图。 */
 .wiki-map-pin-label {
 	position: absolute;
 	top: calc(100% + 7px);
@@ -1215,7 +1238,7 @@ onBeforeUnmount(() => {
 	white-space: nowrap;
 	color: var(--vp-c-text-1);
 	transform: translateX(-50%);
-	pointer-events: none;
+	pointer-events: auto;
 }
 
 .wiki-map-pin.is-hover .wiki-map-pin-label,
@@ -1230,14 +1253,5 @@ onBeforeUnmount(() => {
 	border-radius: 50%;
 	box-shadow: 0 0 0 3px rgb(239 68 68 / 0.35), 0 3px 8px rgb(0 0 0 / 0.3);
 	background: #EF4444;
-}
-
-.wiki-map-user-pin {
-	width: 14px;
-	height: 14px;
-	border: 3px solid #FFF;
-	border-radius: 50%;
-	box-shadow: 0 0 0 3px rgb(47 124 246 / 0.35), 0 3px 8px rgb(0 0 0 / 0.3);
-	background: #2F7CF6;
 }
 </style>

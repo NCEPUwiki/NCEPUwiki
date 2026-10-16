@@ -34,15 +34,10 @@ export interface AmapPolygon {
 
 export type AmapOverlay = AmapMarker | AmapPolygon
 
-export interface AmapGeolocation {
-	getCurrentPosition: (callback: (status: string, result: { position?: AmapLngLat }) => void) => void
-}
-
 export interface AmapNamespace {
 	Map: new (container: HTMLElement, options: Record<string, unknown>) => AmapMap
 	Marker: new (options: Record<string, unknown>) => AmapMarker
 	Polygon: new (options: Record<string, unknown>) => AmapPolygon
-	Geolocation: new (options?: Record<string, unknown>) => AmapGeolocation
 	Scale: new (options?: Record<string, unknown>) => unknown
 	plugin: (plugins: string[], callback: () => void) => void
 }

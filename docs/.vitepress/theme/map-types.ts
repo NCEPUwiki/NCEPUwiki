@@ -56,6 +56,8 @@ export interface MapArea {
 	id: string
 	/** 展示名称 */
 	name: string
+	/** 所属城市（左上角两级选择的第一级，如「北京」「保定」）；同一城市的区域按数组顺序显示 */
+	city: string
 	/** 初始中心点（GCJ-02） */
 	center: LngLat
 	/** 初始缩放级别 */
