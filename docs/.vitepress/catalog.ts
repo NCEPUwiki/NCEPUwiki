@@ -105,6 +105,11 @@ export function outputPath(url: string) {
 	return url.slice(1) + (url.endsWith('/') ? 'index.md' : '.md')
 }
 
+/** 文件路径 → 页面路径，rewrites 与侧栏共用同一份，permalink 只在这里起作用。 */
+export function buildPagePaths(articles: Article[]) {
+	return new Map(articles.map(article => [article.source, outputPath(article.url)]))
+}
+
 export function buildTree(articles: Article[], depth = 0): DirectoryItem[] {
 	const items: DirectoryItem[] = []
 	const groups = new Map<string, Article[]>()
@@ -125,6 +130,42 @@ export function buildTree(articles: Article[], depth = 0): DirectoryItem[] {
 			item.items = buildTree(groups.get(item.text)!, depth + 1)
 	}
 	return items
+}
+
+/**
+ * 文章在左侧目录里归属的一级分组：frontmatter 第一条分类的第一段，
+ * 例如「学习专题/学习资料」归到「学习专题」。
+ * 只看 frontmatter 的 categories，和文件放在哪个目录里无关。
+ * 没写分类的文章不属于任何分组：不进侧栏，自己的页面也不显示侧栏。
+ */
+function sidebarGroup(article: Article): string | undefined {
+	return article.categories[0]?.split('/')[0]
+}
+
+/**
+ * 左侧目录：先按一级分类把文章分组建树，分类决定每篇文章出现在哪棵侧栏树里；
+ * 再把树挂到页面上，键用页面路径（buildPagePaths 的结果），不用 permalink。
+ *
+ * 键必须正好是页面路径：VitePress 按「页面路径以键开头」挑侧栏，
+ * 用 permalink 做键时，互为前缀的两篇文章
+ * （例如 /pages/Course 与 /pages/CourseEvaluation）会把对方的目录抢走。
+ */
+export function buildSidebar(articles: Article[], pagePaths: ReadonlyMap<string, string>) {
+	const groups = new Map<string, Article[]>()
+	for (const article of articles) {
+		const group = sidebarGroup(article)
+		if (!group)
+			continue
+		groups.set(group, [...groups.get(group) ?? [], article])
+	}
+	const trees = new Map([...groups].map(([group, groupArticles]) => [group, buildTree(groupArticles)]))
+	const entries: [string, DirectoryItem[]][] = []
+	for (const article of articles) {
+		const group = sidebarGroup(article)
+		if (group)
+			entries.push([`/${pagePaths.get(article.source)!}`, trees.get(group)!])
+	}
+	return Object.fromEntries(entries)
 }
 
 export function loadCatalog(root = docsRoot): Catalog {

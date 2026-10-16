@@ -4,7 +4,7 @@ import markmapPlugin from '@vitepress-plugin/markmap'
 import { defineConfig } from 'vitepress'
 import { collectAuthors } from './authors.ts'
 import { cardlist } from './cardlist.ts'
-import { buildTree, docsRoot, outputPath, scanArticles } from './catalog.ts'
+import { buildPagePaths, buildSidebar, docsRoot, outputPath, scanArticles } from './catalog.ts'
 import { writeSearchIndex } from './search-index.ts'
 import { assertSeoTitleMapMatches, seoTitleFor, siteUrl, standaloneSeo } from './seo.ts'
 
@@ -20,10 +20,8 @@ function categoryMatch(...folders: string[]) {
 	const paths = articles.filter(article => folders.includes(article.folders[0])).flatMap(article => [article.url.replace(/\/$/, ''), `/${article.source.replace(/\.md$/, '')}`]).map(escape)
 	return `^(?:${paths.join('|')})/?$`
 }
-const rewrites = new Map(articles.map(article => [article.source, outputPath(article.url)]))
-const sidebar = Object.fromEntries(articles.map(article => [article.url, [
-	...buildTree(articles.filter(other => other.folders[0] === article.folders[0])),
-]]))
+const pagePaths = buildPagePaths(articles)
+const sidebar = buildSidebar(articles, pagePaths)
 
 /** 标题文字来自 frontmatter，转义行内语法，避免标题里的符号被当成 Markdown。 */
 function escapeTitleText(title: string) {
@@ -79,7 +77,7 @@ export default defineConfig({
 	cleanUrls: true,
 	lastUpdated: false,
 	srcExclude: ['activity/**', 'public/mermaid/**'],
-	rewrites: source => rewrites.get(source) || source,
+	rewrites: source => pagePaths.get(source) || source,
 	head: [
 		['link', { rel: 'stylesheet', href: 'https://s4.zstatic.net/npm/inter-ui@4.1.1/inter-variable.css' }],
 		['link', { rel: 'stylesheet', href: 'https://s4.zstatic.net/npm/inter-ui@4.1.1/inter.css' }],

@@ -1,10 +1,10 @@
-import type { DirectoryItem } from '../docs/.vitepress/types.ts'
+import type { Article, DirectoryItem } from '../docs/.vitepress/types.ts'
 import assert from 'node:assert/strict'
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { isAbsolute, join, relative } from 'node:path'
 import test from 'node:test'
-import { buildTree, loadCatalog, outputPath, scanArticles } from '../docs/.vitepress/catalog.ts'
+import { buildPagePaths, buildSidebar, buildTree, loadCatalog, outputPath, scanArticles } from '../docs/.vitepress/catalog.ts'
 import { categoryChildren, categoryPaths, resolveCategory } from '../docs/.vitepress/category.ts'
 
 test('existing article URLs are unique and all articles appear once in the directory', () => {
@@ -16,6 +16,40 @@ test('existing article URLs are unique and all articles appear once in the direc
 	assert.equal(articles.find(article => article.title === '友情链接')!.url, '/pages/FriendshipLinks/')
 	assert.equal(outputPath('/pages/Preparation'), 'pages/Preparation.md')
 	assert.equal(outputPath('/pages/FriendshipLinks/'), 'pages/FriendshipLinks/index.md')
+})
+
+test('侧边栏按一级分类组织：每页只出现同一级分类的文章，permalink 前缀不会抢走目录', () => {
+	const articles = scanArticles()
+	const sidebar = buildSidebar(articles, buildPagePaths(articles))
+	const groupOf = (article: Article) => article.categories[0]?.split('/')[0]
+	const links = (items: DirectoryItem[]): string[] => items.flatMap(item => item.link ? [item.link] : links(item.items || []))
+	for (const article of articles) {
+		const page = `/${outputPath(article.url)}`
+		// VitePress 挑侧栏的规则是「页面路径以键开头」；没写分类的文章不进任何侧栏
+		const matched = Object.keys(sidebar).filter(key => page.startsWith(key))
+		if (!groupOf(article)) {
+			assert.deepEqual(matched, [])
+			continue
+		}
+		assert.deepEqual(matched, [page])
+		// 侧栏包含当前文章，且只包含同一级分类的文章
+		assert.ok(links(sidebar[page]).includes(article.url))
+		for (const link of links(sidebar[page]))
+			assert.equal(groupOf(articles.find(other => other.url === link)!), groupOf(article))
+	}
+	// 回归：课程评价的 permalink /pages/CourseEvaluation 曾命中 /pages/Course 的键，
+	// 左侧显示成新生入学目录；现在必须拿到学习专题的目录
+	const courseEvaluation = links(sidebar['/pages/CourseEvaluation.md'])
+	assert.ok(courseEvaluation.includes('/pages/CourseEvaluation'))
+	assert.ok(courseEvaluation.includes('/pages/kaoyan/'))
+	assert.ok(!courseEvaluation.includes('/pages/Course'))
+	// 没写 categories 的文章（全国大学生数学建模竞赛）不进任何侧栏
+	assert.equal(sidebar['/pages/cumcm.md'], undefined)
+	assert.ok(!courseEvaluation.includes('/pages/cumcm'))
+	// 只写了子分类的文章按一级分类归组，仍然出现在侧栏里
+	const nested = links(sidebar['/pages/52fb8b/index.md'])
+	assert.ok(nested.includes('/pages/52fb8b/'))
+	assert.ok(nested.includes('/pages/CourseEvaluation'))
 })
 
 test('分类只在 frontmatter 里声明一次，计数与 tag 计数一致', () => {
@@ -84,6 +118,34 @@ test('分类层级只认 frontmatter 的缩进写法', () => {
 	assert.deepEqual(categoryPaths([' 学习专题 ', null, '']), ['学习专题'])
 	// 层级只认缩进，嵌套数组之类的写法不作为分类
 	assert.deepEqual(categoryPaths([['学习专题', 'test1']]), [])
+})
+
+test('侧栏分组只看 frontmatter 分类：和文件放在哪个目录无关', () => {
+	const root = mkdtempSync(join(tmpdir(), 'ncepu-sidebar-'))
+	try {
+		// 文章躺在「甲专题」的目录树里，但分类写的是「乙专题 - 子分类」，
+		// 缩进写法的一级分类是乙专题，所以它归到乙专题的侧栏，不出现在甲专题
+		mkdirSync(join(root, '01.甲专题/01.子目录'), { recursive: true })
+		mkdirSync(join(root, '02.乙专题'), { recursive: true })
+		writeFileSync(join(root, '01.甲专题/01.子目录/01.文章.md'), '---\ntitle: 文章\npermalink: /pages/test-nested/\ncategories:\n  - 乙专题\n    - 子分类\n---\n正文')
+		writeFileSync(join(root, '01.甲专题/01.普通.md'), '---\ntitle: 普通\npermalink: /pages/test-plain/\ncategories:\n  - 甲专题\n---\n正文')
+		writeFileSync(join(root, '02.乙专题/01.同组.md'), '---\ntitle: 同组\npermalink: /pages/test-sibling\ncategories:\n  - 乙专题\n---\n正文')
+
+		const articles = scanArticles(root)
+		const sidebar = buildSidebar(articles, buildPagePaths(articles))
+		const links = (items: DirectoryItem[]): string[] => items.flatMap(item => item.link ? [item.link] : links(item.items || []))
+		assert.equal(articles.find(article => article.title === '文章')!.categories[0], '乙专题/子分类')
+		// 「文章」和「同组」在同一棵侧栏树里，互相能看到
+		assert.deepEqual(links(sidebar['/pages/test-nested/index.md']).sort(), ['/pages/test-nested/', '/pages/test-sibling'])
+		assert.ok(links(sidebar['/pages/test-sibling.md']).includes('/pages/test-nested/'))
+		// 「文章」不因为文件在甲专题目录下就出现在甲专题的侧栏里
+		assert.deepEqual(links(sidebar['/pages/test-plain/index.md']), ['/pages/test-plain/'])
+	}
+	finally {
+		const target = relative(tmpdir(), root)
+		assert.ok(target && !target.startsWith('..') && !isAbsolute(target))
+		rmSync(root, { recursive: true, force: true })
+	}
 })
 
 test('分类链接优先精确匹配，旧链接只写末级名字时按唯一名字回退', () => {
