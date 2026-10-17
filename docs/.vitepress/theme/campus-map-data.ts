@@ -110,6 +110,36 @@ export const campusMapDataset: MapDataset = {
 			],
 		},
 		{
+			id: 'bj2',
+			name: '北京沙河院区',
+			city: '北京',
+			center: [116.250206,40.113390],
+			zoom: 17,
+			boundaries: [
+				[[116.249145, 40.119534], [116.251972, 40.119512], [116.251976, 40.116423], [116.252364, 40.116391], [116.252378, 40.114746], [116.256002, 40.114698], [116.256038, 40.113043], [116.254585, 40.112697], [116.254324, 40.113382], [116.252399, 40.113366], [116.249960, 40.112962], [116.249861, 40.113188], [116.249612, 40.113202], [116.249137, 40.114569]],
+			],
+			pois: [
+				{ id: 'bj2-study-01', name: '多功能厅', category: 'admin', coord: [116.249375, 40.119393] },
+				{ id: 'bj2-study-02', name: '学术报告厅', category: 'study', coord: [116.249368, 40.119088] },
+				{ id: 'bj2-study-03', name: '微格教室', category: 'study', coord: [116.249371, 40.118790] },
+				{ id: 'bj2-study-04', name: '综合教学楼', category: 'study', coord: [116.249299, 40.118222] },
+				{ id: 'bj2-study-05', name: '实训基地', category: 'study', coord: [116.250250, 40.118815] },
+				{ id: 'bj2-study-06', name: '北科婴幼学苑', category: 'study', coord: [116.250232, 40.118174] },
+				{ id: 'bj2-study-07', name: '图书馆', category: 'study', coord: [116.251452, 40.119311], keywords: ['励行楼', '实训大楼'], aliases: ['励行楼', '实训大楼'] },
+				{ id: 'bj2-study-08', name: '厉耘楼', category: 'study', coord: [116.251411, 40.118127], keywords: ['公立巩华北科幼儿园'], aliases: ['公立巩华北科幼儿园'] },
+				{ id: 'bj2-study-09', name: '综合楼阶梯教室（七）', category: 'study', coord: [116.249291, 40.117214] },
+				{ id: 'bj2-study-10', name: '综合楼阶梯教室（六）', category: 'study', coord: [116.249298, 40.117539] },
+				{ id: 'bj2-study-11', name: '综合楼阶梯教室（五）', category: 'study', coord: [116.249291, 40.117743] },
+				{ id: 'bj2-study-12', name: '厉耘楼阶梯教室', category: 'study', coord: [116.251858, 40.117485], description: '（一）至（五）' },
+				{ id: 'bj2-study-13', name: '中盛舞蹈', category: 'study', coord: [116.250617, 40.117627] },
+				{ id: 'bj2-study-14', name: '汽车实验室', category: 'study', coord: [116.251842, 40.117268] },
+				{ id: 'bj2-study-15', name: '体育教室', category: 'study', coord: [116.250283, 40.116793] },
+				{ id: 'bj2-study-16', name: '迷笛音乐学院', category: 'study', coord: [116.250535, 40.116777] },
+				{ id: 'bj2-study-17', name: '艺术设计学院', category: 'study', coord: [116.250308, 40.116076] },
+				
+			]
+		},
+		{
 			id: 'bd1',
 			name: '保定一校区',
 			city: '保定',
