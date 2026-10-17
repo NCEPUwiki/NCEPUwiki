@@ -43,7 +43,7 @@ export const seoTitleMap: Record<string, string> = {
 	'/pages/gradeandcourse': '华北电力大学学分与选课指南：成绩补考与选课流程',
 	'/pages/MentorEvaluation/': '华北电力大学导师评价与选导师避坑指南',
 	'/pages/Wuzhonghua/': '华北电力大学吴仲华学院本硕博贯通培养项目介绍',
-	'/pages/57ed5c/': '华北电力大学本科生转专业政策与考核流程指南',
+	'/pages/ChangeMajor/': '华北电力大学本科生转专业政策与考核流程指南',
 	'/pages/StudyAbroad': '华电学生留学申请指南：欧陆香港院校与雅思备考',
 	// 计算机知识专题
 	'/pages/pythonconfiguration/': 'Python 环境配置指南：虚拟环境与 PyTorch CUDA 安装',
