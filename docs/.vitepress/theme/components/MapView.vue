@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { AmapLngLat, AmapMap, AmapMarker, AmapNamespace, AmapOverlay } from '../amap.ts'
 import type { LngLat, MapArea, MapDataset, MapIconData, MapPoi } from '../map-types.ts'
+import arrowDownIcon from '@iconify-icons/ri/arrow-down-s-line'
+import arrowUpIcon from '@iconify-icons/ri/arrow-up-s-line'
 import closeIcon from '@iconify-icons/ri/close-line'
 import searchIcon from '@iconify-icons/ri/search-line'
 import { Icon } from '@iconify/vue'
@@ -21,6 +23,7 @@ const PAN_DURATION = 75
 const status = ref<MapStatus>('loading')
 const statusText = ref('')
 const pickMode = ref(false)
+const panelExpanded = ref(true)
 const areaId = ref(props.dataset.areas[0]?.id ?? '')
 const categoryId = ref('all')
 const keyword = ref('')
@@ -246,6 +249,10 @@ function switchCity(name: string) {
 	const first = props.dataset.areas.find(item => item.city === name)
 	if (first)
 		switchArea(first.id)
+}
+
+function togglePanel() {
+	panelExpanded.value = !panelExpanded.value
 }
 
 function selectPoi(id: string, recenter: 'none' | 'pan' | 'zoom' = 'none') {
@@ -500,6 +507,8 @@ watch(categoryId, () => {
 })
 
 onMounted(async () => {
+	// 手机屏幕空间有限，默认把校区/搜索面板收成一个小按钮；桌面保持展开。
+	panelExpanded.value = !window.matchMedia('(max-width: 720px)').matches
 	readUrl()
 	if (!amapConfigured()) {
 		status.value = 'missing-key'
@@ -546,30 +555,43 @@ onBeforeUnmount(() => {
 		</div>
 	</div>
 
-	<div v-if="status === 'ready' && !pickMode" class="wiki-map-panel">
-		<div v-if="showCityRow" class="wiki-map-cities">
-			<button v-for="group in cityGroups" :key="group.name" type="button" class="wiki-map-city" :class="{ 'is-active': group.name === activeCity }" @click="switchCity(group.name)">
-				{{ group.name }}
+	<div v-if="status === 'ready' && !pickMode" class="wiki-map-panel" :class="{ 'is-collapsed': !panelExpanded }">
+		<div v-if="panelExpanded" class="wiki-map-panel-head">
+			<span>校区与搜索</span>
+			<button type="button" class="wiki-map-panel-toggle" aria-label="收起校区和搜索" aria-controls="wiki-map-panel-content" :aria-expanded="true" @click="togglePanel">
+				<Icon :icon="arrowUpIcon" aria-hidden="true" />
 			</button>
 		</div>
-		<div v-if="showCityRow || visibleAreas.length > 1" class="wiki-map-tabs" :class="{ 'is-nested': showCityRow }">
-			<button v-for="item in visibleAreas" :key="item.id" type="button" class="wiki-map-tab" :class="{ 'is-active': item.id === areaId }" @click="switchArea(item.id)">
-				{{ item.name }}
-			</button>
-		</div>
-		<div class="wiki-map-search">
+		<button v-else type="button" class="wiki-map-panel-open" aria-label="展开校区和搜索" aria-controls="wiki-map-panel-content" :aria-expanded="false" @click="togglePanel">
 			<Icon :icon="searchIcon" aria-hidden="true" />
-			<input v-model="keyword" type="search" :placeholder="`搜索${area?.name ?? ''}的地点`" aria-label="搜索地点">
-		</div>
-		<ul v-if="searchResults.length" class="wiki-map-results">
-			<li v-for="poi in searchResults" :key="poi.id">
-				<button type="button" @click="selectFromSearch(poi.id)">
-					<span class="wiki-map-dot" :style="{ background: colorOf(poi.category) }" />
-					<span class="wiki-map-result-name">{{ poi.name }}</span>
-					<span class="wiki-map-result-cat">{{ labelOf(poi.category) }}</span>
+			<span>搜索 / 校区</span>
+			<Icon :icon="arrowDownIcon" aria-hidden="true" />
+		</button>
+		<div v-show="panelExpanded" id="wiki-map-panel-content" class="wiki-map-panel-content">
+			<div v-if="showCityRow" class="wiki-map-cities">
+				<button v-for="group in cityGroups" :key="group.name" type="button" class="wiki-map-city" :class="{ 'is-active': group.name === activeCity }" @click="switchCity(group.name)">
+					{{ group.name }}
 				</button>
-			</li>
-		</ul>
+			</div>
+			<div v-if="showCityRow || visibleAreas.length > 1" class="wiki-map-tabs" :class="{ 'is-nested': showCityRow }">
+				<button v-for="item in visibleAreas" :key="item.id" type="button" class="wiki-map-tab" :class="{ 'is-active': item.id === areaId }" @click="switchArea(item.id)">
+					{{ item.name }}
+				</button>
+			</div>
+			<div class="wiki-map-search">
+				<Icon :icon="searchIcon" aria-hidden="true" />
+				<input v-model="keyword" type="search" :placeholder="`搜索${area?.name ?? ''}的地点`" aria-label="搜索地点">
+			</div>
+			<ul v-if="searchResults.length" class="wiki-map-results">
+				<li v-for="poi in searchResults" :key="poi.id">
+					<button type="button" @click="selectFromSearch(poi.id)">
+						<span class="wiki-map-dot" :style="{ background: colorOf(poi.category) }" />
+						<span class="wiki-map-result-name">{{ poi.name }}</span>
+						<span class="wiki-map-result-cat">{{ labelOf(poi.category) }}</span>
+					</button>
+				</li>
+			</ul>
+		</div>
 	</div>
 
 	<div v-if="status === 'ready' && !pickMode" class="wiki-map-chips">
@@ -724,7 +746,7 @@ onBeforeUnmount(() => {
 .wiki-map-panel {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	gap: 8px;
 	position: absolute;
 	top: 12px;
 	left: 12px;
@@ -735,6 +757,71 @@ onBeforeUnmount(() => {
 	box-shadow: var(--vp-shadow-2);
 	background: color-mix(in srgb, var(--vp-c-bg) 94%, transparent);
 	z-index: 5;
+}
+
+.wiki-map-panel.is-collapsed {
+	width: auto;
+	padding: 0;
+}
+
+.wiki-map-panel-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-height: 24px;
+	padding-left: 2px;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--vp-c-text-2);
+}
+
+.wiki-map-panel-toggle {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 26px;
+	height: 26px;
+	margin: -4px -4px -2px 0;
+	border: none;
+	border-radius: 6px;
+	background: transparent;
+	color: var(--vp-c-text-2);
+	cursor: pointer;
+}
+
+.wiki-map-panel-toggle:hover {
+	background: var(--vp-c-default-soft);
+	color: var(--vp-c-text-1);
+}
+
+.wiki-map-panel-toggle svg,
+.wiki-map-panel-open svg {
+	width: 17px;
+	height: 17px;
+}
+
+.wiki-map-panel-open {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	padding: 8px 12px;
+	border: none;
+	background: transparent;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--vp-c-text-1);
+	cursor: pointer;
+}
+
+.wiki-map-panel-open:hover {
+	color: var(--vp-c-brand-1);
+}
+
+.wiki-map-panel-content {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 }
 
 .wiki-map-cities {
