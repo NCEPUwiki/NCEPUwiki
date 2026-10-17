@@ -16,6 +16,17 @@ export interface Author {
 	origin?: 'frontmatter' | 'git'
 }
 
+/** 被隐私规则匹配到的作者：只显示姓名，或姓名和邮箱都隐藏。 */
+export type AuthorPrivacyDisplay = 'name' | 'hidden'
+
+/** 文章 frontmatter 中的单条作者隐私规则。 */
+export interface AuthorPrivacyRule {
+	/** 用于匹配作者的姓名或邮箱 */
+	match: string
+	/** 匹配后的展示方式 */
+	display: AuthorPrivacyDisplay
+}
+
 export interface Article {
 	source: string
 	url: string

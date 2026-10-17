@@ -2,7 +2,7 @@ import type { HeadConfig, MarkdownOptions } from 'vitepress'
 import { fileURLToPath } from 'node:url'
 import markmapPlugin from '@vitepress-plugin/markmap'
 import { defineConfig } from 'vitepress'
-import { collectAuthors } from './authors.ts'
+import { collectAuthors, parseAuthorPrivacy } from './authors.ts'
 import { cardlist } from './cardlist.ts'
 import { buildPagePaths, buildSidebar, docsRoot, outputPath, scanArticles } from './catalog.ts'
 import { writeSearchIndex } from './search-index.ts'
@@ -145,7 +145,13 @@ export default defineConfig({
 			page.lastUpdated = article.lastUpdatedTime || (article.date ? Date.parse(article.date) : undefined)
 			Object.assign(page.frontmatter, { title: article.title, categories: article.categories, tags: article.tags, empty: article.empty })
 			// 页尾作者列表：frontmatter 与 Git 提交历史合并去重，构建期算好后随页面数据下发
-			page.frontmatter.authors = collectAuthors(article.source, page.frontmatter.author, docsRoot)
+			const authorPrivacy = parseAuthorPrivacy(page.frontmatter.authorPrivacy)
+			page.frontmatter.authors = collectAuthors(article.source, page.frontmatter.author, docsRoot, authorPrivacy)
+			// 隐私规则本身可能含用于匹配的邮箱；同时移除原始 author，避免它们随页面数据继续下发。
+			if (authorPrivacy.length) {
+				delete page.frontmatter.author
+				delete page.frontmatter.authorPrivacy
+			}
 			return
 		}
 		// <title> 由 pageData 渲染，非文章页也要在这里覆盖，

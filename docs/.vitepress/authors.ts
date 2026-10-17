@@ -1,4 +1,4 @@
-import type { Author } from './types.ts'
+import type { Author, AuthorPrivacyRule } from './types.ts'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { relative, resolve } from 'node:path'
@@ -24,6 +24,71 @@ export function cleanEmail(value: unknown): string {
 /** 归一化邮箱（小写），用于去重。 */
 export function normalizeEmail(value: unknown): string {
 	return cleanEmail(value).toLowerCase()
+}
+
+/**
+ * 解析文章 frontmatter 的 `authorPrivacy` 规则。
+ *
+ * 每一项形如 `{ match: 姓名或邮箱, display: name | hidden }`；
+ * 缺少字段、匹配内容为空或展示方式未知的规则会被忽略。
+ */
+export function parseAuthorPrivacy(value: unknown): AuthorPrivacyRule[] {
+	if (!Array.isArray(value))
+		return []
+	const rules: AuthorPrivacyRule[] = []
+	for (const item of value) {
+		if (!item || typeof item !== 'object')
+			continue
+		const { match, display } = item as Record<string, unknown>
+		if (typeof match !== 'string' || !match.trim())
+			continue
+		if (display !== 'name' && display !== 'hidden')
+			continue
+		rules.push({ match: match.trim(), display })
+	}
+	return rules
+}
+
+function privacyForAuthor(author: Author, rules: AuthorPrivacyRule[]): 'full' | 'name' | 'hidden' {
+	const name = author.name.trim().toLowerCase()
+	const email = normalizeEmail(author.email)
+	let display: 'full' | 'name' | 'hidden' = 'full'
+	for (const rule of rules) {
+		const ruleEmail = normalizeEmail(rule.match)
+		const matched = ruleEmail ? email === ruleEmail : name === rule.match.trim().toLowerCase()
+		if (!matched)
+			continue
+		// 同一作者命中多条规则时，始终采用更严格的隐藏方式，避免规则顺序影响隐私。
+		if (rule.display === 'hidden')
+			return 'hidden'
+		display = 'name'
+	}
+	return display
+}
+
+/**
+ * 按文章级隐私规则裁剪作者数据。
+ *
+ * 命中 `name` 的作者只去掉邮箱，保留姓名和头像；命中 `hidden` 的作者整条移除。
+ * 规则可以通过姓名或邮箱匹配，未命中的作者保持原样。
+ */
+export function applyAuthorPrivacy(authors: Author[], rules: AuthorPrivacyRule[] = []): Author[] {
+	if (!rules.length)
+		return authors
+	const visible: Author[] = []
+	for (const author of authors) {
+		const display = privacyForAuthor(author, rules)
+		if (display === 'hidden')
+			continue
+		if (display === 'name') {
+			const withoutEmail = { ...author }
+			delete withoutEmail.email
+			visible.push(withoutEmail)
+			continue
+		}
+		visible.push(author)
+	}
+	return visible
 }
 
 /** 从邮箱或主页链接里识别 GitHub 用户名，用于取真实头像。 */
@@ -269,8 +334,9 @@ export function mergeAuthors(...lists: Author[][]): Author[] {
 }
 
 /** 汇总一篇文章的完整作者列表：frontmatter 声明 + Git 提交历史，按人去重。 */
-export function collectAuthors(source: string, author: unknown, root: string): Author[] {
+export function collectAuthors(source: string, author: unknown, root: string, privacy: AuthorPrivacyRule[] = []): Author[] {
 	const authors = mergeAuthors(frontmatterAuthors(author), gitAuthors(root).get(source) || [])
 	// 文件还没提交、历史被压缩或不是 Git 仓库时两个来源都会是空的，回退到组织账号
-	return authors.length ? authors : mergeAuthors([{ name: 'NCEPUwiki-Group', url: 'https://github.com/NCEPUwiki' }])
+	const resolved = authors.length ? authors : mergeAuthors([{ name: 'NCEPUwiki-Group', url: 'https://github.com/NCEPUwiki' }])
+	return applyAuthorPrivacy(resolved, privacy)
 }
