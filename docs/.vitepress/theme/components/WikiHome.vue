@@ -148,7 +148,7 @@ function isExternal(link?: string) {
 					</li>
 				</ul>
 				<p v-else class="activity-empty">
-					暂无可报名活动。有校园活动需要宣传，欢迎通过反馈与共建联系我们。
+					暂无活动。有校园活动需要宣传，欢迎<a href="https://wiki.ncepuinfo.cc/pages/ContactUs/">联系我们</a>。
 				</p>
 			</section>
 		</div>
@@ -177,7 +177,7 @@ function isExternal(link?: string) {
 			</section>
 			<!-- 联系我们：两个 QQ 群、GitHub 仓库，以及手机访问的二维码（直接展示，无下拉） -->
 			<section>
-				<h2><a href="https://wiki.ncepuinfo.cc/pages/ContactUs/">联系我们</a>联系我们</h2><p>聊天交流 QQ 群 <strong>417695180</strong><br>编辑贡献 QQ 群 <strong>1049790737</strong></p><a href="https://github.com/NCEPUwiki/NCEPUwiki">GitHub ↗</a>
+				<h2><a href="https://wiki.ncepuinfo.cc/pages/ContactUs/">联系我们</a></h2><p>聊天交流 QQ 群 <strong>417695180</strong><br>编辑贡献 QQ 群 <strong>1049790737</strong></p><a href="https://github.com/NCEPUwiki/NCEPUwiki">GitHub ↗</a>
 				<div class="qr-details">
 					<span>手机访问本站</span><QrCode src="https://wiki.ncepuinfo.cc/" label="NCEPUwiki 网站二维码" />
 				</div>
