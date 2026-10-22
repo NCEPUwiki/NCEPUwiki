@@ -66,6 +66,8 @@ export const seoTitleMap: Record<string, string> = {
 	// AI专题
 	'/pages/ai-coding-budget/': 'AI 编程穷鬼套餐怎么选：ChatGPT Plus、OpenCode Go 与免费模型对比',
 	'/pages/ai-model-selection/': '全场景 AI 选型指南：搜题答疑、资料检索、写代码与科研怎么挑模型',
+	'/pages/deepseek-harness/': 'DeepSeek Harness 使用指南：高自由度智能体框架与创意工坊插件生态',
+	'/pages/deepseek-harness-plugins/': 'DeepSeek Harness 必备插件推荐：从代码调试到学术科研的创意工坊神器',
 	// 贡献与其他
 	'/pages/BasicContribution/': '基础贡献指南：Markdown 写作与提交规范',
 	'/pages/AdvanceContribution/': '进阶贡献指南：图片上传与 Pull Request 流程',
