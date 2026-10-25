@@ -116,7 +116,7 @@ export default defineConfig({
 		docFooter: { prev: '上一篇', next: '下一篇' },
 		editLink: { pattern: 'https://github.com/NCEPUwiki/NCEPUwiki/blame/main/docs/:path', text: '源代码' },
 		lastUpdated: { text: '最后更新于', formatOptions: { dateStyle: 'medium' } },
-		footer: { message: '由华电学生共同维护的非官方校园知识库', copyright: `© 2025–${new Date().getFullYear()} NCEPUwiki-Group · MIT License` },
+		footer: { message: '由华电学生共同维护的非官方校园知识库', copyright: `© 2025–${new Date().getFullYear()} NCEPUwiki-Group · CC BY-NC-SA 4.0` },
 	},
 	vite: {
 		plugins: [markmapPlugin({ containerHeight: 500 })],

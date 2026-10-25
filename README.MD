@@ -26,6 +26,12 @@ NCEPUwiki 是由华北电力大学学生共同维护的**非官方**校园知识
 - 加入交流 QQ 群 417695180
 - 或发邮件至 `1361942776@qq.com`
 
+## 许可协议
+
+NCEPUwiki 的原创内容与源码均采用[知识共享 署名-非商业性使用-相同方式共享 4.0 国际（CC BY-NC-SA 4.0）](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-Hans)协议授权。
+
+你可以出于非商业目的复制、分享和改编本站内容，但必须注明作者与来源“NCEPUwiki”，附上协议链接，并在修改后说明改动。若改编或再发布，须使用相同或兼容的协议。任何商业使用均须事先取得版权所有者的书面授权。完整条款见 [LICENSE](LICENSE)。
+
 ## 本地开发与构建
 
 使用 Node.js 22.19+、24.11+ 或 26+，以及 packageManager 固定的 pnpm 11.24.0。无需 Corepack，尚未安装 pnpm 时先执行下面的 npm 安装命令：

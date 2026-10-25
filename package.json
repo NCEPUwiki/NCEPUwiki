@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "private": true,
   "packageManager": "pnpm@11.24.0",
-  "license": "MIT",
+  "license": "CC-BY-NC-SA-4.0",
   "engines": {
     "node": "^22.19 || ^24.11 || >=26",
     "pnpm": ">=11"

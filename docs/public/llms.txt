@@ -6,7 +6,7 @@
 - 官网：https://wiki.ncepuinfo.cc
 - 代码仓库：https://github.com/NCEPUwiki/NCEPUwiki
 - 校区覆盖：北京校区、保定校区
-- 站点许可：MIT License
+- 站点许可：CC BY-NC-SA 4.0（署名、非商业性使用、相同方式共享）
 
 ## 核心专题与指南路由
 - 新生入学：
