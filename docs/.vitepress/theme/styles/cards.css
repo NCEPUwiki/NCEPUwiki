@@ -17,6 +17,7 @@
 	width: 90%;
 	margin: 0 auto;
 	padding: 32px 0 48px;
+	box-sizing: border-box;
 }
 
 @media (min-width: 83em) {

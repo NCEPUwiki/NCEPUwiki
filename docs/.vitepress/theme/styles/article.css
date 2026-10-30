@@ -30,6 +30,7 @@
 
 .article-list .article-title {
 	flex: 1;
+	overflow-wrap: anywhere;
 	min-width: 180px;
 	text-decoration: none;
 }
@@ -123,8 +124,42 @@
 }
 
 @media (max-width: 600px) {
-	.vp-doc .article-cards {
-		grid-template-columns: 1fr;
+	/* 手机宽度通常不足以容纳桌面卡片的 17.5rem 最小列宽，降为紧凑列后按可用空间自动换行。 */
+	.vp-doc .article-cards,
+	.vp-doc .article-list:not(.article-cards) {
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 8.5rem), 1fr));
+		gap: 8px;
+	}
+
+	.vp-doc .article-list {
+		margin-inline: 0;
+	}
+
+	/* 列表模式在手机上改成多列条目，避免每行只有短标题和日期、两侧留下大片空白。 */
+	.vp-doc .article-list:not(.article-cards) {
+		display: grid;
+		margin: 12px 0;
+	}
+
+	.vp-doc .article-list:not(.article-cards) > li {
+		flex-direction: column;
+		flex-wrap: nowrap;
+		align-items: stretch;
+		gap: 6px;
+		padding: 12px 10px;
+	}
+
+	.vp-doc .article-list:not(.article-cards) .article-title {
+		flex: none;
+	}
+
+	.vp-doc .article-list:not(.article-cards) .index-byline {
+		align-self: flex-start;
+		max-width: 100%;
+	}
+
+	.wiki-wide .article-list.article-cards li {
+		padding: 12px;
 	}
 }
 
@@ -337,7 +372,6 @@ a.article-author-name:hover {
 }
 
 .vp-doc > div > h2 > .heading-wordmark {
-	display: inline-block;
 	float: inline-end;
 	opacity: 0.2;
 	margin-inline-start: 12px;
